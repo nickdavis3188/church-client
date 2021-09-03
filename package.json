@@ -4,16 +4,8 @@
   "description": "journey management ui",
   "author": {
     "name": "Nick Davis",
-    "url": "https://coreui.io",
-    "github": "https://github.com/nickdavis3188",
-    "twitter": "https://twitter.com/nickdavis"
+    "github": "https://github.com/nickdavis3188"   
   },
-  "contributors": [
-    {
-      "name": "CoreUI Team",
-      "url": "https://github.com/orgs/coreui/people"
-    }
-  ],
   "homepage": ".",
   "copyright": "Copyright 2017-2020 creativeLabs Łukasz Holeczek",
   "license": "MIT",
