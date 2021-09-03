@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import {
   // CBadge,
   CDropdown,
@@ -32,6 +32,7 @@ const TheHeaderDropdown = (props) => {
         if(data){
             if(data.status === 'success'){
               Auth.logOut()
+              localStorage.removeItem('Token')
               window.location.reload()
             }  
         }

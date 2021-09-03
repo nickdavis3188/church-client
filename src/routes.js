@@ -36,7 +36,7 @@ const routes = [
   {path: '/program/program1', name: 'Programs1', component:ProgramOne },
   {path: '/program/program2', name: 'Programs2', component:ProgramTwo },
   {path: '/register', name: 'Registration', component:MemberRegistration, exact:true },
-  {path: '/register/members', name: 'Register Members', component:MemberRegistration },
+  {path: '/members', name: 'Register Members', component:MemberRegistration },
   {path: '/register/alt', name: 'Register ALT', component:AltRegistration },
   {path: '/register/journey', name: 'Register Journey', component:JourneyRegistration },
   {path: '/attendance', name: 'Journey Attendance',exact: true, component:Attendance },

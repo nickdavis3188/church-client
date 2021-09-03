@@ -80,7 +80,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Register Members',
-    to: '/register/members',
+    to: '/members',
     icon:<ImUsers className="c-sidebar-nav-icon"/>
   },
 

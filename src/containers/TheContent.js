@@ -19,36 +19,60 @@ const loading = (
 
 const TheContent = () => {
 
-  const [resValue,setResValue] = useState({
-    status:''
-  })
+  const [resValue,setResValue] = useState(null)
+
+  // const loadData = async ()=>{
+  //   
+  //   let res =  await fetch(,)
+  //    const data = await res.json()
+  //    console.log(data.data.total) 
+  //   if(data){
+  //       if(data.status === 'success'){
+  //         setResValue('success')
+          
+  //         return toast('User Active')
+  //       }else{
+  //           if(data.status === 'fail'){
+  //             return toast(data.message?data.message:'')
+  //           }else{
+  //               if(data.status === 'error'){
+  //                 return toast(data.message?data.message:'')
+  //               }
+  //           }
+  
+  //       } 
+    
+  //   }
+  // }
 
   useEffect(()=>{
+    
     let token = JSON.parse(localStorage.getItem('Token'));
-
     fetch(`${baseUrl}/api/v1/auth/checklog`,{
-        method: 'GET',
+      method: 'GET',
         headers:{
           'authorization':`Bearer ${token}`
-        } 
-    })
+        }
+      } 
+    )
     .then((res)=>res.json())
     .then((data)=>{ 
         console.log(data)
         if(data){
             if(data.status === 'success'){
-              auth.login() 
-              setResValue({status:'success'})         
+              
+              setResValue('success')  
+              return auth.login()       
             }else{
               if(data.status === 'fail'){
                 auth.logOut()
-              setResValue({status:'fail'})         
+              setResValue('fail')         
 
                 //  window.location.reload()
               }else{
                 if(data.status === 'error'){
                   auth.logOut()
-              setResValue({status:'error'})         
+              setResValue('error')         
 
                   //  window.location.reload()
                 }
@@ -65,7 +89,7 @@ const TheContent = () => {
     })
 
   },[])
-  if(auth.isAuthenticated() ||resValue.status === 'success' ){
+
     return (
       <main className="c-main">
         <CContainer fluid>
@@ -79,7 +103,7 @@ const TheContent = () => {
                       exact={route.exact}
                       name={route.name}
                       render={props => (
-                        auth.isAuthenticated() || resValue.status === 'success'
+                        auth.isAuthenticated() || resValue === 'success'
                         ?(
                           <CFade>
                             <route.component {...props} />
@@ -99,10 +123,6 @@ const TheContent = () => {
         </CContainer>
       </main>
     )
-
-  }else{
-   return(<Switch><Redirect from="/" to="/login" /></Switch>) 
-  }
 }
-
+// 
 export default React.memo(TheContent)
