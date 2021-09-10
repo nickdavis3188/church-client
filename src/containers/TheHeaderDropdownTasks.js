@@ -22,7 +22,7 @@ const TheHeaderDropdownTasks = () => {
         {taskRendering}
       </CDropdownToggle>
       <CDropdownMenu placement="bottom-end" className="pt-0">
-        <CDropdownItem
+        {/* <CDropdownItem
           header
           tag="div"
           className="text-center"
@@ -51,7 +51,7 @@ const TheHeaderDropdownTasks = () => {
           <div className="small mb-1">Angular 2 Cli Version <span className="float-right"><strong>100%</strong></span></div>
           <CProgress size="xs" color="success" value={100} />
         </CDropdownItem>
-        <CDropdownItem className="text-center border-top"><strong>View all tasks</strong></CDropdownItem>
+        <CDropdownItem className="text-center border-top"><strong>View all tasks</strong></CDropdownItem> */}
       </CDropdownMenu>
     </CDropdown>
   )

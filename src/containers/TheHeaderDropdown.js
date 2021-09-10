@@ -1,11 +1,13 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import {
   // CBadge,
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-  CImg
+  CImg,
+  CLink 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {FaUserLock} from "react-icons/fa"
@@ -13,8 +15,11 @@ import Auth from '../auth'
 import baseUrl from '../config/config'
 
 const TheHeaderDropdown = (props) => {
-
-
+  const [resValue,setResValue] = useState({
+    status:'',
+    resBody:''
+  })
+  
 
   const logMeOut = ()=>{
 
@@ -45,6 +50,44 @@ const TheHeaderDropdown = (props) => {
     })
  
   }
+  useEffect(()=>{
+    let token = JSON.parse(localStorage.getItem('Token'));
+
+    fetch(`${baseUrl}/api/v1/auth/checklog`,{
+        method: 'GET',
+        headers:{
+          'authorization':`Bearer ${token}`
+        } 
+    })
+    .then((res)=>res.json())
+    .then((data)=>{ 
+        console.log(data)
+        if(data){
+            if(data.status === 'success'){
+              Auth.login()  
+              setResValue({status:'success',resBody:data.data?data.data:''})               
+            }else{
+              if(data.status === 'fail'){
+                Auth.logOut()
+                //  window.location.reload()
+              }else{
+                if(data.status === 'error'){
+                  Auth.logOut()
+                  //  window.location.reload()
+                }
+
+              }
+            } 
+        }
+    })
+    .catch((err)=>{
+        if(err){
+        console.log(err) 
+        alert(err)
+        }
+    })
+  })
+  let history = useHistory()
   return (
     <CDropdown
       inNav
@@ -54,7 +97,7 @@ const TheHeaderDropdown = (props) => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
           <CImg
-            src={'avatars/6.jpg'}
+            src={resValue.resBody.photoUrl}
             className="c-avatar-img"
             alt="admin@bootstrapmaster.com"
           />
@@ -98,11 +141,9 @@ const TheHeaderDropdown = (props) => {
           <strong>Settings</strong>
         </CDropdownItem> */}
         <CDropdownItem>
-          <CIcon name="cil-user" className="mfe-2" />Profile
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-settings" className="mfe-2" />
-          Settings
+          <CLink className="c-subheader-nav-link" href="/Journeysettings">
+              <CIcon name="cil-settings"className="mfe-2" alt="Settings" />&nbsp;Settings
+          </CLink>        
         </CDropdownItem>
         {/* <CDropdownItem>
           <CIcon name="cil-credit-card" className="mfe-2" />
@@ -116,8 +157,9 @@ const TheHeaderDropdown = (props) => {
         </CDropdownItem> */}
         <CDropdownItem divider />
         <CDropdownItem>
-          <a href='/login' ><h6 onClick={()=> logMeOut()}><FaUserLock/> LogOut</h6></a>
-          
+          <CLink className="c-subheader-nav-link" href="/login">
+              <FaUserLock/>&nbsp;<h6 onClick={()=> logMeOut()}>LogOut</h6>
+          </CLink>  
           {/* Lock Account
           <CIcon name="cil-lock-locked" className="mfe-2" /> */}
         </CDropdownItem>

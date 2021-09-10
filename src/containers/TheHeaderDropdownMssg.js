@@ -23,7 +23,7 @@ const TheHeaderDropdownMssg = () => {
         {messageRendering}
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem
+        {/* <CDropdownItem
           header
           tag="div"
           color="light"
@@ -120,7 +120,7 @@ const TheHeaderDropdownMssg = () => {
             </div>
           </div>
         </CDropdownItem>
-        <CDropdownItem href="#" className="text-center border-top"><strong>View all messages</strong></CDropdownItem>
+        <CDropdownItem href="#" className="text-center border-top"><strong>View all messages</strong></CDropdownItem> */}
       </CDropdownMenu>
     </CDropdown>
   )

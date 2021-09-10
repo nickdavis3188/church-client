@@ -25,15 +25,13 @@ import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Register = () => {
-  
-    const [inputValues,setInputValues] = useState({
-      UserName:"",
-      Email:"",
-      Password:"",
-      PasswordConfirm:"",
+  let formdata = new FormData()
+    const [inputUserName,setUserName] = useState(null)
+    const [inputEmail,setEmails] = useState(null)
+    const [inputPassword,setPassword] = useState(null)
+    const [inputPasswordConfirm,setPasswordConfirm] = useState(null)
+    const [file,setFile] = useState(null)
     
-    
-    })
     const [resValues,setResValues] = useState({
       status:"",
       body:"",
@@ -47,24 +45,24 @@ const Register = () => {
     // formData.append('',)
     // formData.append('',)
     
-  let myData =JSON.stringify(
-    {
-        fullName:inputValues.UserName,
-        email:inputValues.Email,
-        password:inputValues.Password,
-        passwordConfirm:inputValues.PasswordConfirm
-      }
-  ) 
-
+  // let myData =JSON.stringify(
+  //   {
+  //       fullName:inputValues.UserName,
+  //       email:inputValues.Email,
+  //       password:inputValues.Password,
+  //       passwordConfirm:inputValues.PasswordConfirm
+  //     }
+  // ) 
+  formdata.append('fullName',inputUserName)
+  formdata.append('email',inputEmail)
+  formdata.append('password',inputPassword)
+  formdata.append('passwordConfirm',inputPasswordConfirm)
+  formdata.append('adminImg',file)
     const submitForm = (e)=>{
       e.preventDefault()
       fetch(`${baseUrl}/api/v1/auth/signup`,{
         method: 'POST',
-        body: myData,
-        headers:{
-              "Content-Type":"application/json",
-              // 'Content-Type': 'multipart/form-data',
-          }
+        body: formdata     
       })
       .then((res)=>res.json())
       .then((data)=>{
@@ -109,7 +107,7 @@ const Register = () => {
                       <div className="input-group-prepend">
                         <div className="input-group-text"> <CIcon name="cil-user" /></div>
                       </div>
-                      <input type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Username" onChange={(e)=> setInputValues({...inputValues,UserName:e.target.value})}/>
+                      <input type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Username" onChange={(e)=> setUserName(e.target.value)}/>
                     </div>
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -118,7 +116,7 @@ const Register = () => {
                       <div className="input-group-prepend">
                         <div className="input-group-text">@</div>
                       </div>
-                      <input type="email" className="form-control" id="inlineFormInputGroupUsername1" placeholder="Email" onChange={(e)=> setInputValues({...inputValues,Email:e.target.value})}/>
+                      <input type="email" className="form-control" id="inlineFormInputGroupUsername1" placeholder="Email" onChange={(e)=> setEmails(e.target.value)}/>
                     </div>
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -127,7 +125,7 @@ const Register = () => {
                       <div className="input-group-prepend">
                         <div className="input-group-text"><CIcon name="cil-lock-locked" /></div>
                       </div>
-                      <input type="password" className="form-control" id="inlineFormInputGroupUsername3" placeholder="Password" onChange={(e)=> setInputValues({...inputValues,Password:e.target.value})}/>
+                      <input type="password" className="form-control" id="inlineFormInputGroupUsername3" placeholder="Password" onChange={(e)=> setPassword(e.target.value)}/>
                     </div>
                   </CInputGroup>
                   <CInputGroup className="mb-4">
@@ -136,7 +134,17 @@ const Register = () => {
                       <div className="input-group-prepend">
                         <div className="input-group-text"><CIcon name="cil-lock-locked" /></div>
                       </div>
-                      <input type="password" className="form-control" id="inlineFormInputGroupUsername4" placeholder="Confirm Password" onChange={(e)=> setInputValues({...inputValues,PasswordConfirm:e.target.value})}/>
+                      <input type="password" className="form-control" id="inlineFormInputGroupUsername4" placeholder="Confirm Password" onChange={(e)=> setPasswordConfirm(e.target.value)}/>
+                    </div>
+                  </CInputGroup>                   
+                  <CInputGroup className="mb-4">
+                  <label className="sr-only" for="inlineFormInputGroupUsername4">passport (optional)</label>
+                    <div className="input-group mb-2 mr-sm-2">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text"><CIcon name="cil-lock-locked" /></div>
+                      </div>
+                      <input type="file" className="form-control" id="inlineFormInputGroupUsername4" onChange={(e)=>setFile(e.target.files[0])
+                    } />
                     </div>
                   </CInputGroup>                   
                 

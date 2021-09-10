@@ -1,4 +1,5 @@
 import React,{useState,useRef ,useEffect}from "react"
+import { useHistory, useLocation } from 'react-router-dom'
 import {
     // CButton,
     CCard,
@@ -10,6 +11,7 @@ import {
     CFormGroup,
     CFormText,
     CLabel,
+    CProgress
 } from '@coreui/react';
 
 import CIcon from '@coreui/icons-react';
@@ -19,10 +21,12 @@ import baseUrl from '../../../config/config'
 
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {FaAllergies,FaHistory,FaDatabase,FaSearch} from "react-icons/fa"
 
 
 
 const MemberRegistration = ()=>{
+  const formdata = new FormData()
   const [fname,setFname] = useState(null)
   const [sname,seSname] = useState(null)
   const [address,setaddress] = useState(null)
@@ -36,15 +40,13 @@ const MemberRegistration = ()=>{
   const [ocupa,setocupa] = useState(null)
   const [busin,setbusin] = useState(null)
   const [exper,setexper] = useState(null)
-  const [statu,setstatu] = useState(null)
-  const [mtype,setmtype] = useState(null)
   const [datjo,setdatjo] = useState(null)
-  const [datal,setdatal] = useState(null)
-  const [m1,setm1] = useState(null)
-  const [m2,setm2] = useState(null)
-  const [m3,setm3] = useState(null)
-
+  const [fileValue,setFileValue] = useState(null)
   
+
+  const [searchValue, setWord] = useState(null)
+  const [result1,setResult] = useState(null)
+
   const dropMe=useRef(null)
   const dropDown2=useRef(null)
   useEffect(()=>{
@@ -61,54 +63,97 @@ const MemberRegistration = ()=>{
     }
   })
 
-  
+  formdata.append('FirstName',fname)
+  formdata.append('Surname',sname)
+  formdata.append('Address',address)
+  formdata.append('PhoneNo',phone)
+  formdata.append('Email',email)
+  formdata.append('RegNumber',regno)
+  formdata.append('Sex',sex)
+  formdata.append('DOB',dob)
+  formdata.append('MaritalStatus',maristat)
+  formdata.append('WeddingAnniversary',wedanny)
+  formdata.append('Ocupation',ocupa)
+  formdata.append('Business',busin)
+  formdata.append('Expertise',exper)
+  formdata.append('DateJoinedTKA',datjo)
+  formdata.append('memberImg',fileValue)
+
  
 
  
 
   const submitForm = (e)=>{
     e.preventDefault()
-    let formD = {
-      FirstName:fname,
-      Surname:sname,
-      Address:address,
-      PhoneNo:phone,
-      Email:email,
-      RegNumber:regno,
-      Sex:sex,
-      DOB:dob,
-      MaritalStatus:maristat,
-      WeddingAnniversary:wedanny,
-      Ocupation:ocupa,
-      Business:busin,
-      Expertise:exper,
-      Status:statu,
-      MemberTypeName:mtype,
-      DateJoinedTKA:datjo,
-      ALTDate:datal,
-      Minstry1:m1,
-      Ministry2:m2,
-      Ministry3:m3,
-    }
-    console.log(formD)
-    let token = JSON.parse(localStorage.getItem('Token'));
-    let mydata = JSON.stringify(formD)
+    // let formD = {
+    //   FirstName:fname,
+    //   Surname:sname,
+    //   Address:address,
+    //   PhoneNo:phone,
+    //   Email:email,
+    //   RegNumber:regno,
+    //   Sex:sex,
+    //   DOB:dob,
+    //   MaritalStatus:maristat,
+    //   WeddingAnniversary:wedanny,
+    //   Ocupation:ocupa,
+    //   Business:busin,
+    //   Expertise:exper,
+    //   Status:statu,
+    //   MemberTypeName:mtype,
+    //   DateJoinedTKA:datjo,
+    //   ALTDate:datal,
+    // }
+    // console.log(formD)
+    // let token = JSON.parse(localStorage.getItem('Token'));
+    // let mydata = JSON.stringify(formD)
     fetch(`${baseUrl}/api/v1/member/memberRegistration`,{
+        method: 'POST',
+        body:formdata
+    })
+    .then((res)=>res.json())
+    .then((data)=>{ 
+        console.log(data)
+        if(data){
+            if(data.status === 'success'){       
+              return toast('Member Registration Successful')
+            }else{
+              if(data.status === 'fail'){
+                return toast(data.message?data.message:'')
+              }else{
+                  if(data.status === 'error'){
+                    return toast(data.message?data.message:'')
+                  }
+              }
+          }      
+        }
+    })
+    .catch((err)=>{
+        if(err){
+        console.log(err) 
+        alert(err)
+        }
+    }) 
+  }
+
+
+  const searchUser = (e)=>{
+    e.preventDefault()
+    let mydata = JSON.stringify({word:searchValue})
+    fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
         method: 'POST',
         body:mydata,
         headers:{
           "Content-Type":"application/json",
-            // 'Content-Type': 'multipart/form-data',
-          'authorization':`Bearer ${token}`
-        }
-    
+        }  
     })
     .then((res)=>res.json())
     .then((data)=>{ 
         console.log(data)
         if(data){
             if(data.status === 'success'){
-              return toast('Upload successful')
+              setResult(data.data)
+              return toast('successful')
             }else{
                 if(data.status === 'fail'){
                   return toast(data.message?data.message:'')
@@ -117,11 +162,7 @@ const MemberRegistration = ()=>{
                       return toast(data.message?data.message:'')
                     }
                 }
-
-            }
-
-          
-        
+            }   
         }
     })
     .catch((err)=>{
@@ -129,14 +170,22 @@ const MemberRegistration = ()=>{
         console.log(err) 
         alert(err)
         }
-    })
-    
-    
+    }) 
   }
+
+    let showResult = result1?<SearchResult result={result1} />:''
 
     return(
         <>
-        <h3>Member registration</h3>
+           <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search members by Surname RegNumber and PhoneNo" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=>setWord(e.target.value)}/>
+                <div class="input-group-append">
+                    <button class="input-group-text" id="basic-addon2" onClick={(e)=>searchUser(e)}><FaSearch/></button>
+                </div>
+            </div>
+
+            {showResult}
+
         <CCard>
         <CCardHeader>
           Membership
@@ -145,14 +194,13 @@ const MemberRegistration = ()=>{
         <CCardBody>
           <CForm action="" method="post" className="form-horizontal">
             <CFormGroup row>
-              <CCol md="1">
-                <CLabel htmlFor="hf-fName">First Name</CLabel>
+            <CCol md="1">
+                <CLabel htmlFor="hf-RegNumber">RegNumber</CLabel>
               </CCol>
               <CCol  md="5">
-                <input type="text" class="form-control" id="hf-fName" placeholder="Enter First Name..." onChange={(e)=> setFname(e.target.value)} />
-                <CFormText className="help-block">Please enter member first name</CFormText>
+                <input type="text" className="form-control" id="hf-RegNumber" placeholder="Enter RegNumber..." onChange={(e)=> setregno(e.target.value)} />
+                <CFormText className="help-block">Please enter member RegNumber</CFormText>
               </CCol>
-
               <CCol md="1">
                 <CLabel htmlFor="Surname">Surname</CLabel>
               </CCol>
@@ -163,12 +211,12 @@ const MemberRegistration = ()=>{
             </CFormGroup>
 
             <CFormGroup row>
-              <CCol md="1">
-                <CLabel htmlFor="hf-Address">Address</CLabel>
+            <CCol md="1">
+                <CLabel htmlFor="hf-fName">First Name</CLabel>
               </CCol>
               <CCol  md="5">
-                <input type="text" class="form-control" id="hf-Address" placeholder="Enter Address..." onChange={(e)=> setaddress(e.target.value)} />
-                <CFormText className="help-block">Please enter member Address</CFormText>
+                <input type="text" class="form-control" id="hf-fName" placeholder="Enter First Name..." onChange={(e)=> setFname(e.target.value)} />
+                <CFormText className="help-block">Please enter member first name</CFormText>
               </CCol>
 
               <CCol md="1">
@@ -181,24 +229,14 @@ const MemberRegistration = ()=>{
             </CFormGroup>
 
             <CFormGroup row>
-              <CCol md="1">
-                <CLabel htmlFor="hf-Email">Email</CLabel>
+            <CCol md="1">
+                <CLabel htmlFor="hf-Address">Address</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="email" className="form-control" id="hf-Email" placeholder="Enter Email..." onChange={(e)=> setemail(e.target.value)} />
-                <CFormText className="help-block">Please enter member Email</CFormText>
+                <input type="text" class="form-control" id="hf-Address" placeholder="Enter Address..." onChange={(e)=> setaddress(e.target.value)} />
+                <CFormText className="help-block">Please enter member Address</CFormText>
               </CCol>
 
-              <CCol md="1">
-                <CLabel htmlFor="hf-RegNumber">RegNumber</CLabel>
-              </CCol>
-              <CCol  md="5">
-                <input type="text" className="form-control" id="hf-RegNumber" placeholder="Enter RegNumber..." onChange={(e)=> setregno(e.target.value)} />
-                <CFormText className="help-block">Please enter member RegNumber</CFormText>
-              </CCol>
-            </CFormGroup>
-
-            <CFormGroup row>
               <CCol md="1">
                 <CLabel htmlFor="hr-sex">Sex</CLabel>
               </CCol>
@@ -210,6 +248,18 @@ const MemberRegistration = ()=>{
                 </select>
                 <CFormText className="help-block">Please select member Sex</CFormText>
               </CCol>
+     
+            </CFormGroup>
+
+            <CFormGroup row>
+              <CCol md="1">
+                <CLabel htmlFor="hf-Email">Email</CLabel>
+              </CCol>
+              <CCol  md="5">
+              <input type="email" className="form-control" id="hf-Email" placeholder="Enter Email..." onChange={(e)=> setemail(e.target.value)} />
+                <CFormText className="help-block">Please enter member Email</CFormText>
+              </CCol>
+           
 
               <CCol md="1">
                 <CLabel htmlFor="date-input">DOB</CLabel>
@@ -269,57 +319,53 @@ const MemberRegistration = ()=>{
               </CCol>
 
               <CCol md="1">
+                <CLabel htmlFor="hf-Business">Passport</CLabel>
+              </CCol>
+              <CCol  md="5">
+              <div className="custom-file">
+                    <input type="file" className="custom-file-input" id="customFile"  onChange={(e)=>{
+                        const file = e.target.files[0];
+                        setFileValue({filee:file})
+                    }}/>
+                    <label className="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <CFormText className="help-block">please provide your passport (optional)</CFormText>
+              </CCol>
+
+              
+            </CFormGroup>
+
+
+         
+            <CFormGroup row>
+            <CCol md="1">
                 <CLabel htmlFor="hf-DateJoinedTKA">Date Joined TKA</CLabel>
               </CCol>
               <CCol  md="5">
               <input type="date" className="form-control" id="date-DateJoinedTKA" name="hr-DateJoinedTKA" placeholder="DateJoinedTKA.." onChange={(e)=> setdatjo(e.target.value)} />
                 <CFormText className="help-block">Please enter DateJoinedTKA</CFormText>
               </CCol>
-            </CFormGroup>
-            <CFormGroup row>
-              <CCol md="1">
-                <CLabel htmlFor="hf-fName">ALTDate</CLabel>
-              </CCol>
-              <CCol  md="5">
-              <input type="date" className="form-control" id="date-ALTDate" name="hr-ALTDate" placeholder="ALTDate.." onChange={(e)=> setdatal(e.target.value)} />
-                <CFormText className="help-block">Please enter member ALTDate</CFormText>
-              </CCol>
+              
 
               <CCol md="1">
-                <CLabel htmlFor="hf-fName">Status</CLabel>
+                {/* <CLabel htmlFor="hf-fName">Status</CLabel> */}
               </CCol>
               <CCol  md="5">
-              <input  className="form-control" id="date-ALTDate" name="hr-ALTDate" placeholder="ALTDate.." onChange={(e)=> setstatu(e.target.value)} />
-                <CFormText className="help-block">Please enter member Status</CFormText>
+              {/* <input  className="form-control" id="date-ALTDate" name="hr-ALTDate" placeholder="ALTDate.." onChange={(e)=> setstatu(e.target.value)} />
+                <CFormText className="help-block">Please enter member Status</CFormText> */}
               </CCol>
             </CFormGroup>
           
+           
+{/* 
             <CFormGroup row>
-              <CCol md="1">
-                <CLabel htmlFor="hf-Occupation">MinistryId 1</CLabel>
-              </CCol>
-              <CCol  md="5">
-                <input id="hf-Occupation" className="form-control" name="hf-Occupation" placeholder="Enter Ministry 1..." onChange={(e)=> setm1(e.target.value)} />
-                <CFormText className="help-block">Please enter member Ministry</CFormText>
-              </CCol>
-
-              <CCol md="1">
-                <CLabel htmlFor="hf-Business">MinistryId 2</CLabel>
-              </CCol>
-              <CCol  md="5">
-                <input className="form-control" id="hf-Business" name="hf-Business" placeholder="Enter Ministry 2..." onChange={(e)=> setm2(e.target.value)}/>
-                <CFormText className="help-block">Please enter member Ministry</CFormText>
-              </CCol>
-            </CFormGroup>
-
-            <CFormGroup row>
-              <CCol md="1">
-                <CLabel htmlFor="hf-Business">MinistryId 3</CLabel>
-              </CCol>
-              <CCol  md="5">
-                <input className="form-control" id="hf-Business" name="hf-Business" placeholder="Enter Ministry 3..." onChange={(e)=> setm3(e.target.value)}/>
-                <CFormText className="help-block">Please enter member Ministry</CFormText>
-              </CCol>
+            <CCol md="1">
+              <CLabel htmlFor="hf-fName">ALTDate</CLabel>
+            </CCol>
+            <CCol  md="5">
+            <input type="date" className="form-control" id="date-ALTDate" name="hr-ALTDate" placeholder="ALTDate.." onChange={(e)=> setdatal(e.target.value)} />
+              <CFormText className="help-block">Please enter member ALTDate</CFormText>
+            </CCol>
               <CCol md="1">
                 <CLabel htmlFor="hf-Business">Member Type Name</CLabel>
               </CCol>
@@ -327,7 +373,7 @@ const MemberRegistration = ()=>{
                 <input className="form-control" id="hf-Business" name="hf-Business" placeholder="Enter MemberTypeName..." onChange={(e)=> setmtype(e.target.value)}/>
                 <CFormText className="help-block">Please enter member MemberTypeName</CFormText>
               </CCol>
-            </CFormGroup>
+            </CFormGroup> */}
           </CForm>
         </CCardBody>
         <CCardFooter>
@@ -340,6 +386,97 @@ const MemberRegistration = ()=>{
       </CCard>
       </>
     )
+}
+
+
+
+const SearchResult = (props)=>{
+  const history = useHistory()
+
+  // let num = props.journey.length
+
+  const checkPecent = (p)=>{
+      let result;
+      switch (p) {
+          case 0:
+              result = 0
+              break;
+          case 1:
+          result = 20
+              break;
+          case 2:
+          result = 40
+              break;
+          case 3:
+          result = 60
+              break;
+      
+          case 4:
+          result = 80
+              break;
+      
+          case 5:
+          result = 100
+              break; 
+          default:
+              return 
+      }
+      return result
+  } 
+
+  return(
+    <table className="table table-hover table-outline d-none d-sm-table">
+    <thead className="thead-light">
+      <tr>
+      <th className="text-center"><CIcon name="cil-people" /></th>
+      <th className="text-center">Member</th>
+      <th className="text-center">PhoneNo</th>
+      <th className="text-center">Email</th>
+      <th className="text-center">Journey Progress</th>
+      </tr>
+    </thead>
+    <tbody>
+      {props.result.map((e,i)=>{
+        return(
+            <tr onClick={()=> history.push(`/attendance/${e._id}`)} key={i}>
+              <td className="text-center">
+                <div className="c-avatar">
+                <img src={e.ImageUrl} className="c-avatar-img" alt="admin@bootstrapmaster.com" />
+                <span className="c-avatar-status bg-success"></span>
+                </div>
+              </td>
+              
+              <td>
+                <div>{`${e.Surname} ${e.FirstName}`}</div>
+                <div className="small text-muted">
+                <span>New</span> | {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
+                </div>
+              </td>
+              
+              <td>
+                <strong>{e.PhoneNo}</strong>
+              </td>
+              
+              <td>
+                <strong>{e.Email}</strong>
+              </td>
+              
+              <td>
+                <div className="clearfix">
+                <div className="float-left">
+                  <strong>{checkPecent(e.journeyAttend)}%</strong>
+                </div>
+                </div>
+                <CProgress className="progress-xs" color="success" value={checkPecent(e.journeyAttend)} />
+              </td>
+              
+            </tr>
+        )
+      })}
+    
+    </tbody>
+  </table>
+  )
 }
 
 export default MemberRegistration

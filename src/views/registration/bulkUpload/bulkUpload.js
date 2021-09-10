@@ -122,7 +122,7 @@ const BulkUpload = ()=>{
             </CFormGroup>
             <br/>
             {/* //setFileValue({file:e.target.files[0]}) */}
-            <div style={{overflowX:'auto', maxHeight:'300px'}} class="table-responsive-xl">    
+            <div style={{overflowX:'auto'}} class="table-responsive-xl">    
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -138,13 +138,7 @@ const BulkUpload = ()=>{
                         <th scope="col">WeddingAnniversary</th>
                         <th scope="col">Occupation</th>
                         <th scope="col">Expertise</th>
-                        <th scope="col">MemberTypeName</th>
-                        <th scope="col">Status</th>
                         <th scope="col">DateJoinedTKA</th>
-                        <th scope="col">ALTDate</th>
-                        <th scope="col">MinistryID1</th>
-                        <th scope="col">MinistryID2</th>
-                        <th scope="col">MinistryID3</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,13 +157,7 @@ const BulkUpload = ()=>{
                                 <td>{e.WeddingAnniversary}</td>
                                 <td>{e.Occupation}</td>
                                 <td>{e.Expertise}</td>
-                                <td>{e.MemberTypeName}</td>
-                                <td>{e.Status}</td>
                                 <td>{e.DateJoinedTKA}</td>
-                                <td>{e.ALTDate}</td>
-                                <td>{e.MinistryID1}</td>
-                                <td>{e.MinistryID2}</td>
-                                <td>{e.MinistryID3}</td>
                             </tr>)
                         })}
                         

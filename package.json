@@ -4,7 +4,7 @@
   "description": "journey management ui",
   "author": {
     "name": "Nick Davis",
-    "github": "https://github.com/nickdavis3188"   
+    "github": "https://github.com/nickdavis3188"
   },
   "homepage": ".",
   "copyright": "Copyright 2017-2020 creativeLabs Łukasz Holeczek",
@@ -30,6 +30,7 @@
     "highcharts": "^9.2.0",
     "highcharts-react-official": "^3.0.0",
     "prop-types": "^15.7.2",
+    "query-string": "^4.3.4",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",
     "react-dom": "^17.0.2",
@@ -80,5 +81,5 @@
     "node": ">=10",
     "npm": ">=6"
   },
-  "proxy": "https://dtmdms.herokuapp.com/"
+  "proxy": "http://localhost:3000/"
 }

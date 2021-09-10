@@ -22,7 +22,7 @@ const TheHeaderDropdownNotif = () => {
         {noticeRendring}
       </CDropdownToggle>
       <CDropdownMenu  placement="bottom-end" className="pt-0">
-        <CDropdownItem
+        {/* <CDropdownItem
           header
           tag="div"
           className="text-center"
@@ -62,7 +62,7 @@ const TheHeaderDropdownNotif = () => {
           </div>
           <CProgress size="xs" color="danger" value={90} />
           <small className="text-muted">243GB/256GB</small>
-        </CDropdownItem>
+        </CDropdownItem> */}
       </CDropdownMenu>
     </CDropdown>
   )
