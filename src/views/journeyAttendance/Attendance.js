@@ -255,7 +255,7 @@ const UserDetails = (props)=>{
                 </div>
             </div>
             <hr className="my-4" />
-            <button class="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>
+            <button className="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>
         </div>
     )
 }
@@ -266,10 +266,10 @@ const JourneyHistry = (props)=>{
     // let num = props.journey.length
 
     return(
-        <div style={{overflowX:'auto'}} class="table-responsive-xl">    
+        <div style={{overflowX:'auto'}} className="table-responsive-xl">    
         <h5>History</h5>
         <br/>
-        <table class="table table-hover">
+        <table className="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">Journey Name</th>
@@ -346,7 +346,7 @@ const JourneyAttendance = (props)=>{
       }
     
 
-    const btnAtt = props.currentJourney.JourneyPriority === 6?<button class=' btn btn-primary disabled' disabled >You are done with your journey</button>:<button class='btn btn-primary' onClick={() => (dateValue?setModal(!modal):setVisible(10))} >Attend</button>
+    const btnAtt = props.currentJourney.JourneyPriority === 6?<button className=' btn btn-primary disabled' disabled >You are done with your journey</button>:<button className='btn btn-primary' onClick={() => (dateValue?setModal(!modal):setVisible(10))} >Attend</button>
 
 
     return(
@@ -362,7 +362,7 @@ const JourneyAttendance = (props)=>{
                 Are you sure you have attended {props.currentJourney.JourneyName}?
               </CModalBody>
               <CModalFooter>
-              <button class='btn btn-primary' onClick={(e)=>{
+              <button className='btn btn-primary' onClick={(e)=>{
                   setModal(false)
                  return Attendance22(e)
                   }}>Proceed...</button>{' '}

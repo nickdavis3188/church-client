@@ -134,7 +134,7 @@ const Register = () => {
                     </div>
                   </CInputGroup>                   
                 
-                <button type="submit" class="btn btn-secondary btn-lg btn-block">Submit</button> 
+                <button type="submit" className="btn btn-secondary btn-lg btn-block">Submit</button> 
                 {resCheack}       
                 </CForm>
                 <ToastContainer/>
@@ -152,14 +152,14 @@ const Register = () => {
 
 // const Toster = (props)=>{
 //   return(
-//     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-//     <div class="toast-header">
+//     <div className="toast" role="alert" aria-live="assertive" aria-atomic="true">
+//     <div className="toast-header">
 //         {props.status}
-//       <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+//       <button type="button" className="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
 //         <span aria-hidden="true">&times;</span>
 //       </button>
 //     </div>
-//     <div class="toast-body">
+//     <div className="toast-body">
 //      {props.body}
 //     </div>
 //   </div>

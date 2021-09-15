@@ -160,10 +160,10 @@ const MemberRegistration = ()=>{
 
     return(
         <>
-           <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search members by Surname RegNumber and PhoneNo" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=>setWord(e.target.value)}/>
-                <div class="input-group-append">
-                    <button class="input-group-text" id="basic-addon2" onClick={(e)=>searchUser(e)}><FaSearch/></button>
+           <div className="input-group mb-3">
+                <input type="text" className="form-control" placeholder="Search members by Surname RegNumber and PhoneNo" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=>setWord(e.target.value)}/>
+                <div className="input-group-append">
+                    <button className="input-group-text" id="basic-addon2" onClick={(e)=>searchUser(e)}><FaSearch/></button>
                 </div>
             </div>
 
@@ -188,7 +188,7 @@ const MemberRegistration = ()=>{
                 <CLabel htmlFor="Surname">Surname</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="text" value={sname} class="form-control" id="Surname" placeholder="Enter Surname..." onChange={(e)=> seSname(e.target.value)} />
+              <input type="text" value={sname} className="form-control" id="Surname" placeholder="Enter Surname..." onChange={(e)=> seSname(e.target.value)} />
                 <CFormText className="help-block">Please enter member Surname</CFormText>
               </CCol>
             </CFormGroup>
@@ -198,7 +198,7 @@ const MemberRegistration = ()=>{
                 <CLabel htmlFor="hf-fName">First Name</CLabel>
               </CCol>
               <CCol  md="5">
-                <input type="text" value={fname} class="form-control" id="hf-fName" placeholder="Enter First Name..." onChange={(e)=> setFname(e.target.value)} />
+                <input type="text" value={fname} className="form-control" id="hf-fName" placeholder="Enter First Name..." onChange={(e)=> setFname(e.target.value)} />
                 <CFormText className="help-block">Please enter member first name</CFormText>
               </CCol>
 
@@ -206,7 +206,7 @@ const MemberRegistration = ()=>{
                 <CLabel htmlFor="hf-PhoneNo">PhoneNo</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="number" value={phone} class="form-control" id="hf-PhoneNo" placeholder="Enter PhoneNo..." onChange={(e)=> setphone(e.target.value)} />
+              <input type="number" value={phone} className="form-control" id="hf-PhoneNo" placeholder="Enter PhoneNo..." onChange={(e)=> setphone(e.target.value)} />
                 <CFormText className="help-block">Please enter member PhoneNo</CFormText>
               </CCol>
             </CFormGroup>
@@ -216,7 +216,7 @@ const MemberRegistration = ()=>{
                 <CLabel htmlFor="hf-Address">Address</CLabel>
               </CCol>
               <CCol  md="5">
-                <input type="text" value={address} class="form-control" id="hf-Address" placeholder="Enter Address..." onChange={(e)=> setaddress(e.target.value)} />
+                <input type="text" value={address} className="form-control" id="hf-Address" placeholder="Enter Address..." onChange={(e)=> setaddress(e.target.value)} />
                 <CFormText className="help-block">Please enter member Address</CFormText>
               </CCol>
 
@@ -224,7 +224,7 @@ const MemberRegistration = ()=>{
                 <CLabel htmlFor="hr-sex">Sex</CLabel>
               </CCol>
               <CCol  md="5">
-                <select class="form-control"  ref={dropDown2}>
+                <select className="form-control"  ref={dropDown2}>
                   <option value='0'>Select</option>
                   <option value='Male'>Male</option>
                   <option value='Female'>Female</option>

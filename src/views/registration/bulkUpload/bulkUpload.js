@@ -134,8 +134,8 @@ const BulkUpload = ()=>{
             <h5>Make your bulk upload hear</h5>
         </CCardHeader>
         <CCardBody>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <strong>
@@ -166,8 +166,8 @@ const BulkUpload = ()=>{
             </CFormGroup>
             <br/>
             {/* //setFileValue({file:e.target.files[0]}) */}
-            <div style={{overflowX:'auto'}} class="table-responsive-xl">    
-                <table class="table table-hover">
+            <div style={{overflowX:'auto'}} className="table-responsive-xl">    
+                <table className="table table-hover">
                     <thead>
                         <tr>
                         <th scope="col">RegNumber</th>

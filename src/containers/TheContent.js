@@ -46,47 +46,56 @@ const TheContent = () => {
   // }
 
   useEffect(()=>{
+    async function loadfun(){
+      let token = JSON.parse(localStorage.getItem('Token'));
+      const reval = await fetch(`${baseUrl}/api/v1/auth/checklog`,{
+          method: 'GET',
+            headers:{
+              'authorization':`Bearer ${token}`
+            }
+          } 
+        )
+        const data = await reval.json()
+        if(data.status === 'success'){
+          setResValue('success')  
+          return auth.login()  
+        }else{
+          if(data.status === 'fail'){
+            auth.logOut()
+          setResValue('fail')         
+
+            //  window.location.reload()
+          }else{
+            if(data.status === 'error'){
+              auth.logOut()
+          setResValue('error')         
+
+              //  window.location.reload()
+            }
+
+          }
+        }
+    }
     
-    let token = JSON.parse(localStorage.getItem('Token'));
-    fetch(`${baseUrl}/api/v1/auth/checklog`,{
-      method: 'GET',
-        headers:{
-          'authorization':`Bearer ${token}`
-        }
-      } 
-    )
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        console.log(data)
-        if(data){
-            if(data.status === 'success'){
+    loadfun()
+    // .then((res)=>res.json())
+    // .then((data)=>{ 
+    //     console.log(data)
+    //     if(data){
+    //         if(data.status === 'success'){
               
-              setResValue('success')  
-              return auth.login()       
-            }else{
-              if(data.status === 'fail'){
-                auth.logOut()
-              setResValue('fail')         
-
-                //  window.location.reload()
-              }else{
-                if(data.status === 'error'){
-                  auth.logOut()
-              setResValue('error')         
-
-                  //  window.location.reload()
-                }
-
-              }
-            } 
-        }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    })
+                  
+    //         }else{
+            
+    //         } 
+    //     }
+    // })
+    // .catch((err)=>{
+    //     if(err){
+    //     console.log(err) 
+    //     alert(err)
+    //     }
+    // })
 
   },[])
 

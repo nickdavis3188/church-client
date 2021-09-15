@@ -84,8 +84,8 @@ const Journey = ()=>{
         Journey
           <small> Form</small>
         </CCardHeader>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <div className="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <strong>

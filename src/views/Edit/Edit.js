@@ -59,60 +59,54 @@ const EditMember = ({match})=>{
      
 
       useEffect(()=>{
-        let mydata = JSON.stringify({word:`${match.params.id}`})
-        fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
-            method: 'POST',
-            body:mydata,
-            headers:{
-              "Content-Type":"application/json",
-                // 'Content-Type': 'multipart/form-data'
-            }
-        
-        })
-        .then((res)=>res.json())
-        .then((data)=>{ 
-            console.log(data)
-            if(data){
-                if(data.status === 'success'){
-                    if(data.data.length >= 1){
-                        console.log(data.data[0])
-                        setRegNumber(data.data[0].RegNumber?data.data[0].RegNumber:"")
-                        setFirstname(data.data[0].Firstname?data.data[0].Firstname:"")
-                        setSurname(data.data[0].Surname?data.data[0].Surname:"")
-                        setAddress(data.data[0].Address?data.data[0].Address:"")
-                        setPhoneNo(data.data[0].PhoneNo?data.data[0].PhoneNo:"")
-                        setEmail(data.data[0].Email?data.data[0].Email:"")
-                        setSex(data.data[0].Sex?data.data[0].Sex:"")
-                        setDob(data.data[0].Dob?data.data[0].Dob:"")
-                        setMaritalStatus(data.data[0].MaritalStatus?data.data[0].MaritalStatus:"")
-                        setWeddingAnniversary(data.data[0].WeddingAnniversary?data.data[0].WeddingAnniversary:"")
-                        setOccupation(data.data[0].Occupation?data.data[0].Occupation:"")
-                        setBusiness(data.data[0].Business?data.data[0].Business:"")
-                        setExpertise(data.data[0].Expertise?data.data[0].Expertise:"")
-                        setDateJoinedTKA(data.data[0].DateJoinedTKA?data.data[0].DateJoinedTKA:"")
-                        setId(data.data[0]._id?data.data[0]._id:"")
+        async function loadData(){
+          let mydata = JSON.stringify({word:`${match.params.id}`})
+          const redval = await fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
+              method: 'POST',
+              body:mydata,
+              headers:{
+                "Content-Type":"application/json",
+                  // 'Content-Type': 'multipart/form-data'
+              }
+          
+          })
+          const data = await redval.json()
+          if(data.status === 'success'){
+            if(data.data.length >= 1){
+              console.log(data.data[0])
+              setRegNumber(data.data[0].RegNumber?data.data[0].RegNumber:"")
+              setFirstname(data.data[0].Firstname?data.data[0].Firstname:"")
+              setSurname(data.data[0].Surname?data.data[0].Surname:"")
+              setAddress(data.data[0].Address?data.data[0].Address:"")
+              setPhoneNo(data.data[0].PhoneNo?data.data[0].PhoneNo:"")
+              setEmail(data.data[0].Email?data.data[0].Email:"")
+              setSex(data.data[0].Sex?data.data[0].Sex:"")
+              setDob(data.data[0].Dob?data.data[0].Dob:"")
+              setMaritalStatus(data.data[0].MaritalStatus?data.data[0].MaritalStatus:"")
+              setWeddingAnniversary(data.data[0].WeddingAnniversary?data.data[0].WeddingAnniversary:"")
+              setOccupation(data.data[0].Occupation?data.data[0].Occupation:"")
+              setBusiness(data.data[0].Business?data.data[0].Business:"")
+              setExpertise(data.data[0].Expertise?data.data[0].Expertise:"")
+              setDateJoinedTKA(data.data[0].DateJoinedTKA?data.data[0].DateJoinedTKA:"")
+              setId(data.data[0]._id?data.data[0]._id:"")
 
-                        dropDown2.current.value = data.data[0].Sex?data.data[0].Sex:""
-                        dropMe.current.value = data.data[0].MaritalStatus?data.data[0].MaritalStatus:""
-                    }
-                                                          
-                }else{
-                    if(data.status === 'fail'){
-                      return toast(data.message?data.message:'')
-                    }else{
-                        if(data.status === 'error'){
-                          return toast(data.message?data.message:'')
-                        }
-                    }
-                }  
+              dropDown2.current.value = data.data[0].Sex?data.data[0].Sex:""
+              dropMe.current.value = data.data[0].MaritalStatus?data.data[0].MaritalStatus:""
             }
-        })
-        .catch((err)=>{
-            if(err){
-            console.log(err) 
-            alert(err)
+          }else{
+            if(data.status === 'fail'){
+              return toast(data.message?data.message:'')
+            }else{
+                if(data.status === 'error'){
+                  return toast(data.message?data.message:'')
+                }
             }
-        })
+          }
+        }
+
+        loadData()
+        
+       
       },[])
 
 
@@ -214,7 +208,7 @@ const EditMember = ({match})=>{
                 <CLabel htmlFor="Surname">Surname</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="text" value={Surname} class="form-control" id="Surname" placeholder="Enter Surname..." onChange={(e)=> setSurname(e.target.value)} />
+              <input type="text" value={Surname} className="form-control" id="Surname" placeholder="Enter Surname..." onChange={(e)=> setSurname(e.target.value)} />
                 <CFormText className="help-block">Please enter member Surname</CFormText>
               </CCol>
             </CFormGroup>
@@ -224,7 +218,7 @@ const EditMember = ({match})=>{
                 <CLabel htmlFor="hf-fName">First Name</CLabel>
               </CCol>
               <CCol  md="5">
-                <input type="text" value={Firstname} class="form-control" id="hf-fName" placeholder="Enter First Name..." onChange={(e)=> setFirstname(e.target.value)} />
+                <input type="text" value={Firstname} className="form-control" id="hf-fName" placeholder="Enter First Name..." onChange={(e)=> setFirstname(e.target.value)} />
                 <CFormText className="help-block">Please enter member first name</CFormText>
               </CCol>
 
@@ -232,7 +226,7 @@ const EditMember = ({match})=>{
                 <CLabel htmlFor="hf-PhoneNo">PhoneNo</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="number" value={PhoneNo} class="form-control" id="hf-PhoneNo" placeholder="Enter PhoneNo..." onChange={(e)=> setPhoneNo(e.target.value)} />
+              <input type="number" value={PhoneNo} className="form-control" id="hf-PhoneNo" placeholder="Enter PhoneNo..." onChange={(e)=> setPhoneNo(e.target.value)} />
                 <CFormText className="help-block">Please enter member PhoneNo</CFormText>
               </CCol>
             </CFormGroup>
@@ -242,7 +236,7 @@ const EditMember = ({match})=>{
                 <CLabel htmlFor="hf-Address">Address</CLabel>
               </CCol>
               <CCol  md="5">
-                <input type="text" value={Address} class="form-control" id="hf-Address" placeholder="Enter Address..." onChange={(e)=> setAddress(e.target.value)} />
+                <input type="text" value={Address} className="form-control" id="hf-Address" placeholder="Enter Address..." onChange={(e)=> setAddress(e.target.value)} />
                 <CFormText className="help-block">Please enter member Address</CFormText>
               </CCol>
 
@@ -250,7 +244,7 @@ const EditMember = ({match})=>{
                 <CLabel htmlFor="hr-sex">Sex</CLabel>
               </CCol>
               <CCol  md="5">
-                <select class="form-control"  ref={dropDown2}>
+                <select className="form-control"  ref={dropDown2}>
                   <option value='0'>Select</option>
                   <option value='Male'>Male</option>
                   <option value='Female'>Female</option>
@@ -356,7 +350,7 @@ export default  EditMember
 
         //     <CCard>
         //     <CCardHeader>
-        //     Member <i class="fa fa-expeditedssl" aria-hidden="true"></i>
+        //     Member <i className="fa fa-expeditedssl" aria-hidden="true"></i>
         //     <small> Form</small>
         //     </CCardHeader>
         //     <CCardBody>
@@ -366,14 +360,14 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">FirstName</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.FirstName} class="input-xlarge"  onChange={(e)=> setFname(e.target.value)}/>
+        //             <input type="text" value={details.FirstName} className="input-xlarge"  onChange={(e)=> setFname(e.target.value)}/>
         //                 <CFormText className="help-block">Set FirstName</CFormText>
         //             </CCol>
         //             <CCol md="1">
         //                 <CLabel htmlFor="Surname">Surname</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.Surname} class="input-xlarge"  onChange={(e)=> seSname(e.target.value)}/>
+        //             <input type="text" value={details.Surname} className="input-xlarge"  onChange={(e)=> seSname(e.target.value)}/>
         //                 <CFormText className="help-block"> SetSurname</CFormText>
         //             </CCol>
         //             </CFormGroup>
@@ -383,14 +377,14 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">Address</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.Address} class="input-xlarge"  onChange={(e)=> setaddress(e.target.value)} />
+        //             <input type="text" value={details.Address} className="input-xlarge"  onChange={(e)=> setaddress(e.target.value)} />
         //                 <CFormText className="help-block">Set Address</CFormText>
         //             </CCol>
         //             <CCol md="1">
         //                 <CLabel htmlFor="Surname">PhoneNo</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="number" value={details.PhoneNo} class="input-xlarge" onChange={(e)=> setphone(e.target.value)}/>
+        //             <input type="number" value={details.PhoneNo} className="input-xlarge" onChange={(e)=> setphone(e.target.value)}/>
         //                 <CFormText className="help-block">PhoneNo</CFormText>
         //             </CCol>
         //             </CFormGroup>
@@ -400,14 +394,14 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">Sex pls type Male or Female</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.Sex} class="input-xlarge" onChange={(e)=> setsex(e.target.value)} />
+        //             <input type="text" value={details.Sex} className="input-xlarge" onChange={(e)=> setsex(e.target.value)} />
         //                 <CFormText className="help-block">Set Sex</CFormText>
         //             </CCol>
         //             <CCol md="1">
         //                 <CLabel htmlFor="Surname">DOB</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="date" value={details.DOB?new Date(details.DOB).toLocaleDateString():''} class="input-xlarge" onChange={(e)=>setdob(e.target.value)}/>
+        //             <input type="date" value={details.DOB?new Date(details.DOB).toLocaleDateString():''} className="input-xlarge" onChange={(e)=>setdob(e.target.value)}/>
         //                 <CFormText className="help-block"> Set DOB</CFormText>
         //             </CCol>
         //             </CFormGroup>
@@ -417,14 +411,14 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">MaritalStatus pls type Married or Single </CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.MaritalStatus} class="input-xlarge" onChange={(e)=> setmaristat(e.target.value)}/>
+        //             <input type="text" value={details.MaritalStatus} className="input-xlarge" onChange={(e)=> setmaristat(e.target.value)}/>
         //                 <CFormText className="help-block">Set MaritalStatus</CFormText>
         //             </CCol>
         //             <CCol md="1">
         //                 <CLabel htmlFor="Surname">WeddingAnniversary</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="date" value={details.WeddingAnniversary?new Date(details.WeddingAnniversary).toLocaleDateString():''} class="input-xlarge" onChange={(e)=> setwedanny(e.target.value)}/>
+        //             <input type="date" value={details.WeddingAnniversary?new Date(details.WeddingAnniversary).toLocaleDateString():''} className="input-xlarge" onChange={(e)=> setwedanny(e.target.value)}/>
         //                 <CFormText className="help-block"> Set WeddingAnniversary</CFormText>
         //             </CCol>
         //             </CFormGroup>
@@ -434,14 +428,14 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">Email</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="email" value={details.Email} class="input-xlarge"  onChange={(e)=> setemail(e.target.value)}/>
+        //             <input type="email" value={details.Email} className="input-xlarge"  onChange={(e)=> setemail(e.target.value)}/>
         //                 <CFormText className="help-block">Set Email</CFormText>
         //             </CCol>
         //             <CCol md="1">
         //                 <CLabel htmlFor="Surname">Ocupation</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.Ocupation} class="input-xlarge" onChange={(e)=> setocupa(e.target.value)}/>
+        //             <input type="text" value={details.Ocupation} className="input-xlarge" onChange={(e)=> setocupa(e.target.value)}/>
         //                 <CFormText className="help-block"> Set Ocupation</CFormText>
         //             </CCol>
         //             </CFormGroup>
@@ -451,14 +445,14 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">Expertise</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.Expertise} class="input-xlarge" onChange={(e)=> setexper(e.target.value)}/>
+        //             <input type="text" value={details.Expertise} className="input-xlarge" onChange={(e)=> setexper(e.target.value)}/>
         //             <CFormText className="help-block"> Set Expertise</CFormText>
         //             </CCol>
         //             <CCol md="1">
         //                 <CLabel htmlFor="Surname">Set Business</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="text" value={details.Business} class="input-xlarge" onChange={(e)=> setbusin(e.target.value)}/>
+        //             <input type="text" value={details.Business} className="input-xlarge" onChange={(e)=> setbusin(e.target.value)}/>
         //                 <CFormText className="help-block"> Set Business</CFormText>
         //             </CCol>
         //             </CFormGroup>
@@ -468,7 +462,7 @@ export default  EditMember
         //                 <CLabel htmlFor="hf-RegNumber">DateJoinedTKA</CLabel>
         //             </CCol>
         //             <CCol  md="5">
-        //             <input type="date" value={details.DateJoinedTKA?new Date(details.DateJoinedTKA).toLocaleDateString():''} class="input-xlarge" onChange={(e)=> setdatjo(e.target.value)}/>
+        //             <input type="date" value={details.DateJoinedTKA?new Date(details.DateJoinedTKA).toLocaleDateString():''} className="input-xlarge" onChange={(e)=> setdatjo(e.target.value)}/>
         //             <CFormText className="help-block"> Set DateJoinedTKA</CFormText>
         //             </CCol>
         //             <CCol md="1">
@@ -479,7 +473,7 @@ export default  EditMember
         //             </CCol>
         //             </CFormGroup>
         //         </CForm> 
-        //         <button type='submit' class="btn btn-primary" onClick={(e)=> submitUpdate(e)}><GiUpgrade/>Update</button>           
+        //         <button type='submit' className="btn btn-primary" onClick={(e)=> submitUpdate(e)}><GiUpgrade/>Update</button>           
         //     </CCardBody>
         //     <ToastContainer/>
         // </CCard>
