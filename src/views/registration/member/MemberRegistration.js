@@ -384,7 +384,7 @@ const SearchResult = (props)=>{
     <tbody>
       {props.result.map((e,i)=>{
         return(
-            <tr onClick={()=> history.push(`/attendance/${e.RegNumber}`)} key={i}>
+            <tr onClick={()=> history.push(`/journey/${e.RegNumber}`)} key={i}>
               <td className="text-center">
                 <div className="c-avatar">
                 <img src={e.ImageUrl} className="c-avatar-img" alt="admin@bootstrapmaster.com" />

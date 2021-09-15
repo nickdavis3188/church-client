@@ -255,7 +255,7 @@ const UserDetails = (props)=>{
                 </div>
             </div>
             <hr className="my-4" />
-            <button class="btn btn-primary" onClick={()=> history.push(`/Member/${props.RegNumber}`)}>Edit</button>
+            <button class="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>
         </div>
     )
 }

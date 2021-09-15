@@ -51,7 +51,7 @@ const Settings = (props)=>{
                 return(
                         <div className="list-group-item list-group-item-action flex-column align-items-start " key={i}>
                             <div class="d-flex w-100 justify-content-between">
-                                <GiOpenFolder size="70px" onClick={()=>history.push(`/jsettings/${e._id}`)} data-toggle="tooltip" data-placement="top" title={e.JourneyName}/>                      
+                                <GiOpenFolder size="70px" onClick={()=>history.push(`/Journeysettings/${e._id}`)} data-toggle="tooltip" data-placement="top" title={e.JourneyName}/>                      
                             </div>
                              <small>{e.JourneyName}</small>
                         </div>
