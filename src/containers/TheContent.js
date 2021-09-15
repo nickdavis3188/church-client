@@ -105,13 +105,18 @@ const TheContent = () => {
           <Suspense fallback={loading}>
               <Switch>
                 {routes.map((route, idx) => {
+                    console.log('route',route)
                   return route.component && (
                     <Route
                       key={idx}
                       path={route.path}
                       exact={route.exact}
                       name={route.name}
-                      render={props => (
+                      render={props => {
+                        
+                        console.log('props',props)
+                        
+                        return (
                         auth.isAuthenticated() || resValue === 'success'
                         ?(
                           <CFade>
@@ -122,7 +127,7 @@ const TheContent = () => {
                           <Redirect to={{ pathname: "/login" }} />
                         )
                         
-                      )} 
+                      )}} 
                     />
                   )
                 })}
