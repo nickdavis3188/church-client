@@ -1,14 +1,13 @@
 import React,{useState,useEffect }from "react"
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory} from 'react-router-dom'
 import {
     // CButton,
     CProgress,
-    CCardFooter,
     CCol,
     CNav,
     CNavItem,
     CNavLink,
-    CRow,
+    // CRow,
     CTabContent,
     CTabPane,
     CCard,
