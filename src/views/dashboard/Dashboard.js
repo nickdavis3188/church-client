@@ -44,7 +44,7 @@ const loadData = async ()=>{
   if(data){
       if(data.status === 'success'){
         setWidgetValue({Total:data.data.total?data.data.total:'',Male:data.data.male?data.data.male:'',Female:data.data.female?data.data.female:''})
-        return toast('Dashborad set')
+        // return toast('Dashborad set')
       }else{
           if(data.status === 'fail'){
             return toast(data.message?data.message:'')
@@ -106,10 +106,10 @@ const loadData = async ()=>{
 const Chat = (props) =>{
   // let token = localStorage.getItem('Token')
   const [yearValues,setYearValue]  = useState({year:""})
-  const [dashboardValues,setDashboardValues]  = useState({
-    Male:'',
-    Female:''
-  })
+
+  const [maleArr,setMaleArr]  = useState([])
+  const [femaleArr,setFemaleArr]  = useState([])
+ 
 
   const trigerValue = (e)=>{
       e.preventDefault()
@@ -128,8 +128,10 @@ const Chat = (props) =>{
           //console.log(data)
           if(data){
               if(data.status === 'success'){
-                setDashboardValues({Male:data.data.male?data.data.male:[],Female:data.data.female?data.data.female:[]})
-                return toast('success')
+                setMaleArr(data.data.Male?data.data.Male:[])
+                setFemaleArr(data.data.Female?data.data.Female:[])
+                // setDashboardValues({Male:,Female:})
+                // return toast('success')
               }else{
                   if(data.status === 'fail'){
                     return toast(data.message?data.message:'')
@@ -154,42 +156,46 @@ const Chat = (props) =>{
   }//dashboardValues
 
 
-  const load22 = async ()=>{
-    let getYearp =JSON.stringify({ya:yearValues.year ? yearValues.year: new Date().getFullYear()})
-
-      const res2 = await  fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
-      method: 'POST',
-      body:getYearp,
-      headers:{
-        "Content-Type":"application/json",
-      }
-    })
-
-    let data22 = await res2.json()
-    //console.log(data22.data.male)
-    if(data22){
-      if(data22.status === 'success'){
-        setDashboardValues({Male:data22.data.male?data22.data.male:[],Female:data22.data.female?data22.data.female:[]})
-       // return toast('successful')
-      }else{
-         if(data22.status === 'fail'){
-          //  return toast(data22.message?data22.message:'')
-          }else{
-            if(data22.status === 'error'){
-           //   return toast(data22.message?data22.message:'')
-            }
-          }
-      }
-    }
-  }     
-
   useEffect(()=>{
       
-    async function loader22(){
-      await load22()
-    }
+    let getYearp =JSON.stringify({ya:yearValues.year ? yearValues.year: new Date().getFullYear()})
+    fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
+        method: 'POST',
+        body:getYearp,
+        headers:{
+          "Content-Type":"application/json",
+        }
+    })
+    .then((res)=>res.json())
+    .then((data)=>{ 
+        console.log(data)
+        if(data){
+            if(data.status === 'success'){  
+              console.log(data.data.male)
+              console.log(data.data.female)
+             
+                setMaleArr(data.data.male.length >= 1?data.data.male:[])
+        
+                setFemaleArr(data.data.female.length >= 1?data.data.female:[])
 
-    loader22()
+              // setDashboardValues({Male:data.data.Male?data.data.Male:[],Female:data.data.Female?data.data.Female:[]})    
+            }else{
+              if(data.status === 'fail'){
+                return toast(data.message?data.message:'')
+              }else{
+                  if(data.status === 'error'){
+                    return toast(data.message?data.message:'')
+                  }
+              }
+          }      
+        }
+    })
+    .catch((err)=>{
+        if(err){
+        console.log(err) 
+        alert(err)
+        }
+    }) 
  
   },[])
   
@@ -219,7 +225,7 @@ const Chat = (props) =>{
           text: 'Stacked column chart'
       },
       xAxis: {
-          categories:monthDisplay(dashboardValues.Male?dashboardValues.Male:[],dashboardValues.Female?dashboardValues.Female:[])
+          categories:monthDisplay(maleArr.length >= 1?maleArr:[],femaleArr.length >= 1?femaleArr:[])
       },
       yAxis: {
           min: 0,
@@ -264,11 +270,11 @@ const Chat = (props) =>{
       series: [
         {
           name: 'Male',
-          data:dashboardValues.Male?dashboardValues.Male:[]
+          data:maleArr.length >= 1?maleArr:[]
         },
         {
           name: 'Female',
-          data:dashboardValues.Female?dashboardValues.Female:[]
+          data:femaleArr.length >= 1?femaleArr:[]
         }, 
        
       ]
@@ -282,7 +288,7 @@ const Chat = (props) =>{
        <div>
         <h5>Select Year</h5>
         <input type="number"  placeholder="YYYY" min="2017" max="2100" style={{width:'200px'}} onChange={(e)=>setYearValue({year:e.target.valueAsNumber})} />
-        <button className="btn btn-primary" onClick={(e)=>trigerValue(e)}><FaSearch/>Search</button>
+        <button className="btn btn-primary btn-sm" onClick={(e)=>trigerValue(e)}><FaSearch/>Search</button>
       </div>
       <br/>
       <HighchartsReact

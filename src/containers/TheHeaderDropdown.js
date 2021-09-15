@@ -86,8 +86,8 @@ const TheHeaderDropdown = (props) => {
         alert(err)
         }
     })
-  })
-  let history = useHistory()
+  },[])
+  // let history = useHistory()
   return (
     <CDropdown
       inNav

@@ -37,27 +37,13 @@ const Register = () => {
       body:"",
     
     })
-    // checked
-    // const formData = new FormData()
-    // const cheakAdmin = inputValues.isAdmin === 'admin'?'admin':'notAdmin'
-    // formData.append('',)
-    // formData.append('',)
-    // formData.append('',)
-    // formData.append('',)
-    
-  // let myData =JSON.stringify(
-  //   {
-  //       fullName:inputValues.UserName,
-  //       email:inputValues.Email,
-  //       password:inputValues.Password,
-  //       passwordConfirm:inputValues.PasswordConfirm
-  //     }
-  // ) 
+   
   formdata.append('fullName',inputUserName)
   formdata.append('email',inputEmail)
   formdata.append('password',inputPassword)
   formdata.append('passwordConfirm',inputPasswordConfirm)
   formdata.append('adminImg',file)
+  
     const submitForm = (e)=>{
       e.preventDefault()
       fetch(`${baseUrl}/api/v1/auth/signup`,{
@@ -154,7 +140,7 @@ const Register = () => {
                 <ToastContainer/>
               </CCardBody>
               <CCardFooter className="p-4">
-               
+               <p>If you have an account <a href="/login">SingIn</a></p>
               </CCardFooter>
             </CCard>
           </CCol>

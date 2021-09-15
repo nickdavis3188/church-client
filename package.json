@@ -41,6 +41,7 @@
     "react-toastify": "^8.0.2",
     "redux": "^4.0.5",
     "sass": "^1.32.8",
+    "underscore": "^1.13.1",
     "xlsx": "^0.17.1"
   },
   "devDependencies": {
@@ -81,5 +82,5 @@
     "node": ">=10",
     "npm": ">=6"
   },
-  "proxy": "https://dtmdms.herokuapp.com/"
+  "proxy": "http://localhost:3000/"
 }

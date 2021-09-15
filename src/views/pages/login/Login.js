@@ -166,11 +166,11 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5 " style={{ width: '44%' }}>
+              <CCard className="text-white bg-primary py-5 " >
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
-                    <p>Hello, welcome to Kings Assembly Members Management System, if you are new hear please kindly click the register button</p>
+                    <p>Hello, welcome to Kings Assembly Members Management System, if you are new here please kindly click the register button</p>
                     <Link to="/signup">
                       <CButton color="primary" className="mt-3" active tabIndex={-1} >Register Now!</CButton>
                     </Link>
@@ -187,56 +187,5 @@ const Login = () => {
  
   )
   }
-//{/* <Redirect from="/login" to="/" /> */}
 
-// const Toster = (props)=>{
-//   return(
-//     <div className="toast" role="alert" aria-live="assertive" aria-atomic="true">
-//       <div className="toast-header">
-//         {props.status}
-//         <button type="button" className="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-//           <span aria-hidden="true">&times;</span>
-//         </button>
-//       </div>
-//       <div className="toast-body">
-//         {props.body}
-//       </div>
-//     </div>
-//   )
-// }
-// const Toster2 = (props)=>{
-//   return(
-//     <div className="toast" role="alert" aria-live="assertive" aria-atomic="true">
-//       <div className="toast-header">
-//         success
-//         <button type="button" className="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-//           <span aria-hidden="true">&times;</span>
-//         </button>
-//       </div>
-//       <div className="toast-body">
-//         user successfully login
-//       </div>
-//     </div>
-//   )
-// }
-
- //   axios({
-    //     method: 'post',
-    //     url: ,
-    //     data, 
-    //     headers:{
-    //         "Content-Type":"application/json",
-    //         // 'Content-Type': 'multipart/form-data',
-    //     }
-        
-    // })
-    //   .then((e)=>{
-    //     if(e.data.status === 'success'){
-    //       alert('login successful')
-    //       localStorage.setItem(('Token',e.data.token))
-    //       setResValue({response:'success',resBody:'Login successful'})
-         
-    //     }
-    //   })
-    //   .catch((er)=>alert(er.message))
 export default Login

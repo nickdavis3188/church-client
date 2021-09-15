@@ -1,4 +1,4 @@
-import React,{useState} from "react"
+import React,{useState, useRef} from "react"
 import {
     // CButton,
     CCard,
@@ -6,6 +6,7 @@ import {
     CCardFooter,
     CCardHeader,
     CFormGroup,
+    CAlert
   
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
@@ -17,8 +18,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import {FaFileUpload} from "react-icons/fa"
 const BulkUpload = ()=>{
     const [fileValues,setFileValue]  = useState({filee:""})
+    const ref = useRef()
     const [datas,setDatas]  = useState([])
+    const [failData,setfailData]  = useState([])
     const formData = new FormData()
+
+
 
    
 
@@ -78,6 +83,7 @@ const BulkUpload = ()=>{
                   return toast('Upload successful')
                 }else{
                     if(data.status === 'fail'){
+                        setfailData(data.data.length >= 1?data.data:[])                     
                       return toast(data.message?data.message:'')
                     }else{
                         if(data.status === 'error'){
@@ -101,6 +107,26 @@ const BulkUpload = ()=>{
 
    }
 
+   //convert excel date serial int to Date
+    const ExcelDateToJSDate = (serial)=>{
+    var utc_days  = Math.floor(serial - 25569);
+    var utc_value = utc_days * 86400;                                        
+    var date_info = new Date(utc_value * 1000);
+ 
+    var fractional_day = serial - Math.floor(serial) + 0.0000001;
+ 
+    var total_seconds = Math.floor(86400 * fractional_day);
+ 
+    var seconds = total_seconds % 60;
+ 
+    total_seconds -= seconds;
+ 
+    var hours = Math.floor(total_seconds / (60 * 60));
+    var minutes = Math.floor(total_seconds / 60) % 60;
+ 
+    return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds);
+ }
+
     return(
         <>
         <CCard>
@@ -108,15 +134,33 @@ const BulkUpload = ()=>{
             <h5>Make your bulk upload hear</h5>
         </CCardHeader>
         <CCardBody>
-            <span><strong>Note: </strong><p>Only an Excel file is accepted</p></span> 
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>
+                    <span><strong>Note:</strong> Only an Excel file is accepted</span>                                       
+                </strong> 
+            </div>
             <br/>
+                                                 
+            <hr/>
+            {
+                failData.map((e,i)=>{
+                    return(
+                        <CAlert color="info" closeButton key={i}> <span>Member with <strong>{e.RegNumber}</strong> Exist</span> </CAlert> 
+                    )
+                })
+            }
+          
+            
             <CFormGroup row>
                 <div className="custom-file">
                     <input type="file" className="custom-file-input" id="customFile"  onChange={(e)=>{
                         const file = e.target.files[0];
                         setFileValue({filee:file})
                         preview(file)
-                    }}/>
+                    }} ref={ref}/>
                     <label className="custom-file-label" for="customFile">Choose file</label>
                 </div>
             </CFormGroup>
@@ -126,7 +170,6 @@ const BulkUpload = ()=>{
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                        <th scope="col">MemberID</th>
                         <th scope="col">RegNumber</th>
                         <th scope="col">Surname</th>
                         <th scope="col">Address</th>
@@ -145,19 +188,18 @@ const BulkUpload = ()=>{
                         {datas.map((e,i)=>{
                             return(
                             <tr key={i}>
-                                <th scope="row">{e.MemberID}</th>
                                 <td>{e.RegNumber}</td>
                                 <td>{e.Surname}</td>
                                 <td>{e.Address}</td>
                                 <td>{e.PhoneNo}</td>
                                 <td>{e.Sex}</td>
                                 <td>{e.Email}</td>
-                                <td>{e.DOB}</td>
+                                <td>{e.DOB?new Date(ExcelDateToJSDate(e.DOB)).toLocaleDateString():''}</td>
                                 <td>{e.MaritalStatus}</td>
-                                <td>{e.WeddingAnniversary}</td>
+                                <td>{e.WeddingAnniversary?new Date(ExcelDateToJSDate(e.WeddingAnniversary)).toLocaleDateString():''}</td>
                                 <td>{e.Occupation}</td>
                                 <td>{e.Expertise}</td>
-                                <td>{e.DateJoinedTKA}</td>
+                                <td>{e.DateJoinedTKA?new Date(ExcelDateToJSDate(e.DateJoinedTKA)).toLocaleDateString():''}</td>
                             </tr>)
                         })}
                         
@@ -169,7 +211,7 @@ const BulkUpload = ()=>{
         <button className="btn btn-primary px-4"  onClick={(e)=>sendFile(e)} ><FaFileUpload/>Upload</button>
           <button  className="btn btn-danger" onClick={(e)=>{
                 e.preventDefault()
-                window.location.reload()
+                ref.current.value = ""
               }} ><CIcon name="cil-ban" /> Reset</button>
           <ToastContainer/>
         </CCardFooter>

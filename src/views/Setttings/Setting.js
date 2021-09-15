@@ -5,16 +5,10 @@ import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import baseUrl from '../../config/config'
 
-import {
-    CFormGroup,
-    CFormText,
-    CLabel,
-    CCol
-} from '@coreui/react';
 import {GiOpenFolder} from "react-icons/gi";
 
 const Settings = (props)=>{
-    const [journeys,setjoueneys] = useState(null)
+    const [journeys,setjoueneys] = useState([])
     let history = useHistory()
     useEffect(()=>{
         fetch(`${baseUrl}/api/v1/journey/alljourney`,{
@@ -23,9 +17,11 @@ const Settings = (props)=>{
         .then((res)=>res.json())
         .then((data)=>{ 
             if(data){
-                console.log(data)
                 if(data.status === 'success'){
-                    setjoueneys(data.data?data.data:'')
+                    console.log(data.data)
+                    let dataArr = (data.data.length >= 1?data.data.filter((e)=>e.JourneyPriority !== 6):'Jourey Not Found')
+                    console.log(dataArr)
+                    setjoueneys(dataArr.length >= 1?dataArr:[])
                 }else{
                     if(data.status === 'fail'){
                       return toast(data.message?data.message:'')
@@ -43,21 +39,26 @@ const Settings = (props)=>{
             alert(err)
             }
         })
-      })
+      },[])
       let journey22 = journeys.filter((e)=>e.JourneyPriority !== 6)
     return(
         <>
         <h4>Journey Setting</h4>
-        {   
+        <div className="list-group" >
+            {   
             journey22.map((e,i)=>{
             
                 return(
-                    <div key={i}>
-                        <GiOpenFolder size="70px" onClick={()=>history.push(`/jsettings/${e._id}`)} data-toggle="tooltip" data-placement="top" title={e.JourneyName}/>
-                    </div>
-                )
-            
-        })}
+                        <div className="list-group-item list-group-item-action flex-column align-items-start " key={i}>
+                            <div class="d-flex w-100 justify-content-between">
+                                <GiOpenFolder size="70px" onClick={()=>history.push(`/jsettings/${e._id}`)} data-toggle="tooltip" data-placement="top" title={e.JourneyName}/>                      
+                            </div>
+                             <small>{e.JourneyName}</small>
+                        </div>
+                )           
+            })}
+        </div>
+        <ToastContainer/>
         </>
     )
 }

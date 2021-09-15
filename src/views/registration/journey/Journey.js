@@ -37,8 +37,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import baseUrl from '../../../config/config'
 
 const Journey = ()=>{
-  const [name,setName] = useState(null)
-  const [priority,setPriority] = useState(null)
+  const [name,setName] = useState('')
+  const [priority,setPriority] = useState('')
 
   const submitJourney = (e)=>{
 
@@ -84,10 +84,18 @@ const Journey = ()=>{
         Journey
           <small> Form</small>
         </CCardHeader>
-        <p><h6>Note:</h6> The Journey Priority must be in a sequence i.e 1,2,3,4,5</p>
-        <p> eg 1 for Journey 101, 2 for Journey 201 ... </p>
-        <p> Also include Journey Priority of 6 with a Journey name 'Done' </p>
-        <p> This helps the admin to know if a member is done with the whole journey .</p>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong>
+            <span><strong>Note:</strong> The Journey Priority must be in a sequence i.e 1,2,3,4,5</span>
+            <span> eg 1 for Journey 101, 2 for Journey 201 ... </span>
+            <span> Also include Journey Priority of 6 with a Journey name 'Done' </span>
+            <span> This helps the admin to know if a member is done with the whole journey .</span>
+          </strong> 
+        </div>
+      
         <CCardBody>
           <CForm action="" method="post" className="form-horizontal">
             <CFormGroup row>
@@ -95,7 +103,7 @@ const Journey = ()=>{
                 <CLabel htmlFor="hf-JourneyName">Journey Name</CLabel>
               </CCol>
               <CCol  md="5">
-                <input id="hf-JourneyName" name="hf-JourneyName" placeholder="Enter JourneyName..." onChange={(e)=> setName(e.target.value)}/>
+                <input id="hf-JourneyName" value={name}  placeholder="Enter JourneyName..." onChange={(e)=> setName(e.target.value)}/>
                 <CFormText className="help-block">Please enter your Journey Name</CFormText>
               </CCol>
 
@@ -103,7 +111,7 @@ const Journey = ()=>{
                 <CLabel htmlFor="hf-JourneyPriority">Journey Priority</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="number" id="hf-JourneyPriority" name="hf-JourneyName" placeholder="Enter JourneyName..."onChange={(e)=> setPriority(e.target.value)} />
+              <input type="number" value={priority} id="hf-JourneyPriority"  placeholder="Enter JourneyPriority..."onChange={(e)=> setPriority(e.target.value)} />
                 <CFormText className="help-block">Please enter your Journey Priority</CFormText>
               </CCol>
             </CFormGroup>
@@ -115,8 +123,14 @@ const Journey = ()=>{
           </CForm>
         </CCardBody>
         <CCardFooter>
-          <button type="submit" size="sm" color="primary" onClick={(e)=>submitJourney(e)}><CIcon name="cil-scrubber" /> Submit</button> 
-          <CButton type="reset" size="sm" color="danger"><CIcon name="cil-ban" /> Reset</CButton>
+          <button type="submit" size="sm" className="btn btn-primary" onClick={(e)=>submitJourney(e)}><CIcon name="cil-scrubber" /> Submit</button> 
+          <button type="reset" size="sm" className="btn btn-danger" onClick={(e)=>{
+            e.preventDefault()
+            setPriority('')
+            setName('')
+          
+          
+          }}><CIcon name="cil-ban" /> Reset</button>
         </CCardFooter>
         <ToastContainer/>
       </CCard>
