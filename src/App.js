@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch,BrowserRouter } from 'react-router-dom';
 import './scss/style.scss';
 // import {ProtectedRoute} from './ProtectedRoute'
-
+import ResetPassword  from './views/pages/passwordReset/resetPassword'
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
@@ -16,7 +16,7 @@ const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 const Login = React.lazy(() => import('./views/pages/login/Login'));
 const Register = React.lazy(() => import('./views/pages/register/Register'));
 const ForgotPassword = React.lazy(() => import('./views/pages/forgotPassword/forgotPassword'));
-const ResetPassword = React.lazy(() => import('./views/pages/passwordReset/resetPassword'));
+// const ResetPassword = React.lazy(() => import('./views/pages/passwordReset/resetPassword'));
 // render={props => <TheLayout {...props}/>}
 class App extends Component {
 

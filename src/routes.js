@@ -1,10 +1,11 @@
 import React from 'react';
 
 import JourneyEdit from "./views/Edit/journeyEdit"
-
+import Attendance from "./views/journeyAttendance/Attendance"
+import  MemberEdit from "./views/Edit/Edit"
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 // const Users = React.lazy(() => import('./views/users/Users'));
-const User = React.lazy(() => import('./views/users/User'));
+// const User = React.lazy(() => import('./views/users/User'));
 
 // const ConferenceOne = React.lazy(() => import("./views/Activities/Conference/Conference1"))
 // const ConferenceTwo = React.lazy(() => import("./views/Activities/Conference/Conference2"))
@@ -19,9 +20,9 @@ const JourneyRegistration = React.lazy(()=> import("./views/registration/journey
 
 const BuldUpload = React.lazy(()=> import("./views/registration/bulkUpload/bulkUpload"))
 
-const Attendance = React.lazy(()=> import("./views/journeyAttendance/Attendance"))
+// const Attendance = React.lazy(()=> import("./views/journeyAttendance/Attendance"))
 
-const MemberEdit = React.lazy(()=> import("./views/Edit/Edit"))
+// const MemberEdit = React.lazy(()=> import("./views/Edit/Edit"))
 // const JourneyEdit = React.lazy(()=> import("./views/Edit/journeyEdit"))
 
 // const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
