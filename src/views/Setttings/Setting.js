@@ -4,11 +4,37 @@ import { useHistory, useLocation } from 'react-router-dom'
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import baseUrl from '../../config/config'
-
+import {
+    // CButton,
+    CProgress,
+    CCol,
+    CNav,
+    CNavItem,
+    CNavLink,
+    // CRow,
+    CTabContent,
+    CTabPane,
+    CCard,
+    CCardBody,
+    CTabs,
+    CCardHeader,
+    CFormGroup,
+    CFormText,
+    CModal,
+    CModalBody,
+    CModalFooter,
+    CModalHeader,
+    CModalTitle,
+    CButton,
+    CAlert
+} from '@coreui/react';
 import {GiOpenFolder} from "react-icons/gi";
 
 const Settings = (props)=>{
     const [journeys,setjoueneys] = useState([])
+    const [dateValue,setDateValue] = useState('')
+    const [dateChekValue,setDateChekValue] = useState('')
+
     let history = useHistory()
     useEffect(()=>{
         fetch(`${baseUrl}/api/v1/journey/alljourney`,{
@@ -40,7 +66,67 @@ const Settings = (props)=>{
             }
         })
       },[])
+      
+      useEffect(()=>{
+        async function loadfun(){
+            let getdata = await fetch(`${baseUrl}/api/v1/journeyDate/checkJourneyDate`,{
+                method: 'GET'
+            })
+            let mainData = await getdata.json()
+            if(mainData){
+                if(mainData.status === 'success'){ 
+                    setDateChekValue(mainData.status?mainData.status:'')
+                }else{
+                    if(mainData.status === 'not found'){
+                        setDateChekValue(mainData.status?mainData.status:'')
+                    }else{
+                        if(mainData.status === 'fail'){
+                          return toast(mainData.message?mainData.message:'')
+                        }
+                    }
+                }  
+            }
+        }
+        loadfun()
+      },[])
+
       let journey22 = journeys.filter((e)=>e.JourneyPriority !== 6)
+      const setJourneyDate = (e)=>{
+        let dateAttend = JSON.stringify({journeyDate:dateValue})
+       fetch(`${baseUrl}/api/v1/journeyDate/journeyDate`,{
+            method: 'POST',
+            body:dateAttend,
+            headers:{
+                "Content-Type":"application/json",
+            }
+        })
+        .then((res)=>res.json())
+        .then((data)=>{ 
+            console.log(data)
+            if(data){
+                if(data.status === 'success'){ 
+                    setDateValue('')
+                    return toast(data.message?data.message:'')
+                }else{
+                    if(data.status === 'not found'){
+                        return toast(data.message?data.message:'')           
+                    }else{
+                        if(data.status === 'fail'){
+                          return toast(data.message?data.message:'')
+                        }
+                    }
+                }  
+            }
+        })
+        .catch((err)=>{
+            if(err){
+            console.log(err) 
+            alert(err)
+            }
+        })
+      }
+
+      let dateBtn = dateChekValue === 'success'?<button className=' btn btn-primary disabled' disabled >journey Date Is Set</button>:<button className=' btn btn-primary' onClick={(e)=>setJourneyDate(e)}>Set Journey Date</button>
     return(
         <>
         <h4>Journey Setting</h4>
@@ -58,6 +144,17 @@ const Settings = (props)=>{
                 )           
             })}
         </div>
+        <br/>
+        <h4>Journey Date</h4>
+        <CFormGroup row>
+            <CCol  md="6">
+                <input type="date" id="date-input" value={dateValue} className="form-control" onChange={(e)=>setDateValue(e.target.value)}/>
+                <CFormText className="help-block">Please enter Journey Date</CFormText>
+            </CCol>
+            <CCol  md="6">
+                {dateBtn}
+            </CCol>
+        </CFormGroup>
         <ToastContainer/>
         </>
     )

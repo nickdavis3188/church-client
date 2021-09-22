@@ -131,7 +131,7 @@ const BulkUpload = ()=>{
         <>
         <CCard>
         <CCardHeader>
-            <h5>Make your bulk upload hear</h5>
+            <h5>Make your bulk upload here</h5>
         </CCardHeader>
         <CCardBody>
             <div className="alert alert-warning alert-dismissible fade show" role="alert">

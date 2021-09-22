@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useRef }from "react"
-// import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -20,7 +20,7 @@ import CIcon from '@coreui/icons-react';
 const EditMember = ({match})=>{
     // let mydata = JSON.stringify({word:`${match.params.id}`}
     // /memberUpdate/:id
-
+    const history = useHistory()
     const dropMe=useRef(null)
     const dropDown2=useRef(null)
     
@@ -151,7 +151,8 @@ const EditMember = ({match})=>{
             console.log(data)
             if(data){
                 if(data.status === 'success'){      
-                  return toast('Update Successful')
+                  toast('Update Successful')
+                  history.goBack()
                 }else{
                   if(data.status === 'fail'){
                     return toast(data.message?data.message:'')

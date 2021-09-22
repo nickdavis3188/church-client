@@ -7,7 +7,7 @@ import {
     CNav,
     CNavItem,
     CNavLink,
-    // CRow,
+    CRow,
     CTabContent,
     CTabPane,
     CCard,
@@ -33,8 +33,9 @@ import baseUrl from '../../config/config'
 
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import './att.css'
 
-const Attendance = ({match})=>{
+const Attendance = ({match,User})=>{
     const [active, setActive] = useState(0)
     const [details, setDetails] = useState({
         Firstname:'',
@@ -59,7 +60,7 @@ const Attendance = ({match})=>{
       })
     const [journeyAtt,setJourneyAtt] = useState([])
     const [JourneyAttLeng,setJourneyAttLeng] = useState(0)
-//   const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
+
   useEffect(()=>{
     let mydata = JSON.stringify({word:`${match.params.id}`})
     fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
@@ -124,142 +125,256 @@ const Attendance = ({match})=>{
   },[])
     //    e.preventDefault()
     return(
-        <>                     
-            <CCard>
-                <CCardHeader>
-                    Member Details
-                </CCardHeader>
-                <CCardBody>
-                    <CTabs activeTab={active} onActiveTabChange={idx => setActive(idx)}>
-                    <CNav variant="tabs">
-                        <CNavItem>
-                        <CNavLink>
-                            <FaDatabase/>
-                            { active === 0 && ' Member Details'}
-                        </CNavLink>
-                        </CNavItem>
-                        <CNavItem>
-                        <CNavLink>
-                            <FaHistory/>
-                            { active === 1 && 'Journey History'}
-                        </CNavLink>
-                        </CNavItem>
-                        <CNavItem>
-                        <CNavLink>
-                            <FaAllergies/>
-                            { active === 2 && 'Journey Attendance'}
-                        </CNavLink>
-                        </CNavItem>
-                    </CNav>
-                    <CTabContent>
-                        <CTabPane>
-                            <UserDetails 
-                                Firstname={details.Firstname?details.Firstname:""}
-                                Surname={details.Surname?details.Surname:""}
-                                Address={details.Address?details.Address:""}
-                                PhoneNo={details.PhoneNo?details.PhoneNo:""}
-                                Email={details.Email?details.Email:""}
-                                RegNumber={details.RegNumber?details.RegNumber:""}
-                                Sex={details.Sex?details.Sex:""}
-                                Dob={details.Dob?new Date(details.Dob).toLocaleDateString():""}
-                                MaritalStatus={details.MaritalStatus?details.MaritalStatus:""}
-                                WeddingAnniversary={details.WeddingAnniversary?new Date(details.WeddingAnniversary).toLocaleDateString():""}
-                                Occupation={details.Occupation?details.Occupation:""}
-                                Business={details.Business?details.Business:""}
-                                Expertise={details.Expertise?details.Expertise:""}                                                   
-                                DateJoinedTKA={details.DateJoinedTKA?new Date(details.DateJoinedTKA).toLocaleDateString():""}                                    
-                                ImageUrl={details.ImageUrl?details.ImageUrl:""}
-                                id={details.id?details.id:""}
-                        />
-                        </CTabPane>
-                        <CTabPane>
-                        {/* {`2. ${lorem}`} */}
-                        <JourneyHistry journey3={journeyAtt} journeyLength={JourneyAttLeng}/>
-                        </CTabPane>
-                        <CTabPane>
-                        {/* {`3. ${lorem}`} */}
-                        <JourneyAttendance 
+        <>   
+
+        <div className="container rounded bg-white mt-2 mb-2">
+            <div className="row">
+                <div className="col-md-4 border-right">
+                   {
+                   User.role === 'admin'? 
+                   <DetailsAdmin 
+                   Firstname={details.Firstname?details.Firstname:""}
+                   Surname={details.Surname?details.Surname:""}
+                   Address={details.Address?details.Address:""}
+                   PhoneNo={details.PhoneNo?details.PhoneNo:""}
+                   Email={details.Email?details.Email:""}
+                   RegNumber={details.RegNumber?details.RegNumber:""}
+                   Sex={details.Sex?details.Sex:""}
+                   Dob={details.Dob?new Date(details.Dob).toLocaleDateString():""}
+                   MaritalStatus={details.MaritalStatus?details.MaritalStatus:""}
+                   WeddingAnniversary={details.WeddingAnniversary?new Date(details.WeddingAnniversary).toLocaleDateString():""}
+                   Occupation={details.Occupation?details.Occupation:""}
+                   Business={details.Business?details.Business:""}
+                   Expertise={details.Expertise?details.Expertise:""}                                                   
+                   DateJoinedTKA={details.DateJoinedTKA?new Date(details.DateJoinedTKA).toLocaleDateString():""}                                    
+                   ImageUrl={details.ImageUrl?details.ImageUrl:""}
+                   id={details.id?details.id:""}
+                   User={User}
+               />:
+                <SubAdminDetails 
+                    Firstname={details.Firstname?details.Firstname:""}
+                    Surname={details.Surname?details.Surname:""}
+                    Address={details.Address?details.Address:""}
+                    PhoneNo={details.PhoneNo?details.PhoneNo:""}
+                    Email={details.Email?details.Email:""}
+                    RegNumber={details.RegNumber?details.RegNumber:""}
+                    Sex={details.Sex?details.Sex:""}
+                                                  
+                    ImageUrl={details.ImageUrl?details.ImageUrl:""}
+                    id={details.id?details.id:""}
+                    User={User}
+                />
+                }
+                </div>
+                <div className="col-md-4">
+                    <div className="p-3 py-5">
+                    <CCard>
+                        <CCardHeader>
+                            Attendance
+                        </CCardHeader>
+                        <CCardBody>
+                            <JourneyAttendance 
                             id={details.id}
                             currentJourney={details.currentJourney}
                             nextJourney={details.nextJourney}
                             />
-                        </CTabPane>
-                    </CTabContent>
-                    </CTabs>
-                </CCardBody>                    
-            </CCard>   
-            <ToastContainer/>      
+                        </CCardBody>                    
+                    </CCard>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="p-3 py-5">
+                    <CCard>
+                        <CCardHeader>
+                            Journey History
+                        </CCardHeader>
+                        <CCardBody>
+                            <JourneyHistry journey3={journeyAtt} journeyLength={JourneyAttLeng}/>
+                        </CCardBody>                    
+                    </CCard>
+                    </div>
+                </div>
+            </div>
+            <ToastContainer/> 
+        </div>       
         </>
     )
 }
 
-const UserDetails = (props)=>{
-    const history = useHistory()
-    let badge = props.Sex === 'male' ?'badge badge-primary':'badge badge-info'
-    return(
-        <div>
-            <div className="row mt-5 align-items-center">
-            <div className="col-md-3 text-center mb-5">
-                <div className="avatar avatar-xl">
-                    <img src={props.ImageUrl} alt="..." className="avatar-img rounded-circle"style={{width:'200px'}} />
-                </div>
-            </div>
-                <div className="col">
-                    <div className="row align-items-center">
-                        <div className="col-md-7">
-                            <h4 className="mb-1">{props.Surname}, {props.Firstname}</h4>
-                            <p className="small mb-3"><span className={badge}>{props.Sex}</span></p>
-                        </div>
-                    </div>
-                    <div className="row mb-4">
-                        <div className="col-md-7">
-                        <div className="row align-items-center">
-                            <div className="col-md-7">
-                                <h6 className="mb-1">RegNumber: {props.RegNumber}</h6>
-                            </div>
-                        
-                            <div className="col-md-7">
-                                <h6 className="mb-1">DOB: {props.Dob}</h6>
-                            </div>
-                          
-                            <div className="col-md-7">
-                                <h6 className="mb-1">MaritalStatus: {props.MaritalStatus}</h6>
-                            </div>
 
-                            <div className="col-md-7">
-                                <h6 className="mb-1">WeddingAnniversary: {props.WeddingAnniversary}</h6>
-                            </div>
-                            <div className="col-md-7">
-                                <h6 className="mb-1">Occupation: {props.Occupation}</h6>
-                            </div>
-                            <div className="col-md-7">
-                                <h6 className="mb-1">Business: {props.Business}</h6>
-                            </div>
-                            <div className="col-md-7">
-                                <h6 className="mb-1">Expertise: {props.Expertise}</h6>
-                            </div>
-                         
-                            <div className="col-md-7">
-                                <h6 className="mb-1">DateJoinedTKA: {props.DateJoinedTKA?new Date(props.DateJoinedTKA).toLocaleDateString():''}</h6>
-                            </div>
-                           
-                       
-                        </div>
-                        </div>
-                        <div className="col">
-                            <p className="small mb-0 text-muted">Address: {props.Address}</p>
-                            <p className="small mb-0 text-muted">Email: {props.Email}</p>
-                            <p className="small mb-0 text-muted">PhoneNo: {props.PhoneNo}</p>
-                        </div>
+const SubAdminDetails = (props)=>{
+ 
+        let badge = props.Sex === 'Male' ?'badge badge-primary':'badge badge-info'
+        return(
+            <div className="profile-card-4 z-depth-3">
+                <div className="card">
+                    <div className="card-body text-center bg-primary rounded-top">
+                        <div className="user-box">
+                        <img src={props.ImageUrl} alt="user avatar"/>
                     </div>
+                    <h5 className="mb-1 text-white">{props.Surname} {props.Firstname}</h5>
+                    <p className="small mb-3"><span className={badge}>{props.Sex}</span></p>
+               </div>
+               <div className="card-body">
+                 <ul className="list-group shadow-none">
+                 <li className="list-group-item">
+                    <div className="list-details">
+                        <div className="row text-center mt-4">
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">RegNumber:</small>
+                            </div>
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">{props.RegNumber}</small>
+                            </div>
+                        </div> 
+                        <div className="row text-center mt-4">
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">Email:</small>
+                            </div>
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">{props.Email}</small>
+                            </div>
+                        </div>
+                        <div className="row text-center mt-4">
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">Address:</small>
+                            </div>
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">{props.Address}</small>
+                            </div>
+                        </div>
+                        <div className="row text-center mt-4">
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">PhoneNo:</small>
+                            </div>
+                            <div className="col p-2">
+                                <small className="mb-1 line-height-5">{props.PhoneNo}</small>
+                            </div>
+                        </div>                
+                   </div>
+                 </li>               
+                 </ul>
                 </div>
+               
             </div>
-            <hr className="my-4" />
-            <button className="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>
         </div>
     )
 }
-
+const DetailsAdmin =(props)=>{
+    const btnEdit = props.User.role === 'admin'?<button className="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>:<button className=' btn btn-primary disabled' disabled >Edit</button>
+    const history = useHistory()
+    let badge = props.Sex === 'Male' ?'badge badge-primary':'badge badge-info'
+    return(
+        <div className="profile-card-4 z-depth-3">
+            <div className="card">
+                <div className="card-body text-center bg-primary rounded-top">
+                    <div className="user-box">
+                    <img src={props.ImageUrl} alt="user avatar"/>
+                </div>
+                <h5 className="mb-1 text-white">{props.Surname} {props.Firstname}</h5>
+                <p className="small mb-3"><span className={badge}>{props.Sex}</span></p>
+           </div>
+           <div className="card-body">
+             <ul className="list-group shadow-none">
+             <li className="list-group-item">
+                <div className="list-details">
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">RegNumber:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.RegNumber}</small>
+                        </div>
+                    </div>  
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Email:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Email}</small>
+                        </div>
+                    </div> 
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Address:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Address}</small>
+                        </div>
+                    </div> 
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">PhoneNo:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.PhoneNo}</small>
+                        </div>
+                    </div>  
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">DOB:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Dob}</small>
+                        </div>
+                    </div> 
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">MaritalStatus:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.MaritalStatus}</small>
+                        </div>
+                    </div> 
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Wedding Anniversary:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.WeddingAnniversary}</small>
+                        </div>
+                    </div>
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Occupation:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Occupation}</small>
+                        </div>
+                    </div>
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Occupation:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Occupation}</small>
+                        </div>
+                    </div> 
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Business:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Business}</small>
+                        </div>
+                    </div>
+                    <div className="row text-center mt-4">
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">Expertise:</small>
+                        </div>
+                        <div className="col p-2">
+                            <small className="mb-1 line-height-5">{props.Expertise}</small>
+                        </div>
+                    </div>             
+               </div>
+             </li>
+             </ul>
+            </div>
+            {btnEdit}
+        </div>
+    </div>
+    )
+}
 
 const JourneyHistry = (props)=>{
     
@@ -267,7 +382,7 @@ const JourneyHistry = (props)=>{
 
     return(
         <div style={{overflowX:'auto'}} className="table-responsive-xl">    
-        <h5>History</h5>
+       
         <br/>
         <table className="table table-hover">
             <thead>
@@ -307,13 +422,13 @@ const JourneyHistry = (props)=>{
 }
 
 const JourneyAttendance = (props)=>{
-    const [dateValue,setDateValue] = useState('')
+    
     const [modal, setModal] = useState(false)
     const [visible, setVisible] = React.useState(0)
     const Attendance22 = (e)=>{
 
-        let dateAttend = JSON.stringify({date:dateValue})
-        fetch(`${baseUrl}/api/v1/member/attendance/${props.id}`,{
+        let dateAttend = JSON.stringify({id:props.id})
+        fetch(`${baseUrl}/api/v1/member/attendance`,{
             method: 'POST',
             body:dateAttend,
             headers:{
@@ -344,9 +459,37 @@ const JourneyAttendance = (props)=>{
             }
         })
       }
-    
-
-    const btnAtt = props.currentJourney.JourneyPriority === 6?<button className=' btn btn-primary disabled' disabled >You are done with your journey</button>:<button className='btn btn-primary' onClick={() => (dateValue?setModal(!modal):setVisible(10))} >Attend</button>
+    const CheckDate = (e)=>{
+        fetch(`${baseUrl}/api/v1/journeyDate/checkJourneyDate`,{
+            method: 'GET'
+        })
+        .then((res)=>res.json())
+        .then((data)=>{ 
+            console.log(data)
+            if(data){
+                if(data.status === 'success'){ 
+                    setModal(!modal)      
+                }else{
+                    if(data.status === 'not found'){
+                        setVisible(10)                
+                    }else{
+                        if(data.status === 'fail'){
+                          return toast(data.message?data.message:'')
+                        }
+                    }
+                }  
+            }
+        })
+        .catch((err)=>{
+            if(err){
+            console.log(err) 
+            alert(err)
+            }
+        })
+      
+    }
+    //   (dateValue?setModal(!modal):setVisible(10))
+    const btnAtt = props.currentJourney.JourneyPriority === 6?<button className=' btn btn-primary disabled' disabled >You are done with your journey</button>:<button className='btn btn-primary' onClick={(e) => CheckDate(e)} >Attend</button>
 
 
     return(
@@ -387,32 +530,33 @@ const JourneyAttendance = (props)=>{
                   className="mb-3"
                 />
               </CAlert>
-            <div className="row mb-4">
-                <div className="col-md-7">                       
-                        <br/>
-                    <div className="row align-items-center">
-                        <div className="col-md-7">
-                            <h6 className="mb-1">Current Journey: {props.currentJourney.JourneyName}</h6>
-                        </div>
-
-                        <br/>
-
-                        <div className="col-md-7">
-                            <h6 className="mb-1">Next Journey: {props.nextJourney.JourneyName}</h6>
-                        </div>
-                    </div>
-                    <br/>
-                    <CFormGroup row>
-                        <CCol  md="6">
-                            <input type="date" id="date-input" name="dob" className="form-control" onChange={(e)=>setDateValue(e.target.value)}/>
-                            <CFormText className="help-block">Please enter Date Attend </CFormText>
-                        </CCol>
-                        <CCol  md="6">
-                                {btnAtt}
-                        </CCol>
-                </CFormGroup>
+            <div> 
+                <div>
+                    <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Current Journey</th>
+                                <th scope="col">Next Journey</th>                                              
+                            </tr>
+                        </thead>
+                        <tbody>                                                  
+                            <tr>
+                                <th scope="row">{props.currentJourney.JourneyName}</th>
+                                <td>{props.nextJourney.JourneyName}</td>
+                            </tr>                                    
+                        </tbody>
+                    </table>
                 </div>
+                  
+                <br/>
+                <CFormGroup row>
+                    <CCol  md="6">
+                            {btnAtt}
+                    </CCol>
+                </CFormGroup>
+           
             </div>
+           
         </div>
     )
 }
