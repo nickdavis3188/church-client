@@ -16,8 +16,7 @@ const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 const Login = React.lazy(() => import('./views/pages/login/Login'));
 const Register = React.lazy(() => import('./views/pages/register/Register'));
 const ForgotPassword = React.lazy(() => import('./views/pages/forgotPassword/forgotPassword'));
-// const ResetPassword = React.lazy(() => import('./views/pages/passwordReset/resetPassword'));
-// render={props => <TheLayout {...props}/>}
+
 class App extends Component {
 
   render() {
@@ -30,8 +29,7 @@ class App extends Component {
               <Route exact path="/forgotP" name="ForgotPassword Page" render={props => <ForgotPassword {...props}/>} />
               <Route exact path="/resetPassword/:id" name="ResetPassword Page" render={props => <ResetPassword {...props}/>} />
               <Route path="/" name="Home" component={TheLayout} />
-              {/* <Route exact path="*" name="Page 404" render={props => <Page404 {...props}/>} /> */}
-              {/* <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} /> */}
+            
             </Switch>
           </React.Suspense>
       </BrowserRouter>
