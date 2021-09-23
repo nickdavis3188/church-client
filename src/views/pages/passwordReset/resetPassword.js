@@ -2,10 +2,10 @@ import React,{useState} from 'react'
 import { useHistory} from 'react-router-dom'
 
 import {
-  CButton,
+  // CButton,
   CCard,
   CCardBody,
-  CCardGroup,
+  // CCardGroup,
   CCol,
   CContainer,
   CForm,
@@ -23,7 +23,7 @@ import baseUrl from '../../../config/config'
 
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import auth from '../../../auth'
+// import auth from '../../../auth'
 
 
 const Login = ({match}) => {
@@ -49,7 +49,7 @@ const Login = ({match}) => {
       .then((data)=>{ 
         console.log(data)
         if(data.status ==='success'){
-          toast(data.message?data.message:'')
+          toast('Password Reset Successful')
           history.push('/login')
         }else{
           if(data.status === 'fail'){
@@ -103,6 +103,7 @@ const Login = ({match}) => {
               </CCard>
           </CCol>
         </CRow>
+        <ToastContainer/>
       </CContainer>
     </div>
  

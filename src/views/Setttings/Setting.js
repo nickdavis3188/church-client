@@ -126,7 +126,7 @@ const Settings = (props)=>{
         })
       }
 
-      let dateBtn = dateChekValue === 'success'?<button className=' btn btn-primary disabled' disabled >journey Date Is Set</button>:<button className=' btn btn-primary' onClick={(e)=>setJourneyDate(e)}>Set Journey Date</button>
+      let dateBtn = dateChekValue === 'success'?<button className=' btn btn-primary disabled' disabled >journey Date Is Already Set</button>:<button className=' btn btn-primary' onClick={(e)=>setJourneyDate(e)}>Set Journey Date</button>
     return(
         <>
         <h4>Journey Setting</h4>

@@ -395,7 +395,7 @@ const SearchResult = (props)=>{
               <td>
                 <div>{`${e.Surname} ${e.Firstname}`}</div>
                 <div className="small text-muted">
-                <span>New</span> |Registerd at {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
+                <span>New</span> |Registerd on {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
                 </div>
               </td>
               
