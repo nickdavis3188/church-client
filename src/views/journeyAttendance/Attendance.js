@@ -521,7 +521,7 @@ const JourneyAttendance = (props)=>{
                 closeButton
                 onShowChange={setVisible}
               >
-                Please insert date attend...
+                Journey Date Not Set...
                 <CProgress
                   striped
                   color="warning"
