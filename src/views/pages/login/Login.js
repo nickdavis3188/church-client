@@ -40,42 +40,35 @@ const Login = () => {
   })
 
   useEffect(()=>{
-    let token = JSON.parse(localStorage.getItem('Token'));
+    async function loadfun(){
+      let token = JSON.parse(localStorage.getItem('Token'));
+      const reval = await fetch(`${baseUrl}/api/v1/auth/checklog`,{
+          method: 'GET',
+            headers:{
+              'authorization':`Bearer ${token}`
+            }
+          } 
+        )
+        const data = await reval.json()
+        if(data.status === 'success'){
+          auth.login()  
+          setResValue({status:'success',resBody:'Login successful'})    
+          return toast('User still active') 
+        }else{
+          if(data.status === 'fail'){
+            auth.logOut()
+          }else{
+            if(data.status === 'error'){
+              auth.logOut()
+             
+            }
 
-    fetch(`${baseUrl}/api/v1/auth/checklog`,{
-        method: 'GET',
-        headers:{
-          'authorization':`Bearer ${token}`
-        } 
-    })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        console.log(data)
-        if(data){
-            if(data.status === 'success'){
-              auth.login()  
-              setResValue({status:'success',resBody:'Login successful'})    
-              return toast('User still active')    
-            }else{
-              if(data.status === 'fail'){
-                auth.logOut()
-                //  window.location.reload()
-              }else{
-                if(data.status === 'error'){
-                  auth.logOut()
-                  //  window.location.reload()
-                }
-
-              }
-            } 
+          }
         }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    })
+    }
+    
+    loadfun()
+   
 
   },[])
 
