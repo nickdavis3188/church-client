@@ -124,6 +124,19 @@ const Attendance = ({match,User})=>{
     })
   },[])
     //    e.preventDefault()
+    const formatDate = (date)=>{
+        var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+      }
     return(
         <>   
 
@@ -140,7 +153,7 @@ const Attendance = ({match,User})=>{
                    Email={details.Email?details.Email:""}
                    RegNumber={details.RegNumber?details.RegNumber:""}
                    Sex={details.Sex?details.Sex:""}
-                   Dob={details.Dob?new Date(details.Dob).toLocaleDateString():""}
+                   Dob={details.Dob?formatDate(details.Dob):""}
                    MaritalStatus={details.MaritalStatus?details.MaritalStatus:""}
                    WeddingAnniversary={details.WeddingAnniversary?new Date(details.WeddingAnniversary).toLocaleDateString():""}
                    Occupation={details.Occupation?details.Occupation:""}
@@ -315,7 +328,7 @@ const DetailsAdmin =(props)=>{
                             <small className="mb-1 line-height-5">DOB:</small>
                         </div>
                         <div className="col p-2">
-                            <small className="mb-1 line-height-5">{props.Dob}</small>
+                            <small className="mb-1 line-height-5">{props.Dob?`${new Date(props.Dob).getDate()}/${new Date(props.Dob).getMonth() + 1}`:''}</small>
                         </div>
                     </div> 
                     <div className="row text-center mt-4">

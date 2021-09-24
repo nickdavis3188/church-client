@@ -136,7 +136,6 @@ const MemberRegistration = ()=>{
               console.log(data.data[0].journeyAttend?data.data[0].journeyAttend.length:'')
               // setJourneyAtt(data.data[0].journeyAttend.length >= 1?data.data[0].journeyAttend.length:0)
               setResult(data.data)
-              return toast('successful')
             }else{
                 if(data.status === 'fail'){
                   return toast(data.message?data.message:'')
@@ -371,7 +370,7 @@ const SearchResult = (props)=>{
 
    
   return(
-    <table className="table table-hover table-outline d-none d-sm-table">
+    <table className="table table-hover table-outline">
     <thead className="thead-light">
       <tr>
       <th className="text-center"><CIcon name="cil-people" /></th>
@@ -387,7 +386,7 @@ const SearchResult = (props)=>{
             <tr onClick={()=> history.push(`/journey/${e.RegNumber}`)} key={i}>
               <td className="text-center">
                 <div className="c-avatar">
-                <img src={e.ImageUrl} className="c-avatar-img" alt="admin@bootstrapmaster.com" />
+                <img src={e.ImageUrl} className="c-avatar-img" alt="admin" />
                 <span className="c-avatar-status bg-success"></span>
                 </div>
               </td>

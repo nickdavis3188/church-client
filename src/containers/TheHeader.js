@@ -25,7 +25,7 @@ import {
 
 import {FaChurch} from "react-icons/fa"
 
-const TheHeader = () => {
+const TheHeader = ({User}) => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector(state => state.sidebarShow)
 
@@ -71,7 +71,7 @@ const TheHeader = () => {
         <TheHeaderDropdownNotif/>
         <TheHeaderDropdownTasks/>
         <TheHeaderDropdownMssg/>
-        <TheHeaderDropdown/>
+        <TheHeaderDropdown User={User}/>
       </CHeaderNav>
 
       <CSubheader className="px-3 justify-content-between">

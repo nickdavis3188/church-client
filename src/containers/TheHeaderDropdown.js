@@ -9,11 +9,12 @@ import {
   CImg, 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {FaUserLock} from "react-icons/fa"
+import {FaUserLock,FaAddressCard,FaAddressBook} from "react-icons/fa"
 import Auth from '../auth'
 import baseUrl from '../config/config'
 
-const TheHeaderDropdown = (props) => {
+
+const TheHeaderDropdown = ({User}) => {
   const [resValue,setResValue] = useState({
     status:'',
     resBody:''
@@ -81,14 +82,10 @@ const retval = await fetch(`${baseUrl}/api/v1/auth/checklog`,{
 }
 load(); 
 
-    // .catch((err)=>{
-    //     if(err){
-    //     console.log(err) 
-    //     alert(err)
-    //     }
-    // }) 
+  
   },[])
-  // let history = useHistory()
+ 
+
   return (
     <CDropdown
       inNav
@@ -100,7 +97,7 @@ load();
           <CImg
             src={resValue.resBody.photoUrl}
             className="c-avatar-img"
-            alt="admin@bootstrapmaster.com"
+            alt="admin"
           />
         </div>
       </CDropdownToggle>
@@ -116,8 +113,17 @@ load();
        
         <CDropdownItem>
          <CIcon name="cil-settings"className="mfe-2" alt="Settings" />&nbsp;<h6 onClick={()=>history.push('/Journeysettings')}>Settings </h6>      
-        </CDropdownItem>
-    
+        </CDropdownItem>      
+          {User.role === 'admin'?
+          <>
+           <CDropdownItem> 
+            <FaAddressCard/>&nbsp;<h6 onClick={()=> history.push('/inviteAdmin')}>InviteAdmin</h6>
+          </CDropdownItem>
+           <CDropdownItem> 
+            <FaAddressBook/>&nbsp;<h6 onClick={()=> history.push('/manage')}>ManageUser</h6>
+          </CDropdownItem>
+          </>
+          :''}       
         <CDropdownItem divider />
         <CDropdownItem>     
           <FaUserLock/>&nbsp;<h6 onClick={()=> logMeOut()}>LogOut</h6>

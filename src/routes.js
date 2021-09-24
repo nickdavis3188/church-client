@@ -20,6 +20,11 @@ const JourneyRegistration = React.lazy(()=> import("./views/registration/journey
 
 const BuldUpload = React.lazy(()=> import("./views/registration/bulkUpload/bulkUpload"))
 
+const AdminInvite = React.lazy(()=> import("./views/registration/Invite/AdminInvite"))
+
+const AdminManage = React.lazy(()=> import("./views/Manegement/Manage"))
+
+
 // const Attendance = React.lazy(()=> import("./views/journeyAttendance/Attendance"))
 
 // const MemberEdit = React.lazy(()=> import("./views/Edit/Edit"))
@@ -39,6 +44,8 @@ const routes = [
   {path: '/bulkUpload',exact:true, name: 'Bulk Upload', component:BuldUpload},
   {path: '/Journeysettings',exact:true, name: 'Settings', component:JourneySettings},
   {path: '/Journeysettings/:id', name: 'Edit Journey', component:JourneyEdit},
+  {path: '/inviteAdmin', name: 'Invite', component:AdminInvite},
+  {path: '/manage', name: 'Invite', component:AdminManage},
   // {path: '/register', name: 'Registration', component:MemberRegistration,  },
   // { path: '/users', exact: true,  name: 'Users', component: Users },
   // { path: '/users/:id', exact: true, name: 'User Details', component: User },
