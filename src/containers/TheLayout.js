@@ -26,7 +26,7 @@ const TheLayout = () => {
           setUser(data.data?data.data:'')
         }else{
           if(data.status === 'fail'){
-            alert(data.data?data.data:'')
+            console.log(data.data?data.data:'')
           }
         }
     }
