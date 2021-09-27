@@ -144,7 +144,6 @@ const BulkUpload = ()=>{
             </div>
             <br/>
                                                  
-            <hr/>
             {
                 failData.map((e,i)=>{
                     return(
