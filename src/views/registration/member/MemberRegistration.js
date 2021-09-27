@@ -1,5 +1,5 @@
 import React,{useState,useRef ,useEffect}from "react"
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory} from 'react-router-dom'
 import {
     // CButton,
     CCard,
@@ -25,7 +25,7 @@ import {FaSearch} from "react-icons/fa"
 
 
 
-const MemberRegistration = ()=>{
+const MemberRegistration = ({User})=>{
   const formdata = new FormData()
   const [fname,setFname] = useState('')
   const [sname,seSname] = useState('')
@@ -33,19 +33,19 @@ const MemberRegistration = ()=>{
   const [phone,setphone] = useState('')
   const [email,setemail] = useState('')
   const [regno,setregno] = useState('')
-  const [sex,setsex] = useState(null)
+  const [sex,setsex] = useState('')
   const [dob,setdob] = useState('')
-  const [maristat,setmaristat] = useState(null)
+  const [maristat,setmaristat] = useState('')
   const [wedanny,setwedanny] = useState('')
   const [ocupa,setocupa] = useState('')
   const [busin,setbusin] = useState('')
   const [exper,setexper] = useState('')
   const [datjo,setdatjo] = useState('')
-  const [fileValue,setFileValue] = useState(null)
+  const [fileValue,setFileValue] = useState('')
   
 
-  const [searchValue, setWord] = useState(null)
-  const [result1,setResult] = useState(null)
+  const [searchValue, setWord] = useState('')
+  const [result1,setResult] = useState([])
   // const [journeyAtt,setJourneyAtt] = useState(0)
   const ref = useRef();
   const dropMe=useRef(null)
@@ -155,8 +155,49 @@ const MemberRegistration = ()=>{
     }) 
   }
 
-    let showResult = result1?<SearchResult result={result1}  />:''
+  const history = useHistory()
 
+  // let num = props.journey.length
+   
+		// const searchRes = result1?<SearchResult result={result1} User2={User}/>:''
+		    const deleteAdmin = (a,i)=>{
+		 console.log(a,i)
+      let dateAttend = JSON.stringify({id:a})
+      fetch(`${baseUrl}/api/v1/member/deleteMember`,{
+          method: 'POST',
+          body:dateAttend,
+          headers:{
+            "Content-Type":"application/json",
+          }
+      })
+      .then((res)=>res.json())
+      .then((data)=>{ 
+         
+          if(data){
+              if(data.status === 'success'){  
+                    //  let newData = result1.splice(i,1)
+                let filterData = result1.filter((e)=> e._id !== a)
+                setResult(filterData)
+                return toast('Delete successfully')
+              }else{
+                  if(data.status === 'fail'){
+                    return toast(data.message?data.message:'')
+                  }else{
+                      if(data.status === 'error'){
+                        return toast(data.message?data.message:'')
+                      }
+                  }
+              }  
+          }
+      })
+      .catch((err)=>{
+          if(err){
+          console.log(err) 
+          alert(err)
+          }
+      })
+    
+    }
     return(
         <>
            <div className="input-group mb-3">
@@ -166,8 +207,74 @@ const MemberRegistration = ()=>{
                 </div>
             </div>
 
-            {showResult}
-
+		{
+			result1.length >= 1?
+				(
+				 <table className="table table-hover table-outline">
+				<thead className="thead-light">
+					  <tr>
+					  <th className="text-center"><CIcon name="cil-people" /></th>
+					  <th className="text-center">Member</th>
+					  <th className="text-center">PhoneNo</th>
+					  <th className="text-center">Email</th>
+					  <th className="text-center">Journey Progress</th>
+					  <th className="text-center">Action</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  {result1.map((e,i)=>{
+						return(
+							<tr key={i}>
+							  <td className="text-center">
+								<div className="c-avatar">
+								<img src={e.ImageUrl} className="c-avatar-img" alt="admin" />
+								<span className="c-avatar-status bg-success"></span>
+								</div>
+							  </td>
+							  
+							  <td>
+								<div>{`${e.Surname} ${e.Firstname}`}</div>
+								<div className="small text-muted">
+								<span>New</span> |Registerd on {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
+								</div>
+							  </td>
+							  
+							  <td>
+								<strong>{e.PhoneNo}</strong>
+							  </td>
+							  
+							  <td>
+								<strong>{e.Email}</strong>
+							  </td>
+							  
+							  <td>
+								<div className="clearfix">
+								<div className="float-left">
+								  <strong>
+								   {e.journeyAttend.length >= 1 ? 20*e.journeyAttend.length : 0}%
+								  </strong>
+								</div>
+								</div>
+								<CProgress className="progress-xs" color="success" value= {e.journeyAttend.length >= 1?20*e.journeyAttend.length:0} />
+							  </td>
+							  <td> 
+							  <button className='badge badge-primary text-center' onClick={()=> history.push(`/journey/${e.RegNumber}`)}>DETAILS</button>
+							  {
+								User.role === 'admin'?                                           
+								  <button className='badge badge-danger text-center' onClick={()=>deleteAdmin(e._id,i)}>DELETE</button>                   
+								:''
+							  }
+							  </td> 
+							</tr>
+						)
+					  })}
+					
+					</tbody>
+				  </table>
+			)
+			:''
+		}
+	
         <CCard>
         <CCardHeader>
           Membership
@@ -360,71 +467,117 @@ const MemberRegistration = ()=>{
       </>
     )
 }
+// const SearchResult = ({result,User2})=>{
+	// const [searchRes,setSearchRes] = useState([])
+	
+	
+	
+  // const history = useHistory()
 
-
-
-const SearchResult = (props)=>{
-  const history = useHistory()
-
-  // let num = props.journey.length
-
-   
-  return(
-    <table className="table table-hover table-outline">
-    <thead className="thead-light">
-      <tr>
-      <th className="text-center"><CIcon name="cil-people" /></th>
-      <th className="text-center">Member</th>
-      <th className="text-center">PhoneNo</th>
-      <th className="text-center">Email</th>
-      <th className="text-center">Journey Progress</th>
-      </tr>
-    </thead>
-    <tbody>
-      {props.result.map((e,i)=>{
-        return(
-            <tr onClick={()=> history.push(`/journey/${e.RegNumber}`)} key={i}>
-              <td className="text-center">
-                <div className="c-avatar">
-                <img src={e.ImageUrl} className="c-avatar-img" alt="admin" />
-                <span className="c-avatar-status bg-success"></span>
-                </div>
-              </td>
-              
-              <td>
-                <div>{`${e.Surname} ${e.Firstname}`}</div>
-                <div className="small text-muted">
-                <span>New</span> |Registerd on {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
-                </div>
-              </td>
-              
-              <td>
-                <strong>{e.PhoneNo}</strong>
-              </td>
-              
-              <td>
-                <strong>{e.Email}</strong>
-              </td>
-              
-              <td>
-                <div className="clearfix">
-                <div className="float-left">
-                  <strong>
-                   {e.journeyAttend.length >= 1 ? 20*e.journeyAttend.length : 0}%
-                  </strong>
-                </div>
-                </div>
-                <CProgress className="progress-xs" color="success" value= {e.journeyAttend.length >= 1?20*e.journeyAttend.length:0} />
-              </td>
-              
-            </tr>
-        )
-      })}
+	// return
+// }
     
-    </tbody>
-  </table>
-  )
-}
+
+// const SearchResult = (props)=>{
+//   const history = useHistory()
+
+//   // let num = props.journey.length
+//      const deleteAdmin = (a,i)=>{
+//       let dateAttend = JSON.stringify({id:a})
+//       fetch(`${baseUrl}/api/v1/auth/deleteAdmin`,{
+//           method: 'POST',
+//           body:dateAttend,
+//           headers:{
+//             "Content-Type":"application/json",
+//           }
+//       })
+//       .then((res)=>res.json())
+//       .then((data)=>{ 
+//           console.log(data)
+//           if(data){
+//               if(data.status === 'success'){  
+//                     //  let newData = result1.splice(i,1)
+//                 let filterData = result1.filter((e)=> e._id !== a)
+//                 setResult(filterData)
+//                 return toast('Delete successfully')
+//               }else{
+//                   if(data.status === 'fail'){
+//                     return toast(data.message?data.message:'')
+//                   }else{
+//                       if(data.status === 'error'){
+//                         return toast(data.message?data.message:'')
+//                       }
+//                   }
+//               }  
+//           }
+//       })
+//       .catch((err)=>{
+//           if(err){
+//           console.log(err) 
+//           alert(err)
+//           }
+//       })
+    
+//     }
+   
+//   return(
+//     <table className="table table-hover table-outline">
+//     <thead className="thead-light">
+//       <tr>
+//       <th className="text-center"><CIcon name="cil-people" /></th>
+//       <th className="text-center">Member</th>
+//       <th className="text-center">PhoneNo</th>
+//       <th className="text-center">Email</th>
+//       <th className="text-center">Journey Progress</th>
+//       </tr>
+//     </thead>
+//     <tbody>
+//       {props.result.map((e,i)=>{
+//         return(
+//             <tr onClick={()=> history.push(`/journey/${e.RegNumber}`)} key={i}>
+//               <td className="text-center">
+//                 <div className="c-avatar">
+//                 <img src={e.ImageUrl} className="c-avatar-img" alt="admin" />
+//                 <span className="c-avatar-status bg-success"></span>
+//                 </div>
+//               </td>
+              
+//               <td>
+//                 <div>{`${e.Surname} ${e.Firstname}`}</div>
+//                 <div className="small text-muted">
+//                 <span>New</span> |Registerd on {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
+//                 </div>
+//               </td>
+              
+//               <td>
+//                 <strong>{e.PhoneNo}</strong>
+//               </td>
+              
+//               <td>
+//                 <strong>{e.Email}</strong>
+//               </td>
+              
+//               <td>
+//                 <div className="clearfix">
+//                 <div className="float-left">
+//                   <strong>
+//                    {e.journeyAttend.length >= 1 ? 20*e.journeyAttend.length : 0}%
+//                   </strong>
+//                 </div>
+//                 </div>
+//                 <CProgress className="progress-xs" color="success" value= {e.journeyAttend.length >= 1?20*e.journeyAttend.length:0} />
+//               </td>
+//               <td>                
+//                   <button className='badge badge-danger text-center' onClick={()=>deleteAdmin(e._id,i)}>DELETE</button>
+//                 </td> 
+//             </tr>
+//         )
+//       })}
+    
+//     </tbody>
+//   </table>
+//   )
+// }
 // {
 //   props.result.journeyAttend?
 //   props.result.journeyAttend.length >= 1?

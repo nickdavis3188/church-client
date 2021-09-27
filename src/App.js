@@ -16,6 +16,7 @@ const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 const Login = React.lazy(() => import('./views/pages/login/Login'));
 const Register = React.lazy(() => import('./views/pages/register/Register'));
 const ForgotPassword = React.lazy(() => import('./views/pages/forgotPassword/forgotPassword'));
+const Test = React.lazy(() => import('./views/pages/Upload'));
 
 class App extends Component {
 
@@ -28,6 +29,7 @@ class App extends Component {
               <Route exact path="/signup" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/forgotP" name="ForgotPassword Page" render={props => <ForgotPassword {...props}/>} />
               <Route exact path="/resetPassword/:id" name="ResetPassword Page" render={props => <ResetPassword {...props}/>} />
+              <Route exact path="/test" name="upload" render={props => <Test {...props}/>} />
               <Route path="/" name="Home" component={TheLayout} />
             
             </Switch>

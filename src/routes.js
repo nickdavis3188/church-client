@@ -25,6 +25,8 @@ const AdminInvite = React.lazy(()=> import("./views/registration/Invite/AdminInv
 const AdminManage = React.lazy(()=> import("./views/Manegement/Manage"))
 
 
+
+
 // const Attendance = React.lazy(()=> import("./views/journeyAttendance/Attendance"))
 
 // const MemberEdit = React.lazy(()=> import("./views/Edit/Edit"))

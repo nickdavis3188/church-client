@@ -171,6 +171,7 @@ const BulkUpload = ()=>{
                     <thead>
                         <tr>
                         <th scope="col">RegNumber</th>
+                        <th scope="col">Firstname</th>
                         <th scope="col">Surname</th>
                         <th scope="col">Address</th>
                         <th scope="col">PhoneNo</th>
@@ -189,6 +190,7 @@ const BulkUpload = ()=>{
                             return(
                             <tr key={i}>
                                 <td>{e.RegNumber}</td>
+                                <td>{e.Firstname}</td>
                                 <td>{e.Surname}</td>
                                 <td>{e.Address}</td>
                                 <td>{e.PhoneNo}</td>

@@ -40,7 +40,7 @@ const loadData = async ()=>{
         method: 'GET',
     })
    const data = await res.json()
-   console.log(data.data.total) 
+   // console.log(data.data) 
   if(data){
       if(data.status === 'success'){
         setWidgetValue({Total:data.data.total?data.data.total:'',Male:data.data.male?data.data.male:'',Female:data.data.female?data.data.female:''})
@@ -125,11 +125,12 @@ const Chat = (props) =>{
       })
       .then((res)=>res.json())
       .then((data)=>{ 
-          //console.log(data)
+          
           if(data){
               if(data.status === 'success'){
                 setMaleArr(data.data.Male?data.data.Male:[])
                 setFemaleArr(data.data.Female?data.data.Female:[])
+				// console.log('Dboard',data.data)
                 // setDashboardValues({Male:,Female:})
                 // return toast('success')
               }else{
@@ -168,11 +169,11 @@ const Chat = (props) =>{
     })
     .then((res)=>res.json())
     .then((data)=>{ 
-        console.log(data)
+        // console.log(data)
         if(data){
             if(data.status === 'success'){  
-              console.log(data.data.male)
-              console.log(data.data.female)
+              // console.log(data.data.male)
+              // console.log(data.data.female)
              
                 setMaleArr(data.data.male.length >= 1?data.data.male:[])
         

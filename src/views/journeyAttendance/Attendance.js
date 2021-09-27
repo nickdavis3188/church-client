@@ -277,6 +277,51 @@ const DetailsAdmin =(props)=>{
     const btnEdit = props.User.role === 'admin'?<button className="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>:<button className=' btn btn-primary disabled' disabled >Edit</button>
     const history = useHistory()
     let badge = props.Sex === 'Male' ?'badge badge-primary':'badge badge-info'
+	
+	const monthInWords = (num)=>{
+	 let month = ['Jan','Feb','Mar','Apl','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+	let result22 = ''
+	if(num == 1){
+		result22 = month[0]
+	}
+	else if(num == 2){
+		result22 = month[1]
+	}
+	else if(num == 3){
+		result22 = month[2]
+	}
+	else if(num == 4){
+		result22 = month[3]
+	}
+	else if(num == 5){
+		result22 = month[4] 
+	}
+	else if(num == 6){
+		result22 = month[5]
+	}
+	else if(num == 7){
+		result22 = month[6]
+	}
+	else if(num == 8){
+		result22 = month[7]
+	}
+	else if(num == 9){
+		result22 = month[8]
+	}
+	else if(num == 10){
+		result22 = month[9]
+	}
+	else if(num == 11){
+		result22 = month[10]
+	}
+	else if(num == 12){
+		result22 = month[11]
+	}
+	else{
+		result22 = 'MonthError'
+	}
+	return result22
+}
     return(
         <div className="profile-card-4 z-depth-3">
             <div className="card">
@@ -328,7 +373,7 @@ const DetailsAdmin =(props)=>{
                             <small className="mb-1 line-height-5">DOB:</small>
                         </div>
                         <div className="col p-2">
-                            <small className="mb-1 line-height-5">{props.Dob?`${new Date(props.Dob).getDate()}/${new Date(props.Dob).getMonth() + 1}`:''}</small>
+                            <small className="mb-1 line-height-5">{props.Dob?`${new Date(props.Dob).getDate()} - ${monthInWords(new Date(props.Dob).getMonth() + 1)}`:''}</small>
                         </div>
                     </div> 
                     <div className="row text-center mt-4">
