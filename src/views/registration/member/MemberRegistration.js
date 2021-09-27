@@ -11,7 +11,11 @@ import {
     CFormGroup,
     CFormText,
     CLabel,
-    CProgress
+    CProgress,
+	CDropdown,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
 } from '@coreui/react';
 
 import CIcon from '@coreui/icons-react';
@@ -22,6 +26,8 @@ import baseUrl from '../../../config/config'
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {FaSearch} from "react-icons/fa"
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 
 
 
@@ -198,6 +204,7 @@ const MemberRegistration = ({User})=>{
       })
     
     }
+
     return(
         <>
            <div className="input-group mb-3">
@@ -258,17 +265,23 @@ const MemberRegistration = ({User})=>{
 								<CProgress className="progress-xs" color="success" value= {e.journeyAttend.length >= 1?20*e.journeyAttend.length:0} />
 							  </td>
 							  <td> 
-							  <button className='badge badge-primary text-center' onClick={()=> history.push(`/journey/${e.RegNumber}`)}>DETAILS</button>
-							  {
-								User.role === 'admin'?                                           
-								  <button className='badge badge-danger text-center' onClick={()=>deleteAdmin(e._id,i)}>DELETE</button>                   
-								:''
-							  }
+								<DropdownButton className="text-center" id="dropdown-item-button" title="Action" variant="secondary">
+								  <Dropdown.ItemText>TAKE ACTION</Dropdown.ItemText>
+								  <Dropdown.Item as="button" onClick={()=> history.push(`/journey/${e.RegNumber}`)} >INFO</Dropdown.Item>								  
+								  {
+									  User.role === "admin"?
+									  <>
+									  <Dropdown.Item as="button" onClick={()=> history.push(`/Members/${e.RegNumber}`)}>EDIT</Dropdown.Item>
+									  <Dropdown.Item as="button" onClick={()=>deleteAdmin(e._id,i)}>DELETE</Dropdown.Item>
+									  </>
+									  :''
+								  }
+								  
+								</DropdownButton>						 
 							  </td> 
 							</tr>
 						)
-					  })}
-					
+					  })}				
 					</tbody>
 				  </table>
 			)
