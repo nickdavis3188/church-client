@@ -208,10 +208,12 @@ const MemberRegistration = ({User})=>{
     return(
         <>
            <div className="input-group mb-3">
+				<CForm>
                 <input type="text" className="form-control" placeholder="Search members by Surname RegNumber and PhoneNo" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=>setWord(e.target.value)}/>
                 <div className="input-group-append">
                     <button className="input-group-text" id="basic-addon2" onClick={(e)=>searchUser(e)}><FaSearch/></button>
                 </div>
+				</CForm>
             </div>
 
 		{
