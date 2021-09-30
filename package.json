@@ -84,5 +84,5 @@
     "node": ">=10",
     "npm": ">=6"
   },
-  "proxy": "https://dtmdms.herokuapp.com/"
+  "proxy": "http://localhost:3000/"
 }

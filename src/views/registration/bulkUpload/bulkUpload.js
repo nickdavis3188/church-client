@@ -61,6 +61,9 @@ const BulkUpload = ()=>{
     
    const sendFile = (e)=>{
        e.preventDefault()
+	   if(failData.length < 1){
+		   return toast('File Not Selected...')
+	   }
       let sendData = JSON.stringify(datas)
     console.log(datas)
 
@@ -176,10 +179,11 @@ const BulkUpload = ()=>{
                         <th scope="col">PhoneNo</th>
                         <th scope="col">Sex</th>
                         <th scope="col">Email</th>
-                        <th scope="col">DOB</th>
+                        <th scope="col">Dob</th>
                         <th scope="col">MaritalStatus</th>
                         <th scope="col">WeddingAnniversary</th>
                         <th scope="col">Occupation</th>
+					    <th scope="col">Business</th>
                         <th scope="col">Expertise</th>
                         <th scope="col">DateJoinedTKA</th>
                         </tr>
@@ -195,10 +199,11 @@ const BulkUpload = ()=>{
                                 <td>{e.PhoneNo}</td>
                                 <td>{e.Sex}</td>
                                 <td>{e.Email}</td>
-                                <td>{e.DOB?new Date(ExcelDateToJSDate(e.DOB)).toLocaleDateString():''}</td>
+                                <td>{e.Dob?new Date(ExcelDateToJSDate(e.Dob)).toLocaleDateString():''}</td>
                                 <td>{e.MaritalStatus}</td>
                                 <td>{e.WeddingAnniversary?new Date(ExcelDateToJSDate(e.WeddingAnniversary)).toLocaleDateString():''}</td>
                                 <td>{e.Occupation}</td>
+								<td>{e.Business}</td>
                                 <td>{e.Expertise}</td>
                                 <td>{e.DateJoinedTKA?new Date(ExcelDateToJSDate(e.DateJoinedTKA)).toLocaleDateString():''}</td>
                             </tr>)
