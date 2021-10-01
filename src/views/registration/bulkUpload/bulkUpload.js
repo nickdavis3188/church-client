@@ -61,7 +61,7 @@ const BulkUpload = ()=>{
     
    const sendFile = (e)=>{
        e.preventDefault()
-	   if(failData.length < 1){
+	   if(fileValues.file){
 		   return toast('File Not Selected...')
 	   }
       let sendData = JSON.stringify(datas)
