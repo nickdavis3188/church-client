@@ -270,7 +270,7 @@ const MemberRegistration = ({User})=>{
 							  <td> 
 								<DropdownButton className="text-center" id="dropdown-item-button" title="Action" variant="secondary">
 								  <Dropdown.ItemText>TAKE ACTION</Dropdown.ItemText>
-								  <Dropdown.Item as="button" onClick={()=> history.push(`/journey/${e.RegNumber}`)} >INFO</Dropdown.Item>								  
+								  <Dropdown.Item as="button" onClick={()=> history.push(`/journey/${e._id}`)} >INFO</Dropdown.Item>								  
 								  {
 									  User.role === "admin"?
 									  <>

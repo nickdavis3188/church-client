@@ -62,8 +62,8 @@ const Attendance = ({match,User})=>{
     const [JourneyAttLeng,setJourneyAttLeng] = useState(0)
 
   useEffect(()=>{
-    let mydata = JSON.stringify({word:`${match.params.id}`})
-    fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
+    let mydata = JSON.stringify({id:`${match.params.id}`})
+    fetch(`${baseUrl}/api/v1/member/getSingleMemById`,{
         method: 'POST',
         body:mydata,
         headers:{
