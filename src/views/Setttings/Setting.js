@@ -135,16 +135,19 @@ const Settings = (props)=>{
             journey22.map((e,i)=>{
             
                 return(
-                        <div className="list-group-item list-group-item-action flex-column align-items-start " key={i}>
-                            <div className="d-flex w-100 justify-content-between">
-                                <GiOpenFolder size="70px" onClick={()=>history.push(`/Journeysettings/${e._id}`)} data-toggle="tooltip" data-placement="top" title={e.JourneyName}/>                      
-                            </div>
-                             <small>{e.JourneyName}</small>
-                        </div>
+					<div className="list-group-item list-group-item-action flex-column align-items-start " key={i}>
+						<div className="d-flex w-100 justify-content-between">
+							<GiOpenFolder size="70px" onClick={()=>history.push(`/Journeysettings/${e._id}`)} data-toggle="tooltip" data-placement="top" title={e.JourneyName}/>                      
+						</div>
+						 <small>{e.JourneyName}</small>
+					</div>
                 )           
             })}
         </div>
+		
         <br/>
+		<hr/>
+		
         <h4>Journey Date</h4>
         <CFormGroup row>
             <CCol  md="6">
@@ -155,6 +158,15 @@ const Settings = (props)=>{
                 {dateBtn}
             </CCol>
         </CFormGroup>
+		
+		<br/>
+		<hr/>
+		
+		<h4>Journey Registration</h4>
+		<button className=' btn btn-primary' onClick={(e)=> history.push('/journey')}>Journey</button>
+		<hr/>
+		<br/>
+		
         <ToastContainer/>
         </>
     )

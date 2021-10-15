@@ -4,6 +4,7 @@ import JourneyEdit from "./views/Edit/journeyEdit"
 import Attendance from "./views/journeyAttendance/Attendance"
 import  MemberEdit from "./views/Edit/Edit"
 import BuldUpload from "./views/registration/bulkUpload/bulkUpload"
+import MemberInfo from "./views/Info/MemberInfo"
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 // const Users = React.lazy(() => import('./views/users/Users'));
 // const User = React.lazy(() => import('./views/users/User'));
@@ -42,6 +43,7 @@ const routes = [
   {path: '/Members/:id', name: 'Edit Member', component:MemberEdit},
   {path: '/journey',exact:true, name: 'Register Journey', component:JourneyRegistration },
   {path: '/journey/:id', name: 'Journey Attendance', component:Attendance },
+  {path: '/info/:id', name: 'Member Info', component:MemberInfo },
   {path: '/bulkUpload',exact:true, name: 'Bulk Upload', component:BuldUpload},
   {path: '/Journeysettings',exact:true, name: 'Settings', component:JourneySettings},
   {path: '/Journeysettings/:id', name: 'Edit Journey', component:JourneyEdit},

@@ -11,11 +11,7 @@ import {
     CFormGroup,
     CFormText,
     CLabel,
-    CProgress,
-	CDropdown,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
+    CProgress
 } from '@coreui/react';
 
 import CIcon from '@coreui/icons-react';
@@ -270,11 +266,12 @@ const MemberRegistration = ({User})=>{
 							  <td> 
 								<DropdownButton className="text-center" id="dropdown-item-button" title="Action" variant="secondary">
 								  <Dropdown.ItemText>TAKE ACTION</Dropdown.ItemText>
-								  <Dropdown.Item as="button" onClick={()=> history.push(`/journey/${e._id}`)} >INFO</Dropdown.Item>								  
+								  <Dropdown.Item as="button" onClick={()=> history.push(`/info/${e._id}`)} >INFO</Dropdown.Item>	
+								  <Dropdown.Item as="button" onClick={()=> history.push(`/journey/${e._id}`)} >ATTENDANCE</Dropdown.Item>	
 								  {
 									  User.role === "admin"?
 									  <>
-									  <Dropdown.Item as="button" onClick={()=> history.push(`/Members/${e.RegNumber}`)}>EDIT</Dropdown.Item>
+									  <Dropdown.Item as="button" onClick={()=> history.push(`/Members/${e._id}`)}>EDIT</Dropdown.Item>
 									  <Dropdown.Item as="button" onClick={()=>deleteAdmin(e._id,i)}>DELETE</Dropdown.Item>
 									  </>
 									  :''
@@ -483,121 +480,5 @@ const MemberRegistration = ({User})=>{
       </>
     )
 }
-// const SearchResult = ({result,User2})=>{
-	// const [searchRes,setSearchRes] = useState([])
-	
-	
-	
-  // const history = useHistory()
 
-	// return
-// }
-    
-
-// const SearchResult = (props)=>{
-//   const history = useHistory()
-
-//   // let num = props.journey.length
-//      const deleteAdmin = (a,i)=>{
-//       let dateAttend = JSON.stringify({id:a})
-//       fetch(`${baseUrl}/api/v1/auth/deleteAdmin`,{
-//           method: 'POST',
-//           body:dateAttend,
-//           headers:{
-//             "Content-Type":"application/json",
-//           }
-//       })
-//       .then((res)=>res.json())
-//       .then((data)=>{ 
-//           console.log(data)
-//           if(data){
-//               if(data.status === 'success'){  
-//                     //  let newData = result1.splice(i,1)
-//                 let filterData = result1.filter((e)=> e._id !== a)
-//                 setResult(filterData)
-//                 return toast('Delete successfully')
-//               }else{
-//                   if(data.status === 'fail'){
-//                     return toast(data.message?data.message:'')
-//                   }else{
-//                       if(data.status === 'error'){
-//                         return toast(data.message?data.message:'')
-//                       }
-//                   }
-//               }  
-//           }
-//       })
-//       .catch((err)=>{
-//           if(err){
-//           console.log(err) 
-//           alert(err)
-//           }
-//       })
-    
-//     }
-   
-//   return(
-//     <table className="table table-hover table-outline">
-//     <thead className="thead-light">
-//       <tr>
-//       <th className="text-center"><CIcon name="cil-people" /></th>
-//       <th className="text-center">Member</th>
-//       <th className="text-center">PhoneNo</th>
-//       <th className="text-center">Email</th>
-//       <th className="text-center">Journey Progress</th>
-//       </tr>
-//     </thead>
-//     <tbody>
-//       {props.result.map((e,i)=>{
-//         return(
-//             <tr onClick={()=> history.push(`/journey/${e.RegNumber}`)} key={i}>
-//               <td className="text-center">
-//                 <div className="c-avatar">
-//                 <img src={e.ImageUrl} className="c-avatar-img" alt="admin" />
-//                 <span className="c-avatar-status bg-success"></span>
-//                 </div>
-//               </td>
-              
-//               <td>
-//                 <div>{`${e.Surname} ${e.Firstname}`}</div>
-//                 <div className="small text-muted">
-//                 <span>New</span> |Registerd on {e.createdAt?new Date(e.createdAt).toLocaleDateString():''}
-//                 </div>
-//               </td>
-              
-//               <td>
-//                 <strong>{e.PhoneNo}</strong>
-//               </td>
-              
-//               <td>
-//                 <strong>{e.Email}</strong>
-//               </td>
-              
-//               <td>
-//                 <div className="clearfix">
-//                 <div className="float-left">
-//                   <strong>
-//                    {e.journeyAttend.length >= 1 ? 20*e.journeyAttend.length : 0}%
-//                   </strong>
-//                 </div>
-//                 </div>
-//                 <CProgress className="progress-xs" color="success" value= {e.journeyAttend.length >= 1?20*e.journeyAttend.length:0} />
-//               </td>
-//               <td>                
-//                   <button className='badge badge-danger text-center' onClick={()=>deleteAdmin(e._id,i)}>DELETE</button>
-//                 </td> 
-//             </tr>
-//         )
-//       })}
-    
-//     </tbody>
-//   </table>
-//   )
-// }
-// {
-//   props.result.journeyAttend?
-//   props.result.journeyAttend.length >= 1?
-//   20*props.result.journeyAttend.length:0
-//   :''
-// }
 export default MemberRegistration

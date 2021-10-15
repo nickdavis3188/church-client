@@ -4,18 +4,18 @@ import {
     // CButton,
     CProgress,
     CCol,
-    CNav,
-    CNavItem,
-    CNavLink,
-    CRow,
-    CTabContent,
-    CTabPane,
+    // CNav,
+    // CNavItem,
+    // CNavLink,
+    // CRow,
+    // CTabContent,
+    // CTabPane,
     CCard,
     CCardBody,
-    CTabs,
+    // CTabs,
     CCardHeader,
     CFormGroup,
-    CFormText,
+    // CFormText,
     CModal,
     CModalBody,
     CModalFooter,
@@ -26,7 +26,7 @@ import {
 } from '@coreui/react';
 
 // import CIcon from '@coreui/icons-react';
-import {FaAllergies,FaHistory,FaDatabase} from "react-icons/fa"
+// import {FaAllergies,FaHistory,FaDatabase} from "react-icons/fa"
 
 // import axios from 'axios';
 import baseUrl from '../../config/config'
@@ -36,7 +36,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import './att.css'
 
 const Attendance = ({match,User})=>{
-    const [active, setActive] = useState(0)
+    // const [active, setActive] = useState(0)
     const [details, setDetails] = useState({
         Firstname:'',
         Surname:'',
@@ -142,44 +142,8 @@ const Attendance = ({match,User})=>{
 
         <div className="container rounded bg-white mt-2 mb-2">
             <div className="row">
-                <div className="col-md-4 border-right">
-                   {
-                   User.role === 'admin'? 
-                   <DetailsAdmin 
-                   Firstname={details.Firstname?details.Firstname:""}
-                   Surname={details.Surname?details.Surname:""}
-                   Address={details.Address?details.Address:""}
-                   PhoneNo={details.PhoneNo?details.PhoneNo:""}
-                   Email={details.Email?details.Email:""}
-                   RegNumber={details.RegNumber?details.RegNumber:""}
-                   Sex={details.Sex?details.Sex:""}
-                   Dob={details.Dob?formatDate(details.Dob):""}
-                   MaritalStatus={details.MaritalStatus?details.MaritalStatus:""}
-                   WeddingAnniversary={details.WeddingAnniversary?new Date(details.WeddingAnniversary).toLocaleDateString():""}
-                   Occupation={details.Occupation?details.Occupation:""}
-                   Business={details.Business?details.Business:""}
-                   Expertise={details.Expertise?details.Expertise:""}                                                   
-                   DateJoinedTKA={details.DateJoinedTKA?new Date(details.DateJoinedTKA).toLocaleDateString():""}                                    
-                   ImageUrl={details.ImageUrl?details.ImageUrl:""}
-                   id={details.id?details.id:""}
-                   User={User}
-               />:
-                <SubAdminDetails 
-                    Firstname={details.Firstname?details.Firstname:""}
-                    Surname={details.Surname?details.Surname:""}
-                    Address={details.Address?details.Address:""}
-                    PhoneNo={details.PhoneNo?details.PhoneNo:""}
-                    Email={details.Email?details.Email:""}
-                    RegNumber={details.RegNumber?details.RegNumber:""}
-                    Sex={details.Sex?details.Sex:""}
-                                                  
-                    ImageUrl={details.ImageUrl?details.ImageUrl:""}
-                    id={details.id?details.id:""}
-                    User={User}
-                />
-                }
-                </div>
-                <div className="col-md-4">
+               
+                <div className="col-md-6">
                     <div className="p-3 py-5">
                     <CCard>
                         <CCardHeader>
@@ -195,7 +159,7 @@ const Attendance = ({match,User})=>{
                     </CCard>
                     </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <div className="p-3 py-5">
                     <CCard>
                         <CCardHeader>
@@ -274,47 +238,48 @@ const SubAdminDetails = (props)=>{
     )
 }
 const DetailsAdmin =(props)=>{
-    const btnEdit = props.User.role === 'admin'?<button className="btn btn-primary" onClick={()=> history.push(`/Members/${props.RegNumber}`)}>Edit</button>:<button className=' btn btn-primary disabled' disabled >Edit</button>
-    const history = useHistory()
+	const history = useHistory()
+    const btnEdit = props.User.role === 'admin'?<button className="btn btn-primary" onClick={()=> history.push(`/Members/${props.id}`)}>Edit</button>:<button className=' btn btn-primary disabled' disabled >Edit</button>
+    
     let badge = props.Sex === 'Male' ?'badge badge-primary':'badge badge-info'
 	
 	const monthInWords = (num)=>{
 	 let month = ['Jan','Feb','Mar','Apl','May','June','July','Aug','Sept','Oct','Nov','Dec'];
 	let result22 = ''
-	if(num == 1){
+	if(num === 1){
 		result22 = month[0]
 	}
-	else if(num == 2){
+	else if(num === 2){
 		result22 = month[1]
 	}
-	else if(num == 3){
+	else if(num === 3){
 		result22 = month[2]
 	}
-	else if(num == 4){
+	else if(num === 4){
 		result22 = month[3]
 	}
-	else if(num == 5){
+	else if(num === 5){
 		result22 = month[4] 
 	}
-	else if(num == 6){
+	else if(num === 6){
 		result22 = month[5]
 	}
-	else if(num == 7){
+	else if(num === 7){
 		result22 = month[6]
 	}
-	else if(num == 8){
+	else if(num === 8){
 		result22 = month[7]
 	}
-	else if(num == 9){
+	else if(num === 9){
 		result22 = month[8]
 	}
-	else if(num == 10){
+	else if(num === 10){
 		result22 = month[9]
 	}
-	else if(num == 11){
+	else if(num === 11){
 		result22 = month[10]
 	}
-	else if(num == 12){
+	else if(num === 12){
 		result22 = month[11]
 	}
 	else{
@@ -446,7 +411,7 @@ const JourneyHistry = (props)=>{
             <thead>
                 <tr>
                     <th scope="col">Journey Name</th>
-                    <th scope="col">Journey Priority</th>
+                    <th scope="col">Journey Levle</th>
                     <th scope="col">Date Attaind</th>       
                 </tr>
             </thead>

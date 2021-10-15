@@ -60,8 +60,8 @@ const EditMember = ({match})=>{
 
       useEffect(()=>{
         async function loadData(){
-          let mydata = JSON.stringify({word:`${match.params.id}`})
-          const redval = await fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
+          let mydata = JSON.stringify({id:`${match.params.id}`})
+          const redval = await fetch(`${baseUrl}/api/v1/member/getSingleMemById`,{
               method: 'POST',
               body:mydata,
               headers:{
@@ -150,7 +150,7 @@ const EditMember = ({match})=>{
         .then((data)=>{ 
             console.log(data)
             if(data){
-                if(data.status === 'success'){      
+                if(data.status === 'success'){ 				
                   toast('Update Successful')
                   history.goBack()
                 }else{

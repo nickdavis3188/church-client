@@ -1,35 +1,14 @@
 import React,{useState} from "react"
 import {
-    CButton,
     CCard,
     CCardBody,
     CCardFooter,
     CCardHeader,
     CCol,
-    // CCollapse,
-    // CDropdownItem,
-    // CDropdownMenu,
-    // CDropdownToggle,
-    // CFade,
     CForm,
     CFormGroup,
     CFormText,
-    // CValidFeedback,
-    // CInvalidFeedback,
-    CTextarea,
-    CInput,
-    // CInputFile,
-    // CInputCheckbox,
-    // CInputRadio,
-    // CInputGroup,
-    // CInputGroupAppend,
-    // CInputGroupPrepend,
-    // CDropdown,
-    // CInputGroupText,
-    CLabel,
-    // CSelect,
-    // CRow,
-    // CSwitch
+    CLabel
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {ToastContainer,toast} from 'react-toastify'
@@ -108,7 +87,7 @@ const Journey = ()=>{
               </CCol>
 
               <CCol md="1">
-                <CLabel htmlFor="hf-JourneyPriority">Journey Priority</CLabel>
+                <CLabel htmlFor="hf-JourneyPriority">Journey Levle</CLabel>
               </CCol>
               <CCol  md="5">
               <input type="number" value={priority} id="hf-JourneyPriority"  placeholder="Enter JourneyPriority..."onChange={(e)=> setPriority(e.target.value)} />

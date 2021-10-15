@@ -102,7 +102,7 @@ const JourneyEdit = ({match})=>{
             <thead className="thead-light">
             <tr>
                 <th className="text-center">Journey Name</th>
-                <th className="text-center">Journey Priority</th>
+                <th className="text-center">Journey Levle</th> 
             </tr>
             </thead>
             <tbody>
@@ -147,11 +147,11 @@ const JourneyEdit = ({match})=>{
                     </CCol>
 
                     <CCol md="1">
-                        <CLabel htmlFor="Surname">Jourdney Priority</CLabel>
+                        <CLabel htmlFor="Surname">Jourdney Levle</CLabel>
                     </CCol>
                     <CCol  md="5">
                     <input type="number" value={jpriority} className="form-control" id="Surname"  onChange={(e)=> setJPriority(e.target.value)} />
-                        <CFormText className="help-block">Please enter the priority</CFormText>
+                        <CFormText className="help-block">Please enter the Levle</CFormText>
                     </CCol>
                 </CFormGroup>
                 <button className='btn btn-primary' onClick={(e)=>updateJourney(e)}>update</button>

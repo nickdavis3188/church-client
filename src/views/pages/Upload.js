@@ -1,4 +1,4 @@
-import React,{useState,useEffect}from "react"
+import React,{useState}from "react"
 import baseUrl from '../../config/config'
 const Upload = ()=>{
     const [file,setFile] = useState('')

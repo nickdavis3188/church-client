@@ -93,11 +93,16 @@ const Login = () => {
       })
       .then((res)=>res.json())
       .then((data)=>{ 
-        console.log(data)
+        // console.log('errmessage1',data)
         if(data){
           if(data.status === 'fail'){
             return toast(data.message?data.message:'')
-          }
+          }else{
+			  if(data.status === 'error'){
+				  // console.log('errMessage2',data.message)
+				return toast(data.message?data.message:'')
+			  }			
+		  }
 
           if(data.token){
             let token = JSON.stringify(data.token)
@@ -107,6 +112,7 @@ const Login = () => {
             return toast('Login successful')
           }
          
+		  
         }
       })
       .catch((err)=>{

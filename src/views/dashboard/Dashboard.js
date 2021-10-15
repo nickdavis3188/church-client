@@ -8,7 +8,8 @@ import {
 } from '@coreui/react';
 // import axios from 'axios';
 import baseUrl from '../../config/config';
-import {FaFemale,FaMale} from "react-icons/fa"
+
+import {FaFemale,FaMale,FaAlignJustify} from "react-icons/fa"
 import {ImUsers} from "react-icons/im";
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -103,18 +104,64 @@ const loadData = async ()=>{
 
 
 
+
+
+
 const Chat = (props) =>{
   // let token = localStorage.getItem('Token')
-  const [yearValues,setYearValue]  = useState({year:""})
+  const [yearValues,setYearValue]  = useState()
 
   const [maleArr,setMaleArr]  = useState([])
   const [femaleArr,setFemaleArr]  = useState([])
+  
+  
+  const [journey101,setJourney101]= useState([])
+  const [journey201,setJourney201]= useState([])
+  const [journey202,setJourney202]= useState([])
+  const [journey301,setJourney301] = useState([])
+  const [journey401,setJourney401]= useState([])
+  
+ const attendanceSelectedYear = ()=>{
+	  let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
+    fetch(`${baseUrl}/api/v1/dashborad/attendanceDashborad`,{
+        method: 'POST',
+        body:getYearp,
+        headers:{
+          "Content-Type":"application/json",
+        }
+    })
+    .then((res)=>res.json())
+    .then((data)=>{ 
+        // console.log(data)
+        if(data){
+            if(data.status === 'success'){  
+                console.log('ATTD',data.data)
+				setJourney101(data.data.levle1.length >= 1?data.data.levle1:[])    
+				setJourney201(data.data.levle2.length >= 1?data.data.levle2:[])
+				setJourney202(data.data.levle3.length >= 1?data.data.levle3:[])
+				setJourney301(data.data.levle4.length >= 1?data.data.levle4:[])
+				setJourney401(data.data.levle5.length >= 1?data.data.levle5:[])
+            }else{
+              if(data.status === 'fail'){
+                return toast(data.message?data.message:'')
+              }else{
+                  if(data.status === 'error'){
+                    return toast(data.message?data.message:'')
+                  }
+              }
+          }      
+        }
+    })
+    .catch((err)=>{
+        if(err){
+        console.log(err) 
+        alert(err)
+        }
+    })
+ }
  
-
-  const trigerValue = (e)=>{
-      e.preventDefault()
-      
-      let getYearp11 =JSON.stringify({ya:yearValues.year?yearValues.year:new Date().getFullYear()})
+ const memberSelecterYear = ()=>{
+	  let getYearp11 =JSON.stringify({ya:yearValues?yearValues:new Date().getFullYear()})
 
       fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
           method: 'POST',
@@ -128,9 +175,9 @@ const Chat = (props) =>{
           
           if(data){
               if(data.status === 'success'){
-                setMaleArr(data.data.Male?data.data.Male:[])
-                setFemaleArr(data.data.Female?data.data.Female:[])
-				// console.log('Dboard',data.data)
+                setMaleArr(data.data.male || data.data.Male ?data.data.male ||data.data.Male:[])
+                setFemaleArr(data.data.female || data.data.Female?data.data.female || data.data.Female:[])
+				console.log('Dboard',data.data)
                 // setDashboardValues({Male:,Female:})
                 // return toast('success')
               }else{
@@ -142,24 +189,27 @@ const Chat = (props) =>{
                       }
                   }
 
-              }
-
-            
-          
-          }
+              }        
+          }``````````````````````````````
       })
       .catch((err)=>{
           if(err){
-          console.log(err) 
+          // console.log(err) 
          // alert(err)
           }
       })
-  }//dashboardValues
+ }
+  const trigerValue = (e)=>{
+      e.preventDefault()
+	  
+      attendanceSelectedYear()
+      memberSelecterYear()
+  }
 
 
   useEffect(()=>{
       
-    let getYearp =JSON.stringify({ya:yearValues.year ? yearValues.year: new Date().getFullYear()})
+    let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
     fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
         method: 'POST',
         body:getYearp,
@@ -200,6 +250,50 @@ const Chat = (props) =>{
  
   },[])
   
+  
+  //attendance useEffect
+   useEffect(()=>{
+      
+    let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
+    fetch(`${baseUrl}/api/v1/dashborad/attendanceDashborad`,{
+        method: 'POST',
+        body:getYearp,
+        headers:{
+          "Content-Type":"application/json",
+        }
+    })
+    .then((res)=>res.json())
+    .then((data)=>{ 
+        // console.log(data)
+        if(data){
+            if(data.status === 'success'){  
+                console.log('ATTD',data.data)
+				setJourney101(data.data.levle1.length >= 1?data.data.levle1:[])    
+				setJourney201(data.data.levle2.length >= 1?data.data.levle2:[])
+				setJourney202(data.data.levle3.length >= 1?data.data.levle3:[])
+				setJourney301(data.data.levle4.length >= 1?data.data.levle4:[])
+				setJourney401(data.data.levle5.length >= 1?data.data.levle5:[])
+            }else{
+              if(data.status === 'fail'){
+                return toast(data.message?data.message:'')
+              }else{
+                  if(data.status === 'error'){
+                    return toast(data.message?data.message:'')
+                  }
+              }
+          }      
+        }
+    })
+    .catch((err)=>{
+        if(err){
+        console.log(err) 
+        alert(err)
+        }
+    }) 
+ 
+  },[])
+  //End of attendance useEffect
+  
   const monthDisplay = (values1,values2)=>{
     let month = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     let returnValues =[]
@@ -217,13 +311,14 @@ const Chat = (props) =>{
     return returnValues
   }
   
+  
   const chatOptions = ()=>{
     const options = {
       chart: {
           type: 'column'
       },
       title: {
-          text: 'Stacked column chart'
+          text: 'Registerd Member column chart'
       },
       xAxis: {
           categories:monthDisplay(maleArr.length >= 1?maleArr:[],femaleArr.length >= 1?femaleArr:[])
@@ -231,7 +326,7 @@ const Chat = (props) =>{
       yAxis: {
           min: 0,
           title: {
-              text: 'Total fruit consumption'
+              text: 'Number Of Members'
           },
           stackLabels: {
               enabled: true,
@@ -283,19 +378,102 @@ const Chat = (props) =>{
     return options
   
   }
+  
+
+ 
+  	const chatOption1 = ()=>{
+		const mainChat ={
+		  chart: {
+			type: 'column'
+		  },
+		  title: {
+			text: 'Journey Attend Chart Report'
+		  },
+		  xAxis: {
+			categories: monthDisplay(journey101.length >= 1?journey101:[],journey201.length >= 1?journey201:[])
+		  },
+		  yAxis: {
+			min: 0,
+			title: {
+			  text: 'Number Of Members'
+			},
+			stackLabels: {
+			  enabled: true,
+			  style: {
+				fontWeight: 'bold',
+				color: ( // theme
+				  Highcharts.defaultOptions.title.style &&
+				  Highcharts.defaultOptions.title.style.color
+				) || 'gray'
+			  }
+			}
+		  },
+		  legend: {
+			align: 'right',
+			x: -30,
+			verticalAlign: 'top',
+			y: 25,
+			floating: true,
+			backgroundColor:
+			  Highcharts.defaultOptions.legend.backgroundColor || 'white',
+			borderColor: '#CCC',
+			borderWidth: 1,
+			shadow: false
+		  },
+		  tooltip: {
+			headerFormat: '<b>{point.x}</b><br/>',
+			pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+		  },
+		  plotOptions: {
+			column: {
+			  stacking: 'normal',
+			  dataLabels: {
+				enabled: true
+			  }
+			}
+		  },
+		  series: [{
+			name: 'journey101',
+			data: journey101.length >= 1?journey101:[]
+		  }, {
+			name: 'journey201',
+			data: journey201.length >= 1?journey201:[]
+		  }, {
+			name: 'journey202',
+			data: journey202.length >= 1?journey202:[]
+		  }, {
+			name: 'journey301',
+			data: journey301.length >= 1?journey301:[]
+		  }, {
+			name: 'journey401',
+			data: journey401.length >= 1?journey401:[]
+		  }
+		  ]
+		}
+		
+		return mainChat;
+	}
+
   // let currentYear = new Date().getFullYear()
   return(
     <div>
        <div>
         <h5>Select Year</h5>
-        <input type="number"  placeholder="YYYY" min="2017" max="2100" style={{width:'200px'}} onChange={(e)=>setYearValue({year:e.target.valueAsNumber})} />
-        <button className="btn btn-primary btn-sm" onClick={(e)=>trigerValue(e)}><FaSearch/>Search</button>
+        <input type="number"  placeholder="YYYY" min="2017" max="2100" style={{width:'200px'}} onChange={(e)=>setYearValue(e.target.valueAsNumber)} />
+        <button className="btn btn-primary btn-sm" onClick={(e)=> trigerValue(e)}><FaSearch/>Search</button>
       </div>
-      <br/>
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={chatOptions()}
-      />
+		<br/>
+		<HighchartsReact
+			highcharts={Highcharts}
+			options={chatOptions()}
+		/>
+		<br/>
+		<div>
+		   <HighchartsReact
+			highcharts={Highcharts}
+			options={chatOption1()}
+		  />
+		</div>
     </div>
   )
   

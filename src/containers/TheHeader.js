@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import {
   CHeader,
   CToggler,
@@ -38,7 +39,7 @@ const TheHeader = ({User}) => {
     const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
     dispatch({type: 'set', sidebarShow: val})
   }
-
+    let history = useHistory()
   return (
     <CHeader withSubheader>
       <CToggler
@@ -61,9 +62,7 @@ const TheHeader = ({User}) => {
         <CHeaderNavItem className="px-3" >
           <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem  className="px-3">
-          <CHeaderNavLink to="/journey">Journey</CHeaderNavLink>
-        </CHeaderNavItem>
+    
  
       </CHeaderNav>
 
@@ -80,19 +79,20 @@ const TheHeader = ({User}) => {
           routes={routes} 
         />
           <div className="d-md-down-none mfe-2 c-subheader-nav">
-            <CLink className="c-subheader-nav-link"href="#">
+            <div className="c-subheader-nav-link">
               <CIcon name="cil-speech" alt="Settings" />
-            </CLink>
-            <CLink 
+            </div>
+            <div 
               className="c-subheader-nav-link" 
-              aria-current="page" 
-              to="/dashboard"
+              aria-current="page"
+				onClick={()=>history.push("/dashboard")}
+             style={{cursor:'pointer'}}
             >
               <CIcon name="cil-graph" alt="Dashboard" />&nbsp;Dashboard
-            </CLink>
-            <CLink className="c-subheader-nav-link" href="/Journeysettings">
-              <CIcon name="cil-settings" alt="Settings" />&nbsp;Settings
-            </CLink>
+            </div>
+            <div className="c-subheader-nav-link" onClick={()=> history.push("/Journeysettings")} style={{cursor:'pointer'}}>
+              <CIcon name="cil-settings" alt="Settings" onClick={()=> history.push("/Journeysettings")} />&nbsp;Settings
+            </div>
           </div>
       </CSubheader>
     </CHeader>
