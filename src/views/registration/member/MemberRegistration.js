@@ -54,14 +54,14 @@ const MemberRegistration = ({User})=>{
   const dropDown2=useRef(null)
   useEffect(()=>{
     (dropDown2.current).onchange=(e)=>{
-      console.log(e.target.options[e.target.options.selectedIndex].value)
+      // console.log(e.target.options[e.target.options.selectedIndex].value)
       setsex(e.target.options[e.target.options.selectedIndex].value)
     }
   })
 
   useEffect(()=>{
     (dropMe.current).onchange=(e)=>{
-      console.log(e.target.options[e.target.options.selectedIndex].value)
+      // console.log(e.target.options[e.target.options.selectedIndex].value)
       setmaristat(e.target.options[e.target.options.selectedIndex].value)
     }
   })
@@ -88,7 +88,7 @@ const MemberRegistration = ({User})=>{
 
   const submitForm = (e)=>{
     e.preventDefault()
-    console.log(dob)
+    // console.log(dob)
 
     fetch(`${baseUrl}/api/v1/member/memberRegistration`,{
         method: 'POST',
@@ -96,7 +96,7 @@ const MemberRegistration = ({User})=>{
     })
     .then((res)=>res.json())
     .then((data)=>{ 
-        console.log(data)
+        // console.log(data)
         if(data){
             if(data.status === 'success'){       
               return toast('Member Registration Successful')
@@ -132,10 +132,10 @@ const MemberRegistration = ({User})=>{
     })
     .then((res)=>res.json())
     .then((data)=>{ 
-        console.log(data)
+        // console.log(data)
         if(data){
             if(data.status === 'success'){
-              console.log(data.data[0].journeyAttend?data.data[0].journeyAttend.length:'')
+              // console.log(data.data[0].journeyAttend?data.data[0].journeyAttend.length:'')
               // setJourneyAtt(data.data[0].journeyAttend.length >= 1?data.data[0].journeyAttend.length:0)
               setResult(data.data)
             }else{
@@ -151,8 +151,8 @@ const MemberRegistration = ({User})=>{
     })
     .catch((err)=>{
         if(err){
-        console.log(err) 
-        alert(err)
+			console.log(err) 
+			alert(err)
         }
     }) 
   }
@@ -201,6 +201,51 @@ const MemberRegistration = ({User})=>{
     
     }
 
+
+	const checkJouurney = async(id)=>{
+		// console.log('idddd',id)
+		let userId2 = JSON.stringify({id:id})
+		const unAch = await fetch(`${baseUrl}/api/v1/member/checkJourneyM`,{
+          method: 'POST',
+		  body:userId2,
+          headers:{
+              "Content-Type":"application/json",
+            }
+          } 
+        )
+        const data = await unAch.json()
+        if(data.status === 'success'){
+			console.log('jCh',data)
+		 
+        }else{
+          if(data.status === 'fail'){
+            console.log('jC',data.status?data.status:'')
+          }
+        }
+	}
+	
+	// const checkJouurney22 = async(id)=>{
+		// console.log('idddd',id)
+		// let userId2 = JSON.stringify({id:id})
+		// const unAch = await fetch(`${baseUrl}/api/v1/member/confirmJourney`,{
+          // method: 'POST',
+		  // body:userId2,
+          // headers:{
+              // "Content-Type":"application/json",
+            // }
+          // } 
+        // )
+        // const data = await unAch.json()
+        // if(data.status === 'success'){
+			// console.log('jCh',data)
+		 
+        // }else{
+          // if(data.status === 'fail'){
+            // console.log('jC',data.status?data.status:'')
+          // }
+        // }
+	// }
+	
     return(
         <>
 			<form>
@@ -229,6 +274,7 @@ const MemberRegistration = ({User})=>{
 					</thead>
 					<tbody>
 					  {result1.map((e,i)=>{
+				
 						return(
 							<tr key={i}>
 							  <td className="text-center">
@@ -257,17 +303,22 @@ const MemberRegistration = ({User})=>{
 								<div className="clearfix">
 								<div className="float-left">
 								  <strong>
-								   {e.journeyAttend.length >= 1 ? 20*e.journeyAttend.length : 0}%
+								   {e.journeyAttend.filter((a)=> a.Status == 'New').length >= 1 ? 20*e.journeyAttend.filter((a)=> a.Status == 'New').length : 0}%
 								  </strong>
 								</div>
 								</div>
-								<CProgress className="progress-xs" color="success" value= {e.journeyAttend.length >= 1?20*e.journeyAttend.length:0} />
+								<CProgress className="progress-xs" color="success" value= {e.journeyAttend.filter((a)=> a.Status == 'New').length >= 1?20*e.journeyAttend.filter((a)=> a.Status == 'New').length:0} />
 							  </td>
 							  <td> 
 								<DropdownButton className="text-center" id="dropdown-item-button" title="Action" variant="secondary">
 								  <Dropdown.ItemText>TAKE ACTION</Dropdown.ItemText>
-								  <Dropdown.Item as="button" onClick={()=> history.push(`/info/${e._id}`)} >INFO</Dropdown.Item>	
-								  <Dropdown.Item as="button" onClick={()=> history.push(`/journey/${e._id}`)} >ATTENDANCE</Dropdown.Item>	
+								  <Dropdown.Item as="button" onClick={()=>{
+									  history.push(`/info/${e._id}`)
+									  }} >INFO</Dropdown.Item>	
+								  <Dropdown.Item as="button" onClick={()=>{
+									  history.push(`/journey/${e._id}`)
+									  checkJouurney(e._id)								 
+									}}>ATTENDANCE</Dropdown.Item>	
 								  {
 									  User.role === "admin"?
 									  <>

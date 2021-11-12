@@ -4,25 +4,27 @@ import JourneyEdit from "./views/Edit/journeyEdit"
 import Attendance from "./views/journeyAttendance/Attendance"
 import  MemberEdit from "./views/Edit/Edit"
 import BuldUpload from "./views/registration/bulkUpload/bulkUpload"
+import Report from "./views/Report/Report"
+import BuldUdate from "./views/Update/BulkUpdate"
 import MemberInfo from "./views/Info/MemberInfo"
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
+import Dashboard from './views/dashboard/Dashboard'
 // const Users = React.lazy(() => import('./views/users/Users'));
 // const User = React.lazy(() => import('./views/users/User'));
 
 // const ConferenceOne = React.lazy(() => import("./views/Activities/Conference/Conference1"))
 // const ConferenceTwo = React.lazy(() => import("./views/Activities/Conference/Conference2"))
-const JourneySettings = React.lazy(()=> import("./views/Setttings/Setting"))
+import JourneySettings from "./views/Setttings/Setting"
 
 // const ProgramOne = React.lazy(() => import("./views/Activities/programs/Program1"))
 // const ProgramTwo = React.lazy(() => import("./views/Activities/programs/Program2"))
 
-const MemberRegistration = React.lazy(()=> import("./views/registration/member/MemberRegistration"))
+import MemberRegistration from "./views/registration/member/MemberRegistration"
 // const AltRegistration = React.lazy(()=> import("./views/registration/alt/AltRegistration"))
-const JourneyRegistration = React.lazy(()=> import("./views/registration/journey/Journey"))
+import JourneyRegistration from "./views/registration/journey/Journey"
 
-const AdminInvite = React.lazy(()=> import("./views/registration/Invite/AdminInvite"))
+import AdminInvite from "./views/registration/Invite/AdminInvite"
 
-const AdminManage = React.lazy(()=> import("./views/Manegement/Manage"))
+import AdminManage from "./views/Manegement/Manage"
 
 
 
@@ -45,10 +47,12 @@ const routes = [
   {path: '/journey/:id', name: 'Journey Attendance', component:Attendance },
   {path: '/info/:id', name: 'Member Info', component:MemberInfo },
   {path: '/bulkUpload',exact:true, name: 'Bulk Upload', component:BuldUpload},
+  {path: '/bulkUpdate',exact:true, name: 'Bulk Update', component:BuldUdate},
   {path: '/Journeysettings',exact:true, name: 'Settings', component:JourneySettings},
   {path: '/Journeysettings/:id', name: 'Edit Journey', component:JourneyEdit},
   {path: '/inviteAdmin', name: 'Invite', component:AdminInvite},
   {path: '/manage', name: 'Invite', component:AdminManage},
+  {path: '/report', name:'Report', component:Report},
   // {path: '/register', name: 'Registration', component:MemberRegistration,  },
   // { path: '/users', exact: true,  name: 'Users', component: Users },
   // { path: '/users/:id', exact: true, name: 'User Details', component: User },

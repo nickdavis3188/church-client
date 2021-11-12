@@ -5,6 +5,7 @@ import {
   CWidgetIcon,
   CCol,
   CRow,
+  CFormGroup
 } from '@coreui/react';
 // import axios from 'axios';
 import baseUrl from '../../config/config';
@@ -190,7 +191,7 @@ const Chat = (props) =>{
                   }
 
               }        
-          }``````````````````````````````
+          }
       })
       .catch((err)=>{
           if(err){
@@ -454,13 +455,22 @@ const Chat = (props) =>{
 		return mainChat;
 	}
 
-  // let currentYear = new Date().getFullYear()
+  // let currentYear = new Date().getFullYear() style={{width:'200px'}}
   return(
     <div>
        <div>
         <h5>Select Year</h5>
-        <input type="number"  placeholder="YYYY" min="2017" max="2100" style={{width:'200px'}} onChange={(e)=>setYearValue(e.target.valueAsNumber)} />
-        <button className="btn btn-primary btn-sm" onClick={(e)=> trigerValue(e)}><FaSearch/>Search</button>
+		 <CFormGroup row>
+			<div className="input-group">
+			  <div className="form-outline">
+			  <input id="search-focus" type="number"  placeholder="YYYY" min="2017" max="2100" id="form1" className="form-control" onChange={(e)=>setYearValue(e.target.valueAsNumber)} />
+				
+			  </div>
+			  <button className="btn btn-primary " onClick={(e)=> trigerValue(e)}><FaSearch/>Search</button>
+			</div>
+		</CFormGroup>
+        
+        
       </div>
 		<br/>
 		<HighchartsReact

@@ -24,9 +24,10 @@ import {
     CButton,
     CAlert
 } from '@coreui/react';
-
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 // import CIcon from '@coreui/icons-react';
-// import {FaAllergies,FaHistory,FaDatabase} from "react-icons/fa"
+import {FaSearch} from "react-icons/fa"
 
 // import axios from 'axios';
 import baseUrl from '../../config/config'
@@ -55,11 +56,14 @@ const Attendance = ({match,User})=>{
         journeyAttend:[],
         id:'',
         currentJourney:'',
-        nextJourney:''
-       
+        nextJourney:'',
+		SincurrentJourney:'',
+		SinnextJourney:'',
+		memberStatus:''
       })
     const [journeyAtt,setJourneyAtt] = useState([])
     const [JourneyAttLeng,setJourneyAttLeng] = useState(0)
+	const [info33,setInfo33] = useState(0)
 
   useEffect(()=>{
     let mydata = JSON.stringify({id:`${match.params.id}`})
@@ -96,10 +100,15 @@ const Attendance = ({match,User})=>{
                     journeyAttend:(data.data[0].journeyAttend.lenght >= 1?data.data[0].journeyAttend:[]),
                     id:data.data[0]._id?data.data[0]._id:"",
                     currentJourney:data.data[0].currentJourney?data.data[0].currentJourney:"",
-                    nextJourney:data.data[0].nextJourney?data.data[0].nextJourney:""
+                    nextJourney:data.data[0].nextJourney?data.data[0].nextJourney:"",
+					SincurrentJourney:data.data[0].SincurrentJourney?data.data[0].SincurrentJourney:"",
+                    SinnextJourney:data.data[0].SinnextJourney?data.data[0].SinnextJourney:"",
+					memberStatus:data.data[0].memberStatus?data.data[0].memberStatus:""
                   })
                   if(data.data[0].journeyAttend.length >= 1){
-                    setJourneyAttLeng(data.data[0].journeyAttend.length)
+					 let fillDat = data.data[0].journeyAttend.filter((a)=> a.Status == 'New')
+					 console.log('hhh',fillDat)
+                    setJourneyAttLeng(fillDat.length)
                     setJourneyAtt(data.data[0].journeyAttend)
                   }else{
                     setJourneyAtt([])
@@ -123,6 +132,37 @@ const Attendance = ({match,User})=>{
         }
     })
   },[])
+  
+  	 // useEffect(()=>{
+        // async function loadData(){
+          // let mydata = JSON.stringify({id:`${match.params.id}`})
+          // const redval = await fetch(`${baseUrl}/api/v1/member/checkJourneyM`,{
+              // method: 'POST',
+              // body:mydata,
+              // headers:{
+                // "Content-Type":"application/json",
+                  // 'Content-Type': 'multipart/form-data'
+              // }
+          
+          // })
+          // const data = await redval.json()
+          // if(data.status === 'success'){
+			// setInfo33(data.code?data.code:'')
+          // }else{
+            // if(data.status === 'fail'){
+              // return toast(data.message?data.message:'')
+            // }else{
+                // if(data.status === 'error'){
+                  // return toast(data.message?data.message:'')
+                // }
+            // }
+          // }
+        // }
+
+        // loadData()
+        
+       
+      // },[])
     //    e.preventDefault()
     const formatDate = (date)=>{
         var d = new Date(date),
@@ -139,45 +179,97 @@ const Attendance = ({match,User})=>{
       }
     return(
         <>   
-
-        <div className="container rounded bg-white mt-2 mb-2">
-            <div className="row">
-               
-                <div className="col-md-6">
-                    <div className="p-3 py-5">
-                    <CCard>
-                        <CCardHeader>
-                            Attendance
-                        </CCardHeader>
-                        <CCardBody>
-                            <JourneyAttendance 
-                            id={details.id}
-                            currentJourney={details.currentJourney}
-                            nextJourney={details.nextJourney}
-                            />
-                        </CCardBody>                    
-                    </CCard>
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="p-3 py-5">
-                    <CCard>
-                        <CCardHeader>
-                            Journey History
-                        </CCardHeader>
-                        <CCardBody>
-                            <JourneyHistry journey3={journeyAtt} journeyLength={JourneyAttLeng}/>
-                        </CCardBody>                    
-                    </CCard>
-                    </div>
-                </div>
-            </div>
-            <ToastContainer/> 
-        </div>       
+			{console.log('details.memberStatus',details.memberStatus)}
+			<div className="container rounded bg-white mt-2 mb-2">
+					
+				<div className="row">			
+				<div className="col-md-6">
+					<div className="p-3 py-5">
+						<CCard>
+							<CCardHeader>
+								Attendance
+							</CCardHeader>
+							<CCardBody>
+							{
+								details.memberStatus == 'Repeated' ?
+								
+								<JourneyAttendance2
+									id={details.id}
+									SincurrentJourney={details.SincurrentJourney}
+									SinnextJourney={details.SinnextJourney}	
+									admin={User}
+								/>
+								:
+								
+								<JourneyAttendance 
+									id={details.id}
+									currentJourney={details.currentJourney}
+									nextJourney={details.nextJourney}
+									admin={User}
+								/>
+							}							
+								<br/>						
+							</CCardBody>                    
+						</CCard>
+					</div>
+				</div>
+				
+				<div className="col-md-6">
+					<div className="p-3 py-5">
+						<CCard>
+							<CCardHeader>
+								Journey History
+							</CCardHeader>
+							<CCardBody>
+								<JourneyHistry journey3={journeyAtt} journeyLength={JourneyAttLeng}/>
+							</CCardBody>                    
+						</CCard>
+					</div>
+				</div>			
+				<ToastContainer/> 
+				</div>
+			</div>       
         </>
     )
 }
 
+const AttendanceChack = ({match})=>{
+	
+	const selectJouurney = async(ex)=>{
+	  
+		let userId3 = JSON.stringify({code:ex,id:`${match.params.id}`})
+		const unAch = await fetch(`${baseUrl}/api/v1/member/attendSecond`,{
+          method: 'POST',
+		  body:userId3,
+          headers:{
+              "Content-Type":"application/json",
+            }
+          } 
+        )
+
+        const data = await unAch.json()
+        if(data.status === 'success'){
+			toast(data.message?data.message:'')
+        }else{
+          if(data.status === 'fail'){
+            toast(data.message?data.message:'')
+          }
+        }
+	}
+	
+	return(
+		
+		<DropdownButton className="text-center" id="dropdown-item-button" title="Action" variant="secondary">
+		  <Dropdown.ItemText>TAKE ACTION</Dropdown.ItemText>
+		  <Dropdown.Item as="button" onClick={()=>selectJouurney(1)} >Journey 101</Dropdown.Item>	
+		  <Dropdown.Item as="button" onClick={()=>selectJouurney(2)}>Journey 201</Dropdown.Item>	
+		  <Dropdown.Item as="button" onClick={()=>selectJouurney(3)}>Journey 202</Dropdown.Item>
+		  <Dropdown.Item as="button" onClick={()=>selectJouurney(4)}>Journey 301</Dropdown.Item>
+		  <Dropdown.Item as="button" onClick={()=>selectJouurney(5)}>Journey 401</Dropdown.Item>
+		</DropdownButton>
+	
+	)
+}
 
 const SubAdminDetails = (props)=>{
  
@@ -412,7 +504,8 @@ const JourneyHistry = (props)=>{
                 <tr>
                     <th scope="col">Journey Name</th>
                     <th scope="col">Journey Levle</th>
-                    <th scope="col">Date Attaind</th>       
+                    <th scope="col">Date Attaind</th>
+					<th scope="col">Journey Status</th>
                 </tr>
             </thead>
             <tbody>            
@@ -422,6 +515,7 @@ const JourneyHistry = (props)=>{
                             <th scope="row">{e.JourneyId.JourneyName?e.JourneyId.JourneyName:""}</th>
                             <td>{e.JourneyId.JourneyPriority?e.JourneyId.JourneyPriority:""}</td>
                             <td>{e.JourneyDate?new Date(e.JourneyDate).toLocaleDateString():""}</td>
+							<td>{e.Status?<p className="small mb-3"><span className={e.Status == 'New'?'badge badge-primary':'badge badge-info'}>{e.Status}</span></p>:""}</td>
                         </tr>
                 )
                 })}
@@ -448,72 +542,58 @@ const JourneyAttendance = (props)=>{
     
     const [modal, setModal] = useState(false)
     const [visible, setVisible] = React.useState(0)
-    const Attendance22 = (e)=>{
+	
+    const Attendance22 = async(e)=>{
 
-        let dateAttend = JSON.stringify({id:props.id})
-        fetch(`${baseUrl}/api/v1/member/attendance`,{
+        let dateAttend = JSON.stringify({id:props.id,addId:props.admin._id})
+        let res =  await fetch(`${baseUrl}/api/v1/member/attendance`,{
             method: 'POST',
             body:dateAttend,
             headers:{
               "Content-Type":"application/json",
             }
         })
-        .then((res)=>res.json())
-        .then((data)=>{ 
-            console.log(data)
-            if(data){
-                if(data.status === 'success'){       
-                  return toast('successfully Attend')
-                }else{
-                    if(data.status === 'fail'){
-                      return toast(data.message?data.message:'')
-                    }else{
-                        if(data.status === 'error'){
-                          return toast(data.message?data.message:'')
-                        }
-                    }
-                }  
-            }
-        })
-        .catch((err)=>{
-            if(err){
-            console.log(err) 
-            alert(err)
-            }
-        })
+		
+		const data = await res.json()
+		
+	    if(data){
+			if(data.status === 'success'){       
+			  return toast('successfully Attend')
+			}else{
+				if(data.status === 'fail'){
+				  return toast(data.message?data.message:'')
+				}else{
+					if(data.status === 'error'){
+					  return toast(data.message?data.message:'')
+					}
+				}
+			}  
+		}
       }
-    const CheckDate = (e)=>{
-        fetch(`${baseUrl}/api/v1/journeyDate/checkJourneyDate`,{
+    const CheckDate = async(e)=>{
+       let res =  await  fetch(`${baseUrl}/api/v1/journeyDate/checkJourneyDate`,{
             method: 'GET'
         })
-        .then((res)=>res.json())
-        .then((data)=>{ 
-            console.log(data)
-            if(data){
-                if(data.status === 'success'){ 
-                    setModal(!modal)      
-                }else{
-                    if(data.status === 'not found'){
-                        setVisible(10)                
-                    }else{
-                        if(data.status === 'fail'){
-                          return toast(data.message?data.message:'')
-                        }
-                    }
-                }  
-            }
-        })
-        .catch((err)=>{
-            if(err){
-            console.log(err) 
-            alert(err)
-            }
-        })
+		
+		const data = await res.json()
+		
+        if(data){
+			if(data.status === 'success'){ 
+				setModal(!modal)      
+			}else{
+				if(data.status === 'not found'){
+					setVisible(10)                
+				}else{
+					if(data.status === 'fail'){
+					  return toast(data.message?data.message:'')
+					}
+				}
+			}  
+		}
       
     }
-    //   (dateValue?setModal(!modal):setVisible(10))
+  
     const btnAtt = props.currentJourney.JourneyPriority === 6?<button className=' btn btn-primary disabled' disabled >You are done with your journey</button>:<button className='btn btn-primary' onClick={(e) => CheckDate(e)} >Attend</button>
-
 
     return(
         <div>
@@ -584,6 +664,226 @@ const JourneyAttendance = (props)=>{
     )
 }
 
+const JourneyAttendance2 = (props)=>{
+    
+    const [modal, setModal] = useState(false)
+    const [visible, setVisible] = React.useState(0)
+	const [myCode,setCode] = useState()
+	const [myJCode,setJCode] = useState()
+    const Attendance22 = async(e)=>{
+
+        let dateAttend = JSON.stringify({id:props.id,addId:props.admin._id})
+        let res =  await fetch(`${baseUrl}/api/v1/member/journeyAttendSecond`,{
+            method: 'POST',
+            body:dateAttend,
+            headers:{
+              "Content-Type":"application/json",
+            }
+        })
+		
+		const data = await res.json()
+		
+	    if(data){
+			if(data.status === 'success'){       
+			  return toast('successfully Attend')
+			}else{
+				if(data.status === 'fail'){
+				  return toast(data.message?data.message:'')
+				}else{
+					if(data.status === 'error'){
+					  return toast(data.message?data.message:'')
+					}
+				}
+			}  
+		}
+    }
+	
+    const CheckDate = async(e)=>{
+       let res =  await  fetch(`${baseUrl}/api/v1/journeyDate/checkJourneyDate`,{
+            method: 'GET'
+        })
+		
+		const data = await res.json()
+		
+        if(data){
+			if(data.status === 'success'){ 
+				setModal(!modal)      
+			}else{
+				if(data.status === 'not found'){
+					setVisible(10)                
+				}else{
+					if(data.status === 'fail'){
+					  return toast(data.message?data.message:'')
+					}
+				}
+			}  
+		}
+      
+    }
+	
+	const selectJourney = async(n)=>{
+		n.preventDefault()
+		if(typeof(myJCode) == 'number'){
+			
+			let dateAttend = JSON.stringify({code:myJCode,id:`${props.id}`})
+			let res =  await fetch(`${baseUrl}/api/v1/member/setNJourney`,{
+				method: 'POST',
+				body:dateAttend,
+				headers:{
+				  "Content-Type":"application/json",
+				}
+			})
+			
+			const data = await res.json()
+			
+			if(data){
+				if(data.status === 'success'){       
+				  return toast(data.message?data.message:'')
+				}else{
+					if(data.status === 'fail'){
+					  return toast(data.message?data.message:'')
+					}else{
+						if(data.status === 'error'){
+						  return toast(data.message?data.message:'')
+						}
+					}
+				}  
+			}
+		}
+	}
+	
+	 useEffect(()=>{
+        async function loadData(){
+          let mydata = JSON.stringify({id:`${props.id}`})
+          const redval = await fetch(`${baseUrl}/api/v1/member/checkJourneyM`,{
+              method: 'POST',
+              body:mydata,
+              headers:{
+                "Content-Type":"application/json",
+                  // 'Content-Type': 'multipart/form-data'
+              }
+          
+          })
+          const data = await redval.json()
+          if(data.status === 'success'){
+			setCode(data.code?data.code:'')
+          }else{
+            if(data.status === 'fail'){
+              return toast(data.message?data.message:'')
+            }else{
+                if(data.status === 'error'){
+                  return toast(data.message?data.message:'')
+                }
+            }
+          }
+        }
+
+        loadData()
+        
+       
+      },[])
+	  
+
+	const notice = myCode == 3?'Last attendance 3 Months ago...':'Last attendance 6 Months ago...'
+    return(
+        <div>
+		
+			<div className="alert alert-warning alert-dismissible fade show" role="alert">
+				<button type="button" className="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong>
+					<span><strong>Note:{notice}</strong> </span>                                       
+				</strong> 
+			</div>
+			
+            <CModal 
+              show={modal} 
+              onClose={setModal}
+            >
+              <CModalHeader closeButton>
+                <CModalTitle>Journey Warning</CModalTitle>
+              </CModalHeader>
+              <CModalBody>
+                Are you sure you have attended {props.SincurrentJourney.JourneyName}?
+              </CModalBody>
+              <CModalFooter>
+              <button className='btn btn-primary' onClick={(e)=>{
+                  setModal(false)
+                 return Attendance22(e)
+                  }}>Proceed...</button>{' '}
+                <CButton 
+                  color="secondary" 
+                  onClick={() => setModal(false)}
+                >Cancel</CButton>
+              </CModalFooter>
+            </CModal>
+            <CAlert
+                color="warning"
+                show={visible}
+                closeButton
+                onShowChange={setVisible}
+              >
+                Journey Date Not Set...
+                <CProgress
+                  striped
+                  color="warning"
+                  value={Number(visible) * 10}
+                  size="xs"
+                  className="mb-3"
+                />
+              </CAlert>
+            <div> 
+                <div>
+                    <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Current Journey</th>
+                                <th scope="col">Next Journey</th>                                              
+                            </tr>
+                        </thead>
+                        <tbody>                                                  
+                            <tr>
+                                <th scope="row">{props.SincurrentJourney.JourneyName}</th>
+                                <td>{props.SinnextJourney.JourneyName}</td>
+                            </tr>                                    
+                        </tbody>
+                    </table>
+                </div>
+			
+                <br/>
+                <CFormGroup row>
+                    <CCol  md="6">
+					{
+						!props.SincurrentJourney ?
+							<div className="input-group" >
+								<div className='form-outline'>					
+									<DropdownButton className="text-center" id="dropdown-item-button" title="Select Journey" variant="secondary">
+									  <Dropdown.ItemText>TAKE ACTION</Dropdown.ItemText>
+									  <Dropdown.Item as="button" onClick={()=>setJCode(1)} >Journey 101</Dropdown.Item>	
+									  <Dropdown.Item as="button" onClick={()=>setJCode(2)}>Journey 201</Dropdown.Item>	
+									  <Dropdown.Item as="button" onClick={()=>setJCode(3)}>Journey 202</Dropdown.Item>
+									  <Dropdown.Item as="button" onClick={()=>setJCode(4)}>Journey 301</Dropdown.Item>
+									  <Dropdown.Item as="button" onClick={()=>setJCode(5)}>Journey 401</Dropdown.Item>
+									</DropdownButton>		
+								</div>							
+								<button type="button" className="btn btn-primary" onClick={(e)=> selectJourney(e)}>
+									<FaSearch/>
+								</button>
+							</div>
+							
+							:
+							<button className='btn btn-primary' onClick={(e) => CheckDate(e)} >Attend</button>
+					}
+                            
+                    </CCol>
+                </CFormGroup>
+           
+            </div>
+           
+        </div>
+    )
+}
 
 
 export default  Attendance

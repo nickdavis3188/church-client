@@ -1,9 +1,10 @@
 import React from 'react'
 // import CIcon from '@coreui/icons-react'
-import {FaFileUpload} from "react-icons/fa"
+import {FaFileUpload,FaFileSignature,FaBook} from "react-icons/fa"
 import {IoSpeedometerSharp,IoSettings } from "react-icons/io5";
 import {ImUsers} from "react-icons/im";
 import {GiPlayerTime} from "react-icons/gi";
+
 
 const _nav =  [
   {
@@ -39,6 +40,26 @@ const _nav =  [
     name: 'Bulk Upload',
     to: '/bulkUpload',
     icon: <FaFileUpload className="c-sidebar-nav-icon"/>
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Update']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Bulk Update',
+    to: '/bulkUpdate',
+    icon: <FaFileSignature className="c-sidebar-nav-icon"/>
+  },
+   {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Report']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Report',
+    to: '/report',
+    icon: <FaBook className="c-sidebar-nav-icon"/>
   },
   {
     _tag: 'CSidebarNavTitle',
