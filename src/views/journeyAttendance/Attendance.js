@@ -28,7 +28,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 // import CIcon from '@coreui/icons-react';
 import {FaSearch} from "react-icons/fa"
-
+import { RiSendPlaneLine } from "react-icons/ri";
 // import axios from 'axios';
 import baseUrl from '../../config/config'
 
@@ -868,7 +868,7 @@ const JourneyAttendance2 = (props)=>{
 									</DropdownButton>		
 								</div>							
 								<button type="button" className="btn btn-primary" onClick={(e)=> selectJourney(e)}>
-									<FaSearch/>
+									<RiSendPlaneLine/>
 								</button>
 							</div>
 							
