@@ -202,9 +202,9 @@ const MemberRegistration = ({User})=>{
     }
 
 
-	const checkJouurney = async(id)=>{
-		// console.log('idddd',id)
-		let userId2 = JSON.stringify({id:id})
+	const checkJouurney = async(idF)=>{
+		
+		let userId2 = JSON.stringify({id:idF})
 		const unAch = await fetch(`${baseUrl}/api/v1/member/checkJourneyM`,{
           method: 'POST',
 		  body:userId2,

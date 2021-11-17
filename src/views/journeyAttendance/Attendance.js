@@ -107,7 +107,7 @@ const Attendance = ({match,User})=>{
                   })
                   if(data.data[0].journeyAttend.length >= 1){
 					 let fillDat = data.data[0].journeyAttend.filter((a)=> a.Status == 'New')
-					 console.log('hhh',fillDat)
+					 // console.log('hhh',fillDat)
                     setJourneyAttLeng(fillDat.length)
                     setJourneyAtt(data.data[0].journeyAttend)
                   }else{
@@ -179,7 +179,7 @@ const Attendance = ({match,User})=>{
       }
     return(
         <>   
-			{console.log('details.memberStatus',details.memberStatus)}
+			
 			<div className="container rounded bg-white mt-2 mb-2">
 					
 				<div className="row">			
