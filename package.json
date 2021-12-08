@@ -87,5 +87,5 @@
     "node": ">=10",
     "npm": ">=6"
   },
-  "proxy": "https://dtmdms.herokuapp.com"
+  "proxy": "https://dtmdms1.herokuapp.com"
 }
