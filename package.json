@@ -84,7 +84,7 @@
     ]
   },
   "engines": {
-    "node": ">=14",
+    "node": ">=17",
     "npm": ">=6"
   },
   "proxy": "https://dtmdms1.herokuapp.com"
