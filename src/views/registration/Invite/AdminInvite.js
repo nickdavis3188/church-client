@@ -32,35 +32,50 @@ const InviteAdmin = () => {
   formdata.append('passwordConfirm',inputPasswordConfirm)
   formdata.append('adminImg',file)
   
-    const submitForm = (e)=>{
+    const submitForm = async (e)=>{
       e.preventDefault()
-      fetch(`${baseUrl}/api/v1/auth/inviteSignup`,{
+     const invitRes = await fetch(`${baseUrl}/api/v1/auth/inviteSignup`,{
         method: 'POST',
         body: formdata     
       })
-      .then((res)=>res.json())
-      .then((data)=>{
-        if(data){
-          if(data.status === 'success'){
+	 const invitResData = await invitRes.json()
+	  if(invitResData){
+          if(invitResData.status === 'success'){
             return toast('Invite successful')
           }else{
-            if(data.message){
-              return toast(data.message)
+            if(invitResData.message){
+              return toast(invitResData.message)
             }else{
-              if(data.data.message){
-                return toast(data.data.message)
+              if(invitResData.data.message){
+                return toast(invitResData.data.message)
               }
             }
           }
-        }
-      })
-      .catch((err)=>{
-        if(err){
-          console.log(err) 
-          alert(err)
-        }
-      })
-    }
+       }
+	}
+      // .then((res)=>res.json())
+      // .then((data)=>{
+        // if(data){
+          // if(data.status === 'success'){
+            // return toast('Invite successful')
+          // }else{
+            // if(data.message){
+              // return toast(data.message)
+            // }else{
+              // if(data.data.message){
+                // return toast(data.data.message)
+              // }
+            // }
+          // }
+        // }
+      // })
+      // .catch((err)=>{
+        // if(err){
+          // console.log(err) 
+          // alert(err)
+        // }
+      // })
+    
 
 
   return (

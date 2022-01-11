@@ -22,35 +22,28 @@ const TheHeaderDropdown = ({User}) => {
   
   const history = useHistory()
 
-  const logMeOut = ()=>{
+  const logMeOut = async()=>{
 
     let token = JSON.parse(localStorage.getItem('Token'));
 
-    fetch(`${baseUrl}/api/v1/auth/signout`,{
+    const logoutRes = await fetch(`${baseUrl}/api/v1/auth/signout`,{
         method: 'POST',
         headers:{
           'authorization':`Bearer ${token}`
         } 
     })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        console.log(data)
-        if(data){
-            if(data.status === 'success'){
-              Auth.logOut()
-              localStorage.removeItem('Token')
-              history.push('/login')
-            }  
-        }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    })
- 
+	const logoutResData = await logoutRes.json()
+	if(logoutResData){
+		if(logoutResData.status === 'success'){
+		  Auth.logOut()
+		  localStorage.removeItem('Token')
+		  history.push('/login')
+		}  
+    }
   }
+   
+ 
+  
 
   useEffect(()=>{
     let token = JSON.parse(localStorage.getItem('Token'));

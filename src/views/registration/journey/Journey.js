@@ -19,41 +19,56 @@ const Journey = ()=>{
   const [name,setName] = useState('')
   const [priority,setPriority] = useState('')
 
-  const submitJourney = (e)=>{
+  const submitJourney = async (e)=>{
 
     e.preventDefault()
 
     let mydata = JSON.stringify({JourneyName:name,JourneyPriority:priority})
-    fetch(`${baseUrl}/api/v1/journey/journey`,{
+    const submitJourneyResponse = await fetch(`${baseUrl}/api/v1/journey/journey`,{
           method: 'POST',
           body:mydata ,
           headers:{
             "Content-Type":"application/json",
           }
       })
-    .then((res)=>res.json())
-    .then((data)=>{
-      if(data){
-        if(data.status === 'success'){
+	const subJouResData = await submitJourneyResponse.json()
+	 if(subJouResData){
+        if(subJouResData.status === 'success'){
           return toast('Registration successful')
         }else{
-          if(data.message){
-            return toast(data.message)
+          if(subJouResData.message){
+            return toast(subJouResData.message)
           }else{
-            if(data.data.message){
-              return toast(data.data.message)
+            if(subJouResData.data.message){
+              return toast(subJouResData.subJouResData.message)
             }
           }
         }
       }
-    })
-    .catch((err)=>{
-      if(err){
-        console.log(err) 
-        alert(err)
-      }
-    })
   }
+    // .then((res)=>res.json())
+    // .then((data)=>{
+      // if(data){
+        // if(data.status === 'success'){
+          // return toast('Registration successful')
+        // }else{
+          // if(data.message){
+            // return toast(data.message)
+          // }else{
+            // if(data.data.message){
+              // return toast(data.data.message)
+            // }
+          // }
+        // }
+      // }
+    // })
+    // .catch((err)=>{
+      // if(err){
+        // console.log(err) 
+        // alert(err)
+      // }
+    // })
+  
 
     return(
         <>

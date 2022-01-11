@@ -86,120 +86,172 @@ const MemberRegistration = ({User})=>{
 
  
 
-  const submitForm = (e)=>{
+  const submitForm = async (e)=>{
     e.preventDefault()
     // console.log(dob)
 
-    fetch(`${baseUrl}/api/v1/member/memberRegistration`,{
+    const submitResponse = await fetch(`${baseUrl}/api/v1/member/memberRegistration`,{
         method: 'POST',
         body:formdata
     })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        // console.log(data)
-        if(data){
-            if(data.status === 'success'){       
-              return toast('Member Registration Successful')
-            }else{
-              if(data.status === 'fail'){
-                return toast(data.message?data.message:'')
-              }else{
-                  if(data.status === 'error'){
-                    return toast(data.message?data.message:'')
-                  }
-              }
-          }      
-        }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    }) 
+	const subResData = await submitResponse.json()
+	if(subResData){
+		if(subResData.status === 'success'){       
+		  return toast('Member Registration Successful')
+		}else{
+		  if(subResData.status === 'fail'){
+			return toast(subResData.message?subResData.message:'')
+		  }else{
+			  if(subResData.status === 'error'){
+				return toast(subResData.message?subResData.message:'')
+			  }
+		  }
+        }      
+    }
   }
+    // .then((res)=>res.json())
+    // .then((data)=>{ 
+        // console.log(data)
+        // if(data){
+            // if(data.status === 'success'){       
+              // return toast('Member Registration Successful')
+            // }else{
+              // if(data.status === 'fail'){
+                // return toast(data.message?data.message:'')
+              // }else{
+                  // if(data.status === 'error'){
+                    // return toast(data.message?data.message:'')
+                  // }
+              // }
+          // }      
+        // }
+    // })
+    // .catch((err)=>{
+        // if(err){
+        // console.log(err) 
+        // alert(err)
+        // }
+    // }) 
+  
 
 
-  const searchUser = (e)=>{
+  const searchUser = async(e)=>{
     e.preventDefault()
     let mydata = JSON.stringify({word:searchValue})
-    fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
+    const serachResponse = await fetch(`${baseUrl}/api/v1/member/getSingleMember`,{
         method: 'POST',
         body:mydata,
         headers:{
           "Content-Type":"application/json",
         }  
     })
-    .then((res)=>res.json())
-    .then((data)=>{ 
+	
+	const serResData = await serachResponse.json()
+	if(serResData){
+		if(serResData.status === 'success'){
+		  // console.log(data.data[0].journeyAttend?data.data[0].journeyAttend.length:'')
+		  // setJourneyAtt(data.data[0].journeyAttend.length >= 1?data.data[0].journeyAttend.length:0)
+		  setResult(serResData.data)
+		}else{
+			if(serResData.status === 'fail'){
+			  return toast(serResData.message?serResData.message:'')
+			}else{
+				if(serResData.status === 'error'){
+				  return toast(serResData.message?serResData.message:'')
+				}
+			}
+		}   
+    }
+  }
+    // .then((res)=>res.json())
+    // .then((data)=>{ 
         // console.log(data)
-        if(data){
-            if(data.status === 'success'){
+        // if(data){
+            // if(data.status === 'success'){
               // console.log(data.data[0].journeyAttend?data.data[0].journeyAttend.length:'')
               // setJourneyAtt(data.data[0].journeyAttend.length >= 1?data.data[0].journeyAttend.length:0)
-              setResult(data.data)
-            }else{
-                if(data.status === 'fail'){
-                  return toast(data.message?data.message:'')
-                }else{
-                    if(data.status === 'error'){
-                      return toast(data.message?data.message:'')
-                    }
-                }
-            }   
-        }
-    })
-    .catch((err)=>{
-        if(err){
-			console.log(err) 
-			alert(err)
-        }
-    }) 
-  }
+              // setResult(data.data)
+            // }else{
+                // if(data.status === 'fail'){
+                  // return toast(data.message?data.message:'')
+                // }else{
+                    // if(data.status === 'error'){
+                      // return toast(data.message?data.message:'')
+                    // }
+                // }
+            // }   
+        // }
+    // })
+    // .catch((err)=>{
+        // if(err){
+			// console.log(err) 
+			// alert(err)
+        // }
+    // }) 
+  
 
   const history = useHistory()
 
   // let num = props.journey.length
    
 		// const searchRes = result1?<SearchResult result={result1} User2={User}/>:''
-		    const deleteAdmin = (a,i)=>{
+	const deleteAdmin = async(a,i)=>{
 		 console.log(a,i)
       let dateAttend = JSON.stringify({id:a})
-      fetch(`${baseUrl}/api/v1/member/deleteMember`,{
+       const deleteResponse = await fetch(`${baseUrl}/api/v1/member/deleteMember`,{
           method: 'POST',
           body:dateAttend,
           headers:{
             "Content-Type":"application/json",
           }
       })
-      .then((res)=>res.json())
-      .then((data)=>{ 
-         
-          if(data){
-              if(data.status === 'success'){  
+	  const delResData = await deleteResponse.json()
+	  if(delResData){
+            if(delResData.status === 'success'){  
                     //  let newData = result1.splice(i,1)
                 let filterData = result1.filter((e)=> e._id !== a)
                 setResult(filterData)
                 return toast('Delete successfully')
-              }else{
-                  if(data.status === 'fail'){
-                    return toast(data.message?data.message:'')
-                  }else{
-                      if(data.status === 'error'){
-                        return toast(data.message?data.message:'')
-                      }
-                  }
-              }  
-          }
-      })
-      .catch((err)=>{
-          if(err){
-          console.log(err) 
-          alert(err)
-          }
-      })
-    
+            }else{
+                if(delResData.status === 'fail'){
+                    return toast(delResData.message?delResData.message:'')
+                }else{
+				  if(delResData.status === 'error'){
+					return toast(delResData.message?delResData.message:'')
+				  }
+                }
+			} 
+		}			
     }
+	
+      // .then((res)=>res.json())
+      // .then((data)=>{ 
+         
+          // if(data){
+              // if(data.status === 'success'){  
+                     // let newData = result1.splice(i,1)
+                // let filterData = result1.filter((e)=> e._id !== a)
+                // setResult(filterData)
+                // return toast('Delete successfully')
+              // }else{
+                  // if(data.status === 'fail'){
+                    // return toast(data.message?data.message:'')
+                  // }else{
+                      // if(data.status === 'error'){
+                        // return toast(data.message?data.message:'')
+                      // }
+                  // }
+              // }  
+         // }
+      // })
+      // .catch((err)=>{
+          // if(err){
+          // console.log(err) 
+          // alert(err)
+          // }
+      // })
+    
+    
 
 
 	const checkJouurney = async(idF)=>{
@@ -303,11 +355,11 @@ const MemberRegistration = ({User})=>{
 								<div className="clearfix">
 								<div className="float-left">
 								  <strong>
-								   {e.journeyAttend.filter((a)=> a.Status == 'New').length >= 1 ? 20*e.journeyAttend.filter((a)=> a.Status == 'New').length : 0}%
+								   {e.journeyAttend.filter((a)=> a.Status === 'New').length >= 1 ? 20*e.journeyAttend.filter((a)=> a.Status === 'New').length : 0}%
 								  </strong>
 								</div>
 								</div>
-								<CProgress className="progress-xs" color="success" value= {e.journeyAttend.filter((a)=> a.Status == 'New').length >= 1?20*e.journeyAttend.filter((a)=> a.Status == 'New').length:0} />
+								<CProgress className="progress-xs" color="success" value= {e.journeyAttend.filter((a)=> a.Status === 'New').length >= 1?20*e.journeyAttend.filter((a)=> a.Status === 'New').length:0} />
 							  </td>
 							  <td> 
 								<DropdownButton className="text-center" id="dropdown-item-button" title="Action" variant="secondary">
@@ -376,7 +428,7 @@ const MemberRegistration = ({User})=>{
                 <CLabel htmlFor="hf-PhoneNo">PhoneNo</CLabel>
               </CCol>
               <CCol  md="5">
-              <input type="number" value={phone} className="form-control" id="hf-PhoneNo" placeholder="Enter PhoneNo..." onChange={(e)=> setphone(e.target.value)} />
+              <input type="text" value={phone} className="form-control" id="hf-PhoneNo" placeholder="Enter PhoneNo..." onChange={(e)=> setphone(e.target.value)} />
                 <CFormText className="help-block">Please enter member PhoneNo</CFormText>
               </CCol>
             </CFormGroup>

@@ -20,10 +20,8 @@ const BulkUpload = ()=>{
     const [fileValues,setFileValue]  = useState({filee:""})
     const ref = useRef()
     const [datas,setDatas]  = useState([])
-    const [failData,setfailData]  = useState([])
+    // const [failData,setfailData]  = useState([])
     const formData = new FormData()
-
-
 
    
 
@@ -59,17 +57,17 @@ const BulkUpload = ()=>{
 
    formData.append('file',fileValues.filee)
     
-   const sendFile = (e)=>{
+   const sendFile = async (e)=>{
        e.preventDefault()
 	   if(fileValues.filee === ""){
 		   return toast('File Not Selected...')
 	   }
-      let sendData = JSON.stringify(datas)
-    console.log(datas)
+		let sendData = JSON.stringify(datas)
+		console.log(datas)
 
         let token = JSON.parse(localStorage.getItem('Token'));
 
-        fetch(`${baseUrl}/api/v1/member/bulkUpload`,{
+        const reponesUP =  await fetch(`${baseUrl}/api/v1/member/bulkUpload`,{
             method: 'POST',
             body:sendData,
             headers:{
@@ -78,37 +76,43 @@ const BulkUpload = ()=>{
             }
         
         })
-        .then((res)=>res.json())
-        .then((data)=>{ 
-            console.log(data)
-            if(data){
-                if(data.status === 'success'){
-                  return toast('Upload successful')
-                }else{
-                    if(data.status === 'fail'){
-                        setfailData(data.data.length >= 1?data.data:[])                     
-                      return toast(data.message?data.message:'')
-                    }else{
-                        if(data.status === 'error'){
-                          return toast(data.message?data.message:'')
-                        }
-                    }
+		const resData = await reponesUP.json()
+		if(resData){
+			if(resData.status === 'success'){
+			  return toast('Upload successful')
+			}else{		                 
+				return toast(resData.message?resData.message:'')
+			}
+		}
+   }		
+        // .then((res)=>res.json())
+        // .then((data)=>{ 
+            // console.log(data)
+            // if(data){
+                // if(data.status === 'success'){
+                  // return toast('Upload successful')
+                // }else{
+                    // if(data.status === 'fail'){
+                        // setfailData(data.data.length >= 1?data.data:[])                     
+                      // return toast(data.message?data.message:'')
+                    // }else{
+                        // if(data.status === 'error'){
+                          // return toast(data.message?data.message:'')
+                        // }
+                    // }
 
-                }
-
-              
-            
-            }
-        })
-        .catch((err)=>{
-            if(err){
-            console.log(err) 
-            alert(err)
-            }
-        })
+                // }
+            // }
+        // })
+        // .catch((err)=>{
+            // if(err){
+            // console.log(err) 
+            // alert(err)
+            // }
+        // })
       
 
-   }
+   
 
    //convert excel date serial int to Date
     const ExcelDateToJSDate = (serial)=>{
@@ -147,16 +151,7 @@ const BulkUpload = ()=>{
             </div>
             <br/>
                                                  
-            {
-                failData.map((e,i)=>{
-                    return(
-                        <CAlert color="info" closeButton key={i}> <span>Member with <strong>{e.RegNumber}</strong> Exist</span> </CAlert> 
-                    )
-                })
-            }
-          
-            
-            <CFormGroup row>
+           <CFormGroup row>
                 <div className="custom-file">
                     <input type="file" className="custom-file-input" id="customFile"  onChange={(e)=>{
                         const file = e.target.files[0];

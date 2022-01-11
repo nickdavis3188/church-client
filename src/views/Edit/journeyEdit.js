@@ -58,40 +58,55 @@ const JourneyEdit = ({match})=>{
      
       },[])
 
-      const updateJourney = (e)=>{
+    const updateJourney = async (e)=>{
         e.preventDefault()
         let fullData = JSON.stringify({JourneyName:jName,JourneyPriority:jpriority})
-        fetch(`${baseUrl}/api/v1/journey/journeyUpdate/${match.params.id}`,{
+        const updataJoures = await fetch(`${baseUrl}/api/v1/journey/journeyUpdate/${match.params.id}`,{
           method: 'POST',
           body:fullData,
           headers:{
             "Content-Type":"application/json",
           }
       })
-      .then((res)=>res.json())
-      .then((data)=>{ 
-          console.log(data)
-          if(data){
-              if(data.status === 'success'){       
-                return toast('Update Successful')
-              }else{
-                if(data.status === 'fail'){
-                  return toast(data.message?data.message:'')
-                }else{
-                    if(data.status === 'error'){
-                      return toast(data.message?data.message:'')
-                    }
-                }
-            }      
-          }
-      })
-      .catch((err)=>{
-          if(err){
-          console.log(err) 
-          alert(err)
-          }
-      }) 
-    }
+	  const jUpdResData = await updataJoures.json()
+	  if(jUpdResData){
+		  if(jUpdResData.status === 'success'){       
+			return toast('Update Successful')
+		  }else{
+			if(jUpdResData.status === 'fail'){
+			  return toast(jUpdResData.message?jUpdResData.message:'')
+			}else{
+				if(jUpdResData.status === 'error'){
+				  return toast(jUpdResData.message?jUpdResData.message:'')
+				}
+			}
+		}      
+	  }
+	}  
+      // .then((res)=>res.json())
+      // .then((data)=>{ 
+          // console.log(data)
+          // if(data){
+              // if(data.status === 'success'){       
+                // return toast('Update Successful')
+              // }else{
+                // if(data.status === 'fail'){
+                  // return toast(data.message?data.message:'')
+                // }else{
+                    // if(data.status === 'error'){
+                      // return toast(data.message?data.message:'')
+                    // }
+                // }
+            // }      
+          // }
+      // })
+      // .catch((err)=>{
+          // if(err){
+          // console.log(err) 
+          // alert(err)
+          // }
+      // }) 
+    
     const toggle = (e) => {
         setCollapse(!collapse)
         e.preventDefault()

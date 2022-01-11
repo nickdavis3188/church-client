@@ -122,84 +122,70 @@ const Chat = (props) =>{
   const [journey301,setJourney301] = useState([])
   const [journey401,setJourney401]= useState([])
   
- const attendanceSelectedYear = ()=>{
+ const attendanceSelectedYear = async ()=>{
 	  let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
-    fetch(`${baseUrl}/api/v1/dashborad/attendanceDashborad`,{
+    const attRes = await fetch(`${baseUrl}/api/v1/dashborad/attendanceDashborad`,{
         method: 'POST',
         body:getYearp,
         headers:{
           "Content-Type":"application/json",
         }
     })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        // console.log(data)
-        if(data){
-            if(data.status === 'success'){  
-                console.log('ATTD',data.data)
-				setJourney101(data.data.levle1.length >= 1?data.data.levle1:[])    
-				setJourney201(data.data.levle2.length >= 1?data.data.levle2:[])
-				setJourney202(data.data.levle3.length >= 1?data.data.levle3:[])
-				setJourney301(data.data.levle4.length >= 1?data.data.levle4:[])
-				setJourney401(data.data.levle5.length >= 1?data.data.levle5:[])
-            }else{
-              if(data.status === 'fail'){
-                return toast(data.message?data.message:'')
-              }else{
-                  if(data.status === 'error'){
-                    return toast(data.message?data.message:'')
-                  }
-              }
-          }      
-        }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    })
+	const attresData = await attRes.json()
+	 if(attresData){
+		if(attresData.status === 'success'){  
+			console.log('ATTD',attresData.data)
+			setJourney101(attresData.data.levle1.length >= 1?attresData.data.levle1:[])    
+			setJourney201(attresData.data.levle2.length >= 1?attresData.data.levle2:[])
+			setJourney202(attresData.data.levle3.length >= 1?attresData.data.levle3:[])
+			setJourney301(attresData.data.levle4.length >= 1?attresData.data.levle4:[])
+			setJourney401(attresData.data.levle5.length >= 1?attresData.data.levle5:[])
+		}else{
+		  if(attresData.status === 'fail'){
+			return toast(attresData.message?attresData.message:'')
+		  }else{
+			  if(attresData.status === 'error'){
+				return toast(attresData.message?attresData.message:'')
+			  }
+		  }
+	  }      
+	}
  }
+    
  
- const memberSelecterYear = ()=>{
+ 
+ const memberSelecterYear = async()=>{
 	  let getYearp11 =JSON.stringify({ya:yearValues?yearValues:new Date().getFullYear()})
 
-      fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
+      const memSeleRes = await fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
           method: 'POST',
           body:getYearp11,
           headers:{
             "Content-Type":"application/json",
           }
       })
-      .then((res)=>res.json())
-      .then((data)=>{ 
-          
-          if(data){
-              if(data.status === 'success'){
-                setMaleArr(data.data.male || data.data.Male ?data.data.male ||data.data.Male:[])
-                setFemaleArr(data.data.female || data.data.Female?data.data.female || data.data.Female:[])
-				console.log('Dboard',data.data)
-                // setDashboardValues({Male:,Female:})
-                // return toast('success')
-              }else{
-                  if(data.status === 'fail'){
-                    return toast(data.message?data.message:'')
-                  }else{
-                      if(data.status === 'error'){
-                        return toast(data.message?data.message:'')
-                      }
-                  }
+	  const mesSelResData = await memSeleRes.json()
+	  if(mesSelResData){
+		  if(mesSelResData.status === 'success'){
+			setMaleArr(mesSelResData.data.male || mesSelResData.data.Male ?mesSelResData.data.male ||mesSelResData.data.Male:[])
+			setFemaleArr(mesSelResData.data.female || mesSelResData.data.Female?mesSelResData.data.female || mesSelResData.data.Female:[])
+			console.log('Dboard',mesSelResData.data)
+			// setDashboardValues({Male:,Female:})
+			// return toast('success')
+		  }else{
+			  if(mesSelResData.status === 'fail'){
+				return toast(mesSelResData.message?mesSelResData.message:'')
+			  }else{
+				  if(mesSelResData.status === 'error'){
+					return toast(mesSelResData.message?mesSelResData.message:'')
+				  }
+			  }
 
-              }        
-          }
-      })
-      .catch((err)=>{
-          if(err){
-          // console.log(err) 
-         // alert(err)
-          }
-      })
- }
+		  }        
+	  }
+ }  
+  
+ 
   const trigerValue = (e)=>{
       e.preventDefault()
 	  
@@ -209,89 +195,79 @@ const Chat = (props) =>{
 
 
   useEffect(()=>{
-      
-    let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
-    fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
-        method: 'POST',
-        body:getYearp,
-        headers:{
-          "Content-Type":"application/json",
-        }
-    })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        // console.log(data)
-        if(data){
-            if(data.status === 'success'){  
+      async function loadData1(){
+	    let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
+		const staticRes = await fetch(`${baseUrl}/api/v1/dashborad/dashboradStatistics`,{
+			method: 'POST',
+			body:getYearp,
+			headers:{
+			  "Content-Type":"application/json",
+			}
+		})
+		const statResData = await staticRes.json()
+		if(statResData){
+            if(statResData.status === 'success'){  
               // console.log(data.data.male)
               // console.log(data.data.female)
              
-                setMaleArr(data.data.male.length >= 1?data.data.male:[])
+                setMaleArr(statResData.data.male.length >= 1?statResData.data.male:[])
         
-                setFemaleArr(data.data.female.length >= 1?data.data.female:[])
+                setFemaleArr(statResData.data.female.length >= 1?statResData.data.female:[])
 
               // setDashboardValues({Male:data.data.Male?data.data.Male:[],Female:data.data.Female?data.data.Female:[]})    
             }else{
-              if(data.status === 'fail'){
-                return toast(data.message?data.message:'')
+              if(statResData.status === 'fail'){
+                return toast(statResData.message?statResData.message:'')
               }else{
-                  if(data.status === 'error'){
-                    return toast(data.message?data.message:'')
+                  if(statResData.status === 'error'){
+                    return toast(statResData.message?statResData.message:'')
                   }
               }
           }      
         }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    }) 
- 
+	  }
+	  loadData1()
+  	
   },[])
   
   
   //attendance useEffect
    useEffect(()=>{
-      
-    let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
-    fetch(`${baseUrl}/api/v1/dashborad/attendanceDashborad`,{
-        method: 'POST',
-        body:getYearp,
-        headers:{
-          "Content-Type":"application/json",
-        }
-    })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        // console.log(data)
-        if(data){
-            if(data.status === 'success'){  
-                console.log('ATTD',data.data)
-				setJourney101(data.data.levle1.length >= 1?data.data.levle1:[])    
-				setJourney201(data.data.levle2.length >= 1?data.data.levle2:[])
-				setJourney202(data.data.levle3.length >= 1?data.data.levle3:[])
-				setJourney301(data.data.levle4.length >= 1?data.data.levle4:[])
-				setJourney401(data.data.levle5.length >= 1?data.data.levle5:[])
-            }else{
-              if(data.status === 'fail'){
-                return toast(data.message?data.message:'')
-              }else{
-                  if(data.status === 'error'){
-                    return toast(data.message?data.message:'')
-                  }
-              }
-          }      
-        }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    }) 
- 
+      async function loadData2(){
+			let getYearp =JSON.stringify({ya:yearValues? yearValues: new Date().getFullYear()})
+			const attres = await fetch(`${baseUrl}/api/v1/dashborad/attendanceDashborad`,{
+				method: 'POST',
+				body:getYearp,
+				headers:{
+				  "Content-Type":"application/json",
+				}
+			})
+			
+			const attResData = await attres.json()
+			
+			 if(attResData){
+				if(attResData.status === 'success'){  
+					// console.log('ATTD',data.data)
+					setJourney101(attResData.data.levle1.length >= 1?attResData.data.levle1:[])    
+					setJourney201(attResData.data.levle2.length >= 1?attResData.data.levle2:[])
+					setJourney202(attResData.data.levle3.length >= 1?attResData.data.levle3:[])
+					setJourney301(attResData.data.levle4.length >= 1?attResData.data.levle4:[])
+					setJourney401(attResData.data.levle5.length >= 1?attResData.data.levle5:[])
+				}else{
+				  if(attResData.status === 'fail'){
+					return toast(attResData.message?attResData.message:'')
+				  }else{
+					  if(attResData.status === 'error'){
+						return toast(attResData.message?attResData.message:'')
+					  }
+				  }
+			  }      
+			}
+			
+		}
+		
+		loadData2()
+    
   },[])
   //End of attendance useEffect
   
