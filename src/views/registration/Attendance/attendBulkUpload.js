@@ -67,14 +67,13 @@ const BulkUpload = ()=>{
 
         let token = JSON.parse(localStorage.getItem('Token'));
 
-        const reponesUP =  await fetch(`${baseUrl}/api/v1/member/bulkUpload`,{
+        const reponesUP =  await fetch(`${baseUrl}/api/v1/member/attendUpload`,{
             method: 'POST',
             body:sendData,
             headers:{
                 "Content-Type":"application/json",
                 'authorization':`Bearer ${token}`
-            }
-        
+            }      
         })
 		const resData = await reponesUP.json()
 		if(resData){
@@ -138,7 +137,7 @@ const BulkUpload = ()=>{
         <>
         <CCard>
         <CCardHeader>
-            <h5>Make your bulk upload here</h5>
+            <h5>Make your Attendance bulk upload here</h5>
         </CCardHeader>
         <CCardBody>
             <div className="alert alert-warning alert-dismissible fade show" role="alert">
@@ -167,40 +166,22 @@ const BulkUpload = ()=>{
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                        <th scope="col">RegNumber</th>
-                        <th scope="col">Firstname</th>
-                        <th scope="col">Surname</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">PhoneNo</th>
-                        <th scope="col">Sex</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Dob</th>
-                        <th scope="col">MaritalStatus</th>
-                        <th scope="col">WeddingAnniversary</th>
-                        <th scope="col">Occupation</th>
-					    <th scope="col">Business</th>
-                        <th scope="col">Expertise</th>
-                        <th scope="col">DateJoinedTKA</th>
+                        <th scope="col">MemberId</th>
+                        <th scope="col">JourneyDate</th>
+                        <th scope="col">JourneyId</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">AdminId</th>
                         </tr>
                     </thead>
                     <tbody>
                         {datas.map((e,i)=>{
                             return(
                             <tr key={i}>
-                                <td>{e.RegNumber}</td>
-                                <td>{e.Firstname}</td>
-                                <td>{e.Surname}</td>
-                                <td>{e.Address}</td>
-                                <td>{e.PhoneNo}</td>
-                                <td>{e.Sex}</td>
-                                <td>{e.Email}</td>
-                                <td>{e.Dob?new Date(ExcelDateToJSDate(e.Dob)).toLocaleDateString():''}</td>
-                                <td>{e.MaritalStatus}</td>
-                                <td>{e.WeddingAnniversary?new Date(ExcelDateToJSDate(e.WeddingAnniversary)).toLocaleDateString():''}</td>
-                                <td>{e.Occupation}</td>
-								<td>{e.Business}</td>
-                                <td>{e.Expertise}</td>
-                                <td>{e.DateJoinedTKA?new Date(ExcelDateToJSDate(e.DateJoinedTKA)).toLocaleDateString():''}</td>
+                                <td>{e.MemberId}</td>
+                                <td>{e.JourneyDate}</td>{}
+                                <td>{e.JourneyId}</td>
+                                <td>{e.Status}</td>
+                                <td>{e.AdminId}</td>                           
                             </tr>)
                         })}
                         

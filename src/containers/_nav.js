@@ -42,6 +42,12 @@ const _nav =  [
     icon: <FaFileUpload className="c-sidebar-nav-icon"/>
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Atten Upload',
+    to: '/attenbulkUpload',
+    icon: <FaFileUpload className="c-sidebar-nav-icon"/>
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['Update']
   },

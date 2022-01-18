@@ -4,6 +4,7 @@ import JourneyEdit from "./views/Edit/journeyEdit"
 import Attendance from "./views/journeyAttendance/Attendance"
 import  MemberEdit from "./views/Edit/Edit"
 import BuldUpload from "./views/registration/bulkUpload/bulkUpload"
+import AttendUpload from "./views/registration/Attendance/attendBulkUpload"
 import Report from "./views/Report/Report"
 import BuldUdate from "./views/Update/BulkUpdate"
 import MemberInfo from "./views/Info/MemberInfo"
@@ -47,6 +48,7 @@ const routes = [
   {path: '/journey/:id', name: 'Journey Attendance', component:Attendance },
   {path: '/info/:id', name: 'Member Info', component:MemberInfo },
   {path: '/bulkUpload',exact:true, name: 'Bulk Upload', component:BuldUpload},
+  {path: '/attenbulkUpload',exact:true, name: 'Atten Upload', component:AttendUpload},
   {path: '/bulkUpdate',exact:true, name: 'Bulk Update', component:BuldUdate},
   {path: '/Journeysettings',exact:true, name: 'Settings', component:JourneySettings},
   {path: '/Journeysettings/:id', name: 'Edit Journey', component:JourneyEdit},

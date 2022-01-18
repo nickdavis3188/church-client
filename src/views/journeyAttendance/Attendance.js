@@ -66,104 +66,69 @@ const Attendance = ({match,User})=>{
 	const [info33,setInfo33] = useState(0)
 
   useEffect(()=>{
-    let mydata = JSON.stringify({id:`${match.params.id}`})
-    fetch(`${baseUrl}/api/v1/member/getSingleMemById`,{
-        method: 'POST',
-        body:mydata,
-        headers:{
-          "Content-Type":"application/json",
-            // 'Content-Type': 'multipart/form-data'
-        }
-    
-    })
-    .then((res)=>res.json())
-    .then((data)=>{ 
-        if(data){
-            if(data.status === 'success'){
+	 async function loadData(){
+		 let mydata = JSON.stringify({id:`${match.params.id}`})
+		const fetchresponse = await fetch(`${baseUrl}/api/v1/member/getSingleMemById`,{
+			method: 'POST',
+			body:mydata,
+			headers:{
+			  "Content-Type":"application/json",
+				// 'Content-Type': 'multipart/form-data'
+			}
+		
+		})
+		const fetcResData = await fetchresponse.json()
+		if(fetcResData){
+            if(fetcResData.status === 'success'){
 
                 setDetails({
-                    Firstname:data.data[0].Firstname?data.data[0].Firstname:"",
-                    Surname:data.data[0].Surname?data.data[0].Surname:"",
-                    Address:data.data[0].Address?data.data[0].Address:"",
-                    PhoneNo:data.data[0].PhoneNo?data.data[0].PhoneNo:"",
-                    Email:data.data[0].Email?data.data[0].Email:"",
-                    RegNumber:data.data[0].RegNumber?data.data[0].RegNumber:"",
-                    Sex:data.data[0].Sex?data.data[0].Sex:"",
-                    Dob:data.data[0].Dob?data.data[0].Dob:"",
-                    MaritalStatus:data.data[0].MaritalStatus?data.data[0].MaritalStatus:"",
-                    WeddingAnniversary:data.data[0].WeddingAnniversary?data.data[0].WeddingAnniversary:"",
-                    Occupation:data.data[0].Occupation?data.data[0].Occupation:"",
-                    Business:data.data[0].Business?data.data[0].Business:"",
-                    Expertise:data.data[0].Expertise?data.data[0].Expertise:"",
-                    DateJoinedTKA:data.data[0].DateJoinedTKA?data.data[0].DateJoinedTKA:"",            
-                    ImageUrl:data.data[0].ImageUrl?data.data[0].ImageUrl:"",
-                    journeyAttend:(data.data[0].journeyAttend.lenght >= 1?data.data[0].journeyAttend:[]),
-                    id:data.data[0]._id?data.data[0]._id:"",
-                    currentJourney:data.data[0].currentJourney?data.data[0].currentJourney:"",
-                    nextJourney:data.data[0].nextJourney?data.data[0].nextJourney:"",
-					SincurrentJourney:data.data[0].SincurrentJourney?data.data[0].SincurrentJourney:"",
-                    SinnextJourney:data.data[0].SinnextJourney?data.data[0].SinnextJourney:"",
-					memberStatus:data.data[0].memberStatus?data.data[0].memberStatus:""
+                    Firstname:fetcResData.data[0].Firstname?fetcResData.data[0].Firstname:"",
+                    Surname:fetcResData.data[0].Surname?fetcResData.data[0].Surname:"",
+                    Address:fetcResData.data[0].Address?fetcResData.data[0].Address:"",
+                    PhoneNo:fetcResData.data[0].PhoneNo?fetcResData.data[0].PhoneNo:"",
+                    Email:fetcResData.data[0].Email?fetcResData.data[0].Email:"",
+                    RegNumber:fetcResData.data[0].RegNumber?fetcResData.data[0].RegNumber:"",
+                    Sex:fetcResData.data[0].Sex?fetcResData.data[0].Sex:"",
+                    Dob:fetcResData.data[0].Dob?fetcResData.data[0].Dob:"",
+                    MaritalStatus:fetcResData.data[0].MaritalStatus?fetcResData.data[0].MaritalStatus:"",
+                    WeddingAnniversary:fetcResData.data[0].WeddingAnniversary?fetcResData.data[0].WeddingAnniversary:"",
+                    Occupation:fetcResData.data[0].Occupation?fetcResData.data[0].Occupation:"",
+                    Business:fetcResData.data[0].Business?fetcResData.data[0].Business:"",
+                    Expertise:fetcResData.data[0].Expertise?fetcResData.data[0].Expertise:"",
+                    DateJoinedTKA:fetcResData.data[0].DateJoinedTKA?fetcResData.data[0].DateJoinedTKA:"",            
+                    ImageUrl:fetcResData.data[0].ImageUrl?fetcResData.data[0].ImageUrl:"",
+                    journeyAttend:(fetcResData.data[0].journeyAttend.lenght >= 1?fetcResData.data[0].journeyAttend:[]),
+                    id:fetcResData.data[0]._id?fetcResData.data[0]._id:"",
+                    currentJourney:fetcResData.data[0].currentJourney?fetcResData.data[0].currentJourney:"",
+                    nextJourney:fetcResData.data[0].nextJourney?fetcResData.data[0].nextJourney:"",
+					SincurrentJourney:fetcResData.data[0].SincurrentJourney?fetcResData.data[0].SincurrentJourney:"",
+                    SinnextJourney:fetcResData.data[0].SinnextJourney?fetcResData.data[0].SinnextJourney:"",
+					memberStatus:fetcResData.data[0].memberStatus?fetcResData.data[0].memberStatus:""
                   })
-                  if(data.data[0].journeyAttend.length >= 1){
-					 let fillDat = data.data[0].journeyAttend.filter((a)=> a.Status == 'New')
+                  if(fetcResData.data[0].journeyAttend.length >= 1){
+					 let fillDat = fetcResData.data[0].journeyAttend.filter((a)=> a.Status == 'New')
 					 // console.log('hhh',fillDat)
                     setJourneyAttLeng(fillDat.length)
-                    setJourneyAtt(data.data[0].journeyAttend)
+                    setJourneyAtt(fetcResData.data[0].journeyAttend)
                   }else{
                     setJourneyAtt([])
                   }
             
             }else{
-                if(data.status === 'fail'){
-                  return toast(data.message?data.message:'')
+                if(fetcResData.status === 'fail'){
+                  return toast(fetcResData.message?fetcResData.message:'')
                 }else{
-                    if(data.status === 'error'){
-                      return toast(data.message?data.message:'')
+                    if(fetcResData.status === 'error'){
+                      return toast(fetcResData.message?fetcResData.message:'')
                     }
                 }
             }  
         }
-    })
-    .catch((err)=>{
-        if(err){
-        console.log(err) 
-        alert(err)
-        }
-    })
-  },[])
+	 }
+	 loadData()
+	},[])
   
-  	 // useEffect(()=>{
-        // async function loadData(){
-          // let mydata = JSON.stringify({id:`${match.params.id}`})
-          // const redval = await fetch(`${baseUrl}/api/v1/member/checkJourneyM`,{
-              // method: 'POST',
-              // body:mydata,
-              // headers:{
-                // "Content-Type":"application/json",
-                  // 'Content-Type': 'multipart/form-data'
-              // }
-          
-          // })
-          // const data = await redval.json()
-          // if(data.status === 'success'){
-			// setInfo33(data.code?data.code:'')
-          // }else{
-            // if(data.status === 'fail'){
-              // return toast(data.message?data.message:'')
-            // }else{
-                // if(data.status === 'error'){
-                  // return toast(data.message?data.message:'')
-                // }
-            // }
-          // }
-        // }
-
-        // loadData()
-        
-       
-      // },[])
-    //    e.preventDefault()
+   
     const formatDate = (date)=>{
         var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -784,7 +749,7 @@ const JourneyAttendance2 = (props)=>{
       },[])
 	  
 
-	const notice = myCode == 3?'Last attendance 3 Months ago...':'Last attendance 6 Months ago...'
+	const notice = myCode == 3?'Last attendance 3 Months ago...':'Last attendance 6 Months ago or above...'
     return(
         <div>
 		
