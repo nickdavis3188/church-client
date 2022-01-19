@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter , Routes, Route } from "react-router-dom"
-// import { Route, Switch,BrowserRouter } from 'react-router-dom';
+// import { BrowserRouter , Routes, Route } from "react-router-dom"
+import { Route, Switch,BrowserRouter } from 'react-router-dom';
 import './scss/style.scss';
 // import {ProtectedRoute} from './ProtectedRoute'
 import ResetPassword  from './views/pages/passwordReset/resetPassword'
@@ -25,7 +25,7 @@ class App extends Component {
     return (
       <BrowserRouter>
           <React.Suspense fallback={loading}>
-            <Routes>
+            <Switch>
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/signup" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/forgotP" name="ForgotPassword Page" render={props => <ForgotPassword {...props}/>} />
@@ -33,7 +33,7 @@ class App extends Component {
               <Route exact path="/test" name="upload" render={props => <Test {...props}/>} />
               <Route path="/" name="Home" component={TheLayout} />
             
-            </Routes>
+            </Switch>
           </React.Suspense>
       </BrowserRouter>
     );
