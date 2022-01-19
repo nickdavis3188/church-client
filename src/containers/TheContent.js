@@ -4,7 +4,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom'
-import { CContainer, CFade } from '@coreui/react'
+import { CContainer} from '@coreui/react'
 
 // routes config
 import routes from '../routes'
@@ -41,10 +41,8 @@ const TheContent = ({User}) => {
                         return (
                         auth.isAuthenticated() || User.role === 'admin' || User.role === 'sub-admin'
                         ?(
-                          <CFade>
                             <route.component {...props} User={User} />
-                          </CFade>
-                        )                  
+                          )                  
                         :(
                           <Redirect to={{ pathname: "/login" }} />
                         )
