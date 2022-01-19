@@ -6,31 +6,13 @@ import {
     CCardFooter,
     CCardHeader,
     CCol,
-    // CCollapse,
-    // CDropdownItem,
-    // CDropdownMenu,
-    // CDropdownToggle,
-    // CFade,
     CForm,
     CFormGroup,
     CFormText,
-    // CValidFeedback,
-    // CInvalidFeedback,
-    // CTextarea,
     CInput,
-    // CInputFile,
-    // CInputCheckbox,
-    // CInputRadio,
-    // CInputGroup,
-    // CInputGroupAppend,
-    // CInputGroupPrepend,
-    // CDropdown,
-    // CInputGroupText,
     CLabel,
-    // CSelect,
-    // CRow,
-    // CSwitch
 } from '@coreui/react'
+
 import CIcon from '@coreui/icons-react'
 
 const MemberMinistryRegistration = ()=>{

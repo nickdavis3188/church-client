@@ -1,12 +1,10 @@
 import React,{useState, useRef} from "react"
 import {
-    // CButton,
     CCard,
     CCardBody,
     CCardFooter,
     CCardHeader,
     CFormGroup,
-    CAlert
   
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';

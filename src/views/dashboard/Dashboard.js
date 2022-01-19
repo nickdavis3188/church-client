@@ -10,7 +10,7 @@ import {
 // import axios from 'axios';
 import baseUrl from '../../config/config';
 
-import {FaFemale,FaMale,FaAlignJustify} from "react-icons/fa"
+import {FaFemale,FaMale} from "react-icons/fa"
 import {ImUsers} from "react-icons/im";
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
