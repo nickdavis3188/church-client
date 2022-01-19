@@ -63,9 +63,9 @@ const BulkUpload = ()=>{
 		   return toast('File Not Selected...')
 	   }
 		let sendData = JSON.stringify(datas)
-		console.log(datas)
+		
 
-        let token = JSON.parse(localStorage.getItem('Token'));
+        let token = JSON.parse(localStorage.getItem('Token'))
 
         const reponesUP =  await fetch(`${baseUrl}/api/v1/member/attendUpload`,{
             method: 'POST',
